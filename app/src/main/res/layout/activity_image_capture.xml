@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@color/agent_light_blue"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".dashboard.ImageCaptureActivity">
+
+    <ImageView
+        android:id="@+id/ivCameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_above="@+id/buttonHolder"
+        android:contentDescription="@string/previewimageDescription" />
+
+    <LinearLayout
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="1">
+
+        <com.gcc.smartcity.fontui.FontButton
+            android:id="@+id/btnSubmitPhoto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_rounded_submit"
+            android:text="@string/photoSubmitButton"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:layout_weight="0.5"
+            custom:fontFace="Lato-Bold.ttf" />
+
+        <com.gcc.smartcity.fontui.FontButton
+            android:id="@+id/btnReTakePhoto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_rounded_login"
+            android:text="@string/photoRetakeButton"
+            android:layout_marginStart="5dp"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:layout_weight="0.5"
+            custom:fontFace="Lato-Bold.ttf" />
+
+    </LinearLayout>
+
+</RelativeLayout>

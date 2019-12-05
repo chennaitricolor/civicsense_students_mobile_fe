@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/img_avatar"
+            app:civ_border_color="#FFFF"
+            app:civ_border_width="2dp" />
+
+
+        <com.gcc.smartcity.fontui.FontTextView
+            android:id="@+id/usernameDrawer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:text="Michael Joe"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            custom:fontFace="Lato-Bold.ttf" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/agentx_grey_light"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+           android:padding="4dp">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/gemsCountDrawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="19"
+                android:textColor="@color/agentx_text_dark"
+                android:textSize="14sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/gems"
+                android:textAllCaps="true"
+                android:textColor="@color/agentx_text_light"
+                android:textSize="12sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/agentx_text_light" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/rankCountDrawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="2"
+                android:textColor="@color/agentx_text_dark"
+                android:textSize="14sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/weekly_rank"
+                android:textAllCaps="true"
+                android:textColor="@color/agentx_text_light"
+                android:textSize="12sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

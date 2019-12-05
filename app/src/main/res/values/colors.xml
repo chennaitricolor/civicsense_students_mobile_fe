@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="davyGrey">#53565A</color>
+    <color name="taupeGrey">#888B8D</color>
+    <color name="blankTableGrey">#f9f9f9</color>
+    <color name="taupeGrey_header_title_background">#E9E9E9E9</color>
+    <color name="taupeGrey_transparency">#F2888B8D</color>
+    <color name="taupeGrey_transparency2">#8C888B8D</color>
+    <color name="grey">#D0CFCF</color>
+
+    <color name="taupeGrey_extra_light">#F0F0F0</color>
+    <color name="taupeGrey_border">#CBCBCB</color>
+    <color name="taupeGrey_border_dark">#888B8D</color>
+    <color name="icon_grey">#C3C3C3</color>
+    <color name="white">#FFF</color>
+    <color name="transparent_white">#50FFFFFF</color>
+    <color name="transparent_white_50">#80FFFFFF</color>
+
+    <color name="transparent_white_card">#92DCE8</color>
+    <color name="menu_bg_footer">#f6f6f6</color>
+    <color name="red_badge_count">#EA1B32</color>
+    <color name="medium_grey">#6c6c6c</color>
+    <color name="black">#000</color>
+    <color name="medium_blue">#1b6c92</color>
+    <color name="medium_blue_transparency">#801b6c92</color>
+    <color name="light_blue">#5B7D91</color>
+    <color name="anti_flash_white">#EFF0F0</color>
+    <color name="robinegg_blue">#00B4D2</color>
+    <color name="indigo">#004261</color>
+    <color name="indigo_light">#175D7F</color>
+    <color name="indigo_opacity">#ADC0C9</color>
+    <color name="nav_header_gray">#eeeeee</color>
+    <color name="extra_light_grey">#EEEEEF</color>
+    <color name="extra_light_grey_text">#bbbbbb</color>
+
+    <color name="banner_grey">#eaeaea</color>
+    <color name="nav_text_default">#333333</color>
+    <color name="holo_green_light">#ff99cc00</color>
+    <color name="lighter_gray">#ddd</color>
+    <color name="pink">#FF0068</color>
+    <color name="rippleGrey">#DFDFDF</color>
+    <color name="swipeGrey">#CCCCCC</color>
+    <color name="text_shadow">#7F000000</color>
+    <color name="horizontalbar_txtclr">#FBFBFB</color>
+    <color name="warning_text">#cf0b17</color>
+    <color name="green_dark">#3AA588</color>
+    <color name="blue_dark">#007aff</color>
+    <color name="check_mark_green">#50A888</color>
+    <color name="transparent_white_alpha">#80FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green_snackbar">#00AB88</color>
+    <color name="green_button">#047D64</color>
+    <color name="white_greyshade">#D9DCDD</color>
+    <color name="carrot_orange_dark">#F47F1E</color>
+    <color name="carrot_orange_medium">#F5821F</color>
+    <color name="carrot_orange">#ff8f1c</color>
+
+    <color name="table_bg_grey">#F9FAFA</color>
+    <color name="hockeyapp_background_white">#ffffff</color>
+    <color name="hockeyapp_background_light">#cccccc</color>
+    <color name="hockeyapp_background_header">#e6ecef</color>
+    <color name="hockeyapp_text_normal">#888888</color>
+    <color name="hockeyapp_text_light">#cccccc</color>
+    <color name="hockeyapp_text_white">#ffffff</color>
+    <color name="hockeyapp_text_black">#000000</color>
+    <color name="hockeyapp_button_background">#000000</color>
+    <color name="hockeyapp_button_background_selected">#444444</color>
+    <color name="hockeyapp_button_background_pressed">#888888</color>
+    <color name="bright_blue">#2AC1E9</color>
+    <color name="lighter_indigo">#5B7D91</color>
+    <color name="light_indigo">#275778</color>
+    <color name="lighter_blue">#5D858F</color>
+    <color name="bright_indigo">#477a9a</color>
+    <color name="payment_banner_dark_green">#139278</color>
+    <color name="payment_banner_darker_green">#257A68</color>
+    <color name="light_blue_ttv">#66D2E4</color>
+    <color name="login_border_grey">#d6d7d8</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#d6d7d8</color>
+    <color name="pink_dark">#c0188c</color>
+    <color name="fingerprint_color">#008577</color>
+    <color name="loanmod_alert_background">#F2888B8D</color>
+    <color name="carbon_blue">#404750</color>
+    <color name="orange_dark">#e67300</color>
+    <color name="navy_blue">#333940</color>
+
+
+    <color name="agent_light_blue">#f1fafc</color>
+    <color name="agent_login_btn_yellow">#f3b046</color>
+    <color name="blue_normal">#ff33b5e5</color>
+    <color name="signup_green">#93c03d</color>
+    <color name="agentx_txt_color">#596d7b</color>
+    <color name="agentx_grey_light">#19000000</color>
+    <color name="agentx_grey_dark">#b7b7b7</color>
+    <color name="agentx_text_dark">#4b5658</color>
+    <color name="agentx_text_light">#84a4a5</color>
+    <color name="agentx_mission_title">#96a6a9</color>
+    <color name="agentx_gem_green_color">#54a76a</color>
+
+</resources>
