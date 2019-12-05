@@ -6,7 +6,6 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gcc.smartcity.navigationdrawer.NavDrawerListAdapter
 import com.gcc.smartcity.navigationdrawer.NavigationController
-import com.gcc.smartcity.utils.Logger
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*
 
 abstract class NavigationDrawerActivity : AppCompatActivity() {
