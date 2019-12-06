@@ -6,6 +6,8 @@
     <string name="photoSubmitButton">SUBMIT</string>
     <string name="photoRetakeButton">RETAKE</string>
     <string name="dashBoardTitle">AGENT X</string>
+    <string name="leaderboardTitle">LEADERBOARD</string>
+
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -31,4 +33,13 @@
     <string name="userid">UserID</string>
     <string name="csrxbackgroundimage">CSRXBackgroundImage</string>
     <string name="select_avatar">Select Avatar</string>
+
+    <string name="drawer_menu_howtoplay">How to Play</string>
+    <string name="drawer_menu_invite">Invite</string>
+    <string name="drawer_menu_faq">FAQ\'s</string>
+    <string name="drawer_menu_help">Get Help</string>
+    <string name="drawer_menu_rateus">Rate Us</string>
+    <string name="drawer_menu_leaderboard">Leaderboard</string>
+    <string name="drawer_menu_rewards">Rewards</string>
+
 </resources>

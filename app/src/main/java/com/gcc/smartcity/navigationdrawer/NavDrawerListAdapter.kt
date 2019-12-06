@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.smartcity.R
 
-
-class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>) :
+class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>,var onRecyclerSelecetedListener: onRecyclerSelecetedListener) :
     RecyclerView.Adapter<NavDrawerListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,11 +25,9 @@ class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>) 
 
     }
 
-
     override fun getItemCount(): Int {
         return navDrawerListItem.size
     }
-
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val holderData = navDrawerListItem[position]
@@ -38,21 +36,23 @@ class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>) 
         textView.setText(holderData.menuName)
         val ImageView = viewHolder.menuImage
         ImageView.setImageResource(holderData.imgResource)
+        val view = viewHolder.dataView
+        view.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                onRecyclerSelecetedListener.onSelected(position)
+            }
+        })
     }
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        lateinit var menuName: TextView
-        lateinit var menuImage: ImageView
+        var menuName: TextView = itemView.findViewById(R.id.lst_itm_menuname)
+        var menuImage: ImageView = itemView.findViewById(R.id.lst_itm_menuimg)
+        var dataView: LinearLayout = itemView.findViewById(R.id.lstView)
 
-        init {
-
-            menuName = itemView.findViewById(R.id.lst_itm_menuname)
-            menuImage = itemView.findViewById(R.id.lst_itm_menuimg)
-        }
         // Stores the itemView in a public final member variable that can be used
         // to access the context from any ViewHolder instance.
     }
+
 }

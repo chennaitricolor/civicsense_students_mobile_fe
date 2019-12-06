@@ -44,6 +44,8 @@ dependencies {
     implementation 'com.github.Brittognanaraj:AndroidStarterKit:2.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0-beta01'
+
     implementation 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
     implementation 'com.android.volley:volley:1.1.1'
     //Logansquare

@@ -25,20 +25,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoTitleBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.gcc.smartcity.SubmitActivity"></activity>
-        <activity android:name="com.gcc.smartcity.dashboard.ImageCaptureActivity" />
-        <activity android:name="com.gcc.smartcity.userregistartion.OTPVerifyActivity" />
-        <activity android:name="com.gcc.smartcity.userregistartion.SignUpActivity" />
-        <activity android:name="com.gcc.smartcity.userregistartion.LoginActivity">
+        <activity android:name=".leaderboard.LeaderBoardActivity"></activity>
+        <activity android:name=".SubmitActivity" />
+        <activity android:name=".dashboard.ImageCaptureActivity" />
+        <activity android:name=".userregistartion.OTPVerifyActivity" />
+        <activity android:name=".userregistartion.SignUpActivity" />
+        <activity android:name=".userregistartion.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gcc.smartcity.BaseActivity" />
+        <activity android:name=".BaseActivity" />
         <activity
-            android:name="com.gcc.smartcity.NavigationDrawerActivity"
+            android:name=".NavigationDrawerActivity"
             android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -53,7 +54,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.gcc.smartcity.dashboard.DashBoardActivity"
+            android:name=".dashboard.DashBoardActivity"
             android:screenOrientation="portrait" />
 
         <provider

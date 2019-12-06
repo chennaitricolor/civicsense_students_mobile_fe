@@ -3,20 +3,24 @@ package com.gcc.smartcity.navigationdrawer
 import android.content.Context
 import com.gcc.smartcity.R
 
-class NavigationController(context: Context) {
+class NavigationController(var context: Context) {
 
     fun getAdapterData(): ArrayList<NavDrawerListItem> {
-        var drawerListData = ArrayList<NavDrawerListItem>()
+        val drawerListData = ArrayList<NavDrawerListItem>()
 
-        var navDrawerListItem = NavDrawerListItem(R.drawable.ic_howtoplay, "How to Play")
+        var navDrawerListItem = NavDrawerListItem(R.drawable.ic_howtoplay, context.getString(R.string.drawer_menu_howtoplay))
         drawerListData.add(navDrawerListItem)
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_invite, "Invite")
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_invite, context.getString(R.string.drawer_menu_invite))
         drawerListData.add(navDrawerListItem)
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_faq, "FAQ's")
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_faq, context.getString(R.string.drawer_menu_faq))
         drawerListData.add(navDrawerListItem)
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_gethelp, "Get Help")
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_gethelp, context.getString(R.string.drawer_menu_help))
         drawerListData.add(navDrawerListItem)
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_rateus, "Rate Us")
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_rateus, context.getString(R.string.drawer_menu_rateus))
+        drawerListData.add(navDrawerListItem)
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_leadership, context.getString(R.string.drawer_menu_leaderboard))
+        drawerListData.add(navDrawerListItem)
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_rewards, context.getString(R.string.drawer_menu_rewards))
         drawerListData.add(navDrawerListItem)
         return drawerListData
     }

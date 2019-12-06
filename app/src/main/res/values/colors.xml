@@ -98,5 +98,7 @@
     <color name="agentx_text_light">#84a4a5</color>
     <color name="agentx_mission_title">#96a6a9</color>
     <color name="agentx_gem_green_color">#54a76a</color>
+    <color name="agentx_transparent_black">#19000000</color>
+
 
 </resources>
