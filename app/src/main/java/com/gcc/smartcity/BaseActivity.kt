@@ -2,6 +2,7 @@ package com.gcc.smartcity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.gcc.smartcity.utils.Logger
 import kotlinx.android.synthetic.main.activity_base_map.*
 
 open class BaseActivity : AppCompatActivity() {
