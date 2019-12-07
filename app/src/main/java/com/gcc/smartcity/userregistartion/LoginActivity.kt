@@ -30,8 +30,10 @@ import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.userregistartion.controller.LoginController
+import com.gcc.smartcity.userregistartion.model.LoginErrorModel
 import com.gcc.smartcity.userregistartion.model.LoginModel
 import com.gcc.smartcity.utils.Logger
+import com.gcc.smartcity.utils.NetworkError
 import com.gcc.smartcity.utils.TouchUtility
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_login.*
@@ -48,12 +50,13 @@ class LoginActivity : BaseActivity() {
     val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
-    //    override fun onStart() {
-//        super.onStart()
-//        val br: BroadcastReceiver = LocationProviderChangedReceiver()
-//        val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
-//        registerReceiver(br, filter)
-//    }
+  //    override fun onStart() {
+////        super.onStart()
+////        val br: BroadcastReceiver = LocationProviderChangedReceiver()
+////        val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
+////        registerReceiver(br, filter)
+////    }
+
     init {
         mLoginController = LoginController(this)
     }
@@ -132,8 +135,8 @@ class LoginActivity : BaseActivity() {
     private fun postLogin(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
 //            isUserInteractionEnable(true)
-//            val networkError = task.error as NetworkError
-            showErrorDialog("Sign In Error", "Please try again.", "OK")
+            val loginErrorMessage = ((task.error as NetworkError).errorResponse as LoginErrorModel).message
+            showErrorDialog("Sign In Error", loginErrorMessage, "OK")
             task.makeVoid()
         } else {
             val loginModel = task.result as LoginModel

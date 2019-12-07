@@ -1,6 +1,6 @@
 package com.gcc.smartcity.network;
 
-import com.androidboilerplate.NetworkError;
+import com.gcc.smartcity.utils.NetworkError;
 
 public interface OnServiceListener {
 

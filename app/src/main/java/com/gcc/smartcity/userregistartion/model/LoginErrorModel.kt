@@ -7,6 +7,6 @@ import com.bluelinelabs.logansquare.annotation.JsonObject
 class LoginErrorModel {
 
     @JsonField
-    var success: Boolean? = false
+    var message: String? = null
 
 }

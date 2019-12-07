@@ -7,7 +7,7 @@ import android.util.Base64;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.Volley;
-import com.androidboilerplate.NetworkError;
+import com.gcc.smartcity.utils.NetworkError;
 import com.gcc.smartcity.utils.Logger;
 
 import java.util.HashMap;

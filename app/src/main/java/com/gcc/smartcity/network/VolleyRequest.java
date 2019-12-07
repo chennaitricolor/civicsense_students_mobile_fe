@@ -6,14 +6,11 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.androidboilerplate.NetworkError;
+import com.gcc.smartcity.utils.NetworkError;
 import com.androidboilerplate.utils.StringUtil;
 import com.gcc.smartcity.utils.Logger;
 
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
