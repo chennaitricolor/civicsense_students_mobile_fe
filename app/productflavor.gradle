@@ -7,9 +7,6 @@ android {
         csr {
             applicationId "com.gcc.smartcity"
             buildConfigField 'String', "HOST", '"http://52.66.148.41:3010/api/csr/"'
-
         }
-
     }
-
 }
