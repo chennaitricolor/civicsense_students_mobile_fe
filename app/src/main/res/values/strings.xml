@@ -29,7 +29,7 @@
     <string name="evidencesubmittedtitle">evidenceSubmittedTitle</string>
     <string name="stars">stars</string>
     <string name="continue_button">Continue</string>
-    <string name="userid_email">UserID/Email</string>
+    <string name="userid_email">UserID</string>
     <string name="userid">UserID</string>
     <string name="csrxbackgroundimage">CSRXBackgroundImage</string>
     <string name="select_avatar">Select Avatar</string>

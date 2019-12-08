@@ -26,6 +26,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), onRecyclerSelecet
     }
 
     override fun onSelected(pos: Int) {
+        mDrawerLayout.closeDrawer(GravityCompat.START)
         switchScreen(drawerList.get(pos).menuName)
     }
 

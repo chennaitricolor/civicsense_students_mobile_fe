@@ -32,37 +32,35 @@ public class ByteArrayRequest extends Request<byte[]> {
      * For volley library, to set timeout, we need to use RetryPolicy that is provided.
      * The Retry policy behaves as,
      * For ex. If RetryPolicy is created with these values
-     * 			Timeout - 3000 secs, Num of Attempt - 2, Back Off Multiplier - 2
-     * 	Attempt 1:
-     * 		time = time + (time * Back Off Multiplier );
-     * 		time = 3000 + 6000 = 9000
-     * 		Socket Timeout = time;
-     * 		Request dispatched with Socket Timeout of 9 Secs
-     * 	Attempt 2:
-     * 		time = time + (time * Back Off Multiplier );
-     * 		time = 9000 + 18000 = 27000
-     * 		Socket Timeout = time;
-     * 		Request dispatched with Socket Timeout of 27 Secs
+     * Timeout - 3000 secs, Num of Attempt - 2, Back Off Multiplier - 2
+     * Attempt 1:
+     * time = time + (time * Back Off Multiplier );
+     * time = 3000 + 6000 = 9000
+     * Socket Timeout = time;
+     * Request dispatched with Socket Timeout of 9 Secs
+     * Attempt 2:
+     * time = time + (time * Back Off Multiplier );
+     * time = 9000 + 18000 = 27000
+     * Socket Timeout = time;
+     * Request dispatched with Socket Timeout of 27 Secs
      */
     private final int DEFAULT_TIMEOUT = (int) (60 * 1000); // 30 seconds
 
-    private final int RETRY_COUNT = 1;	// To retry once within the Timeout period
+    private final int RETRY_COUNT = 1;    // To retry once within the Timeout period
 
-    private final float BACKOFF_MULTIPLIER = 1.0f;	// Volley requires this. Not sure what this is for exactly.
+    private final float BACKOFF_MULTIPLIER = 1.0f;    // Volley requires this. Not sure what this is for exactly.
 
-    private static final String NETWORK_AUTHENTICATION_ISSUE_STRING		= "java.io.IOException: No authentication challenges found";
+    private static final String NETWORK_AUTHENTICATION_ISSUE_STRING = "java.io.IOException: No authentication challenges found";
 
     public ByteArrayRequest(int method, String url) {
         super(method, url, null);
         this.mUrl = url;
         setRetryPolicy(new DefaultRetryPolicy(DEFAULT_TIMEOUT, RETRY_COUNT, BACKOFF_MULTIPLIER));
-//        CookieManager cookieManager = new CookieManager(new PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
-//        CookieHandler.setDefault(cookieManager);
-
-
+        CookieManager cookieManager = new CookieManager(new PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
     }
 
-    public static ByteArrayRequest newInstance(int method, String url){
+    public static ByteArrayRequest newInstance(int method, String url) {
         return new ByteArrayRequest(method, url);
     }
 
@@ -111,7 +109,7 @@ public class ByteArrayRequest extends Request<byte[]> {
 
     @Override
     public String getUrl() {
-        Logger.d(TAG, "Url:" +mUrl);
+        Logger.d(TAG, "Url:" + mUrl);
         return mUrl;
     }
 
@@ -119,9 +117,9 @@ public class ByteArrayRequest extends Request<byte[]> {
     @Override
     protected Response<byte[]> parseNetworkResponse(NetworkResponse networkResponse) {
         Response<byte[]> response = null;
-        if(networkResponse != null){
-                Logger.i("parseNetworkResponse - code: " +networkResponse.statusCode);
-                Logger.i("parseNetworkResponse - response: "+networkResponse.data.toString());
+        if (networkResponse != null) {
+            Logger.i("parseNetworkResponse - code: " + networkResponse.statusCode);
+            Logger.i("parseNetworkResponse - response: " + networkResponse.data.toString());
             try {
 //                Logger.i("Parser :: "+mParser);
                 response = Response.success(networkResponse.data, null);
@@ -136,14 +134,13 @@ public class ByteArrayRequest extends Request<byte[]> {
 
     @Override
     protected void deliverResponse(byte[] response) {
-        Logger.i("parseNetworkResponse - response: "+ response);
+        Logger.i("parseNetworkResponse - response: " + response);
         mOnServiceListener.onSuccess(mServiceIdentifier, response);
     }
 
     @Override
     public void deliverError(VolleyError error) {
         super.deliverError(error);
-
 
 
         handleErrorResponse(error);
@@ -173,16 +170,16 @@ public class ByteArrayRequest extends Request<byte[]> {
         Object errorResponse = null;
         String localizedStringIssue = error.getLocalizedMessage();
 
-        if(localizedStringIssue!=null && localizedStringIssue.equalsIgnoreCase(NETWORK_AUTHENTICATION_ISSUE_STRING)){
+        if (localizedStringIssue != null && localizedStringIssue.equalsIgnoreCase(NETWORK_AUTHENTICATION_ISSUE_STRING)) {
             networkError = null;
-        }else{
+        } else {
             networkError = handleNetworkIssue(error);
 
             if (networkError == null) {
                 errorCode = error.networkResponse.statusCode;
                 response = new String(error.networkResponse.data);
 
-                Logger.i("handleErrorResponse - response: "+response);
+                Logger.i("handleErrorResponse - response: " + response);
 
                 // There is no network issue. We may have a response here. Try and parse the
                 // response to retrieve status.
@@ -190,7 +187,7 @@ public class ByteArrayRequest extends Request<byte[]> {
                     errorResponse = mErrorParser.parse(response);
                 }
 
-                Logger.i("handleErrorResponse - errorCode: "+errorCode);
+                Logger.i("handleErrorResponse - errorCode: " + errorCode);
 
                 // Check for HTTP error. If we are fortunate, we may not have to process more.
                 networkError = handleHttpError(errorCode, errorResponse);

@@ -12,9 +12,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/csrx_background"
+        android:contentDescription="@string/csrxbackgroundimage"
         android:scaleType="centerCrop"
-        android:contentDescription="@string/csrxbackgroundimage" />
+        android:src="@mipmap/csrx_background" />
 
     <RelativeLayout
         android:id="@+id/login_screen"
@@ -42,29 +42,31 @@
             android:background="@drawable/bg_rounded_agent_blue"
             android:orientation="vertical"
             android:padding="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-            <com.gcc.smartcity.fontui.FontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/sign_in"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
-            <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/login_pgSignin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                app:cpv_animAutostart="true"
-                app:cpv_color="@color/black"
-                app:cpv_indeterminate="true"
-                app:cpv_thickness="2dp" />
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/sign_in"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/login_pgSignin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    app:cpv_animAutostart="true"
+                    app:cpv_color="@color/black"
+                    app:cpv_indeterminate="true"
+                    app:cpv_thickness="2dp" />
 
             </LinearLayout>
 

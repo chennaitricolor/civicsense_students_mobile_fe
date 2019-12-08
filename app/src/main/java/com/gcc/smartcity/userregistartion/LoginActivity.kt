@@ -50,7 +50,7 @@ class LoginActivity : BaseActivity() {
     val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
-  //    override fun onStart() {
+    //    override fun onStart() {
 ////        super.onStart()
 ////        val br: BroadcastReceiver = LocationProviderChangedReceiver()
 ////        val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
@@ -135,13 +135,14 @@ class LoginActivity : BaseActivity() {
     private fun postLogin(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
 //            isUserInteractionEnable(true)
-            val loginErrorMessage = ((task.error as NetworkError).errorResponse as LoginErrorModel).message
+            val loginErrorMessage =
+                ((task.error as NetworkError).errorResponse as LoginErrorModel).message
             showErrorDialog("Sign In Error", loginErrorMessage, "OK")
             task.makeVoid()
         } else {
             val loginModel = task.result as LoginModel
             Logger.d("HERE IN POST LOGIN")
-            if(loginModel.success!!) {
+            if (loginModel.success!!) {
                 try {
                     val intent = Intent(this, DashBoardActivity::class.java)
                     startActivity(intent)
