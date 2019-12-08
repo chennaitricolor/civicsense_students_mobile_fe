@@ -1,59 +1,57 @@
 package com.gcc.smartcity.leaderboard
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.smartcity.R
-import com.gcc.smartcity.navigationdrawer.onRecyclerSelecetedListener
 
-class LeaderboardListAdapter(var leaderboardModelList: ArrayList<LeaderboardRecyclerViewModel> , var onRecyclerSelecetedListener: onRecyclerSelecetedListener) :
-    RecyclerView.Adapter<LeaderboardListAdapter.ViewHolder>() {
+class LeaderboardListAdapter :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    private var leaderBoardModelList: ArrayList<LeaderBoardRecyclerViewModel> = arrayListOf()
 
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        // Inflate the custom layout
-        val menuView = inflater.inflate(R.layout.layout_list_item, parent, false)
-
-        // Return a new holder instance
-        return ViewHolder(menuView)
-
+        return when (viewType) {
+            0 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.layout_leaderboard_winner_runner, parent, false)
+                LeaderboardWinnerRunnerViewHolder(view)
+            }
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.layout_leaderboard_participants, parent, false)
+                LeaderBoardParticipantsViewHolder(view)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return leaderboardModelList.size
+        return leaderBoardModelList.size
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val holderData = leaderboardModelList[position]
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val holderData = leaderBoardModelList[position]
 
-//        val textView = viewHolder.menuName
-//        textView.setText(holderData.menuName)
-//        val ImageView = viewHolder.menuImage
-//        ImageView.setImageResource(holderData.imgResource)
-//        val view = viewHolder.dataView
-//        view.setOnClickListener(object : View.OnClickListener {
-//            override fun onClick(v: View?) {
-//                onRecyclerSelecetedListener.onSelected(position)
-//            }
-//        })
+        when (holderData.viewType) {
+            0 -> {
+                val tempHolder = holder as LeaderboardWinnerRunnerViewHolder
+                tempHolder.setValues(holderData.data as LeaderBoardWinnerRunnerModel)
+            }
+            1 -> {
+                val tempHolder = holder as LeaderBoardParticipantsViewHolder
+                tempHolder.setValues(holderData.data as LeaderBoardParticipantsModel)
+            }
+        }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
-        var menuName: TextView = itemView.findViewById(R.id.lst_itm_menuname)
-        var menuImage: ImageView = itemView.findViewById(R.id.lst_itm_menuimg)
-        var dataView: LinearLayout = itemView.findViewById(R.id.lstView)
+    override fun getItemViewType(position: Int): Int {
+        return leaderBoardModelList[position].viewType
+    }
 
-        // Stores the itemView in a public final member variable that can be used
-        // to access the context from any ViewHolder instance.
+    fun setData(model: ArrayList<LeaderBoardRecyclerViewModel>) {
+        leaderBoardModelList = model
+        notifyDataSetChanged()
     }
 
 }

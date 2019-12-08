@@ -9,11 +9,11 @@ import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.navigationdrawer.NavDrawerListAdapter
 import com.gcc.smartcity.navigationdrawer.NavDrawerListItem
 import com.gcc.smartcity.navigationdrawer.NavigationController
-import com.gcc.smartcity.navigationdrawer.onRecyclerSelecetedListener
+import com.gcc.smartcity.navigationdrawer.OnRecyclerSelectedListener
 import com.gcc.smartcity.utils.Logger
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*
 
-abstract class NavigationDrawerActivity : AppCompatActivity(), onRecyclerSelecetedListener {
+abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelectedListener {
 
     val TAG = NavigationDrawerActivity::class.java.name
     lateinit var drawerList: ArrayList<NavDrawerListItem>

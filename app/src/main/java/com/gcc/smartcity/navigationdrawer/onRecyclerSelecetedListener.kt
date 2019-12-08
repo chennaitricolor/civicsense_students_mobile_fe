@@ -1,5 +1,5 @@
 package com.gcc.smartcity.navigationdrawer
 
-interface onRecyclerSelecetedListener {
+interface OnRecyclerSelectedListener {
     fun onSelected(pos: Int)
 }

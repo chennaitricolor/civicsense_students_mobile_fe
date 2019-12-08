@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.smartcity.R
 
-class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>,var onRecyclerSelecetedListener: onRecyclerSelecetedListener) :
+class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>,var OnRecyclerSelectedListener: OnRecyclerSelectedListener) :
     RecyclerView.Adapter<NavDrawerListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,7 +39,7 @@ class NavDrawerListAdapter(var navDrawerListItem: ArrayList<NavDrawerListItem>,v
         val view = viewHolder.dataView
         view.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                onRecyclerSelecetedListener.onSelected(position)
+                OnRecyclerSelectedListener.onSelected(position)
             }
         })
     }

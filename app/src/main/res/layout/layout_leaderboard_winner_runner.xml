@@ -1,73 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:weightSum="3">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded_leaderboard"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_rounded_leaderboard"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardSecondUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Michael Joe"
+                    android:textColor="@color/agentx_text_dark"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardSecondUserPointsEarned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:textColor="@color/agentx_text_light"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardSecondUserRanking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_rounded_rank_green"
+                    android:ems="3"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Second"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/agentx_grey_dark" />
+        </LinearLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/layout_leaderboardUserImage"
+            android:id="@+id/layout_winner_leaderboardSecondUserImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/img_avatar"
             app:civ_border_color="#FFFF"
             app:civ_border_width="2dp" />
 
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toRightOf="@id/layout_leaderboardUserImage"
             android:gravity="center_vertical"
+            android:background="@drawable/bg_rounded_leaderboard"
+            android:layout_marginTop="30dp"
             android:orientation="vertical">
 
-            <com.gcc.smartcity.fontui.FontTextView
-                android:id="@+id/layout_leaderboardUserName"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Michael Joe"
-                android:textColor="@color/agentx_text_dark"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="25dp">
 
-            <com.gcc.smartcity.fontui.FontTextView
-                android:id="@+id/layout_leaderboardUserPointsEarned"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="120"
-                android:textColor="@color/agentx_text_light"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardFirstUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Michael Joe"
+                    android:textColor="@color/agentx_text_dark"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardFirstUserPointsEarned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:textColor="@color/agentx_text_light"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardFirstUserRanking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_rounded_rank_blue"
+                    android:ems="3"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="First"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/agentx_grey_dark" />
         </LinearLayout>
 
-        <com.gcc.smartcity.fontui.FontTextView
-            android:id="@+id/layout_leaderboardUserRanking"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/layout_winner_leaderboardFirstUserImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_avatar"
+            app:civ_border_color="#FFFF"
+            app:civ_border_width="2dp" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/bg_rounded_rank"
-            android:ems="2"
-            android:gravity="center"
-            android:padding="5dp"
-            android:singleLine="true"
-            android:text="71"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            custom:fontFace="Lato-Bold.ttf" />
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_rounded_leaderboard"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardThirdUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Michael Joe"
+                    android:textColor="@color/agentx_text_dark"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardThirdUserPointsEarned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:textColor="@color/agentx_text_light"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_winner_leaderboardThirdUserRanking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_rounded_rank_green"
+                    android:ems="3"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Third"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/agentx_grey_dark" />
+        </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/layout_winner_leaderboardThirdUserImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_avatar"
+            app:civ_border_color="#FFFF"
+            app:civ_border_width="2dp" />
+
+    </FrameLayout>
 
 </LinearLayout>
