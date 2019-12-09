@@ -1,73 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:custom="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical">
-
-<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_leaderboard"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/layout_leaderboardUserImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/img_avatar"
-        app:civ_border_color="#FFFF"
-        app:civ_border_width="2dp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:layout_toRightOf="@id/layout_leaderboardUserImage"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:background="@drawable/bg_rounded_leaderboard_participant"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-        <com.gcc.smartcity.fontui.FontTextView
-            android:id="@+id/layout_leaderboardUserName"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/layout_leaderboardUserImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_avatar"
+            app:civ_border_color="#FFFF"
+            app:civ_border_width="2dp" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Michael Joe"
-            android:textColor="@color/agentx_text_dark"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/layout_leaderboardUserImage"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/layout_leaderboardUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Michael Joe"
+                android:textColor="@color/agentx_text_dark"
+                android:textSize="16sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/layout_leaderboardUserPointsEarned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120"
+                android:textColor="@color/agentx_text_light"
+                android:textSize="16sp"
+                custom:fontFace="Lato-Bold.ttf" />
+        </LinearLayout>
+
+        <com.gcc.smartcity.fontui.FontTextView
+            android:id="@+id/layout_leaderboardUserRanking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_rounded_rank"
+            android:ems="2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="71"
+            android:textColor="@color/white"
             android:textSize="16sp"
             custom:fontFace="Lato-Bold.ttf" />
 
-        <com.gcc.smartcity.fontui.FontTextView
-            android:id="@+id/layout_leaderboardUserPointsEarned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="120"
-            android:textColor="@color/agentx_text_light"
-            android:textSize="16sp"
-            custom:fontFace="Lato-Bold.ttf" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <com.gcc.smartcity.fontui.FontTextView
-        android:id="@+id/layout_leaderboardUserRanking"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/bg_rounded_rank"
-        android:ems="2"
-        android:gravity="center"
-        android:padding="5dp"
-        android:singleLine="true"
-        android:text="71"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        custom:fontFace="Lato-Bold.ttf" />
-
-</RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/agentx_grey_dark" />
 </LinearLayout>
