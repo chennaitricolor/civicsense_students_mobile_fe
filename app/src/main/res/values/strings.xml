@@ -42,5 +42,6 @@
     <string name="drawer_menu_leaderboard">Leaderboard</string>
     <string name="drawer_menu_rewards">Rewards</string>
     <string name="rewardstitle">REWARDS</string>
+    <string name="back_arrow_button">Back Arrow Button</string>
 
 </resources>
