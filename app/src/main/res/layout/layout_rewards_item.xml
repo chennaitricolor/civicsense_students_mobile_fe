@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="2dp"
+        card_view:cardBackgroundColor="@color/agent_light_blue"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/layout_rewardImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_avatar" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/layout_rewardImage"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.gcc.smartcity.fontui.FontTextView
+                        android:id="@+id/layout_rewardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Free Chennai Metro Rail Ride"
+                        android:textColor="@color/agentx_text_dark"
+                        android:textSize="16sp"
+                        custom:fontFace="Lato-Bold.ttf" />
+
+                    <com.gcc.smartcity.fontui.FontTextView
+                        android:id="@+id/layout_rewardDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Collect 50 gems and redeem free chennai metro
+rail ride pass. "
+                        android:textColor="@color/agentx_text_light"
+                        android:textSize="16sp"
+                        custom:fontFace="Lato-Bold.ttf" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/agentx_grey_dark" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:id="@+id/balanceDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.gcc.smartcity.fontui.FontTextView
+                        android:id="@+id/layout_balanceStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSUFFICIENT BALANCE"
+                        android:textColor="@color/agentx_text_dark"
+                        android:textSize="12sp"
+                        custom:fontFace="Lato-Bold.ttf" />
+
+                    <com.gcc.smartcity.fontui.FontTextView
+                        android:id="@+id/layout_balanceRequired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="COLLECT 100 MORE GEMS TO UNLOCK"
+                        android:textColor="@color/agentx_text_light"
+                        android:textSize="12sp"
+                        custom:fontFace="Lato-Bold.ttf" />
+
+                </LinearLayout>
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:id="@+id/layout_gemTarget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_rounded_gem_balance_green"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:singleLine="true"
+                    android:text="50 Gems"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

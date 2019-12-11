@@ -7,8 +7,8 @@ class LeaderBoardController {
 
         fun getAdapterData(): ArrayList<LeaderBoardRecyclerViewModel> {
             leaderBoardAdapterData.clear()
-            val tempWinnerRunnerdModel = LeaderBoardWinnerRunnerModel("Bob", "1000", "FIRST", "Danny", "900", "SECOND", "Bob 2", "900", "THIRD")
-            val winnerRunnerModel = LeaderBoardRecyclerViewModel(tempWinnerRunnerdModel,0)
+            val tempWinnerRunnerModel = LeaderBoardWinnerRunnerModel("Bob", "1000", "FIRST", "Danny", "900", "SECOND", "Bob 2", "900", "THIRD")
+            val winnerRunnerModel = LeaderBoardRecyclerViewModel(tempWinnerRunnerModel,0)
             leaderBoardAdapterData.add(winnerRunnerModel)
 //            for (every user)
             val tempParticipantModel = LeaderBoardParticipantsModel("user 1","55", "35")
