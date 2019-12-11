@@ -43,5 +43,10 @@
     <string name="drawer_menu_rewards">Rewards</string>
     <string name="rewardstitle">REWARDS</string>
     <string name="back_arrow_button">Back Arrow Button</string>
+    <string name="menu_button">menu button</string>
+    <string name="next">Next</string>
+    <string name="menu_item_image">menu item image</string>
+    <string name="mission_logo">mission logo</string>
+    <string name="reward_description_image">reward description image</string>
 
 </resources>

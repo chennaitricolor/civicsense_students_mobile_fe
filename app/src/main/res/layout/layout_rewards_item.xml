@@ -31,7 +31,8 @@
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/img_avatar" />
+                    android:src="@drawable/img_avatar"
+                    android:contentDescription="@string/reward_description_image" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -55,8 +56,7 @@
                         android:id="@+id/layout_rewardDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Collect 50 gems and redeem free chennai metro
-rail ride pass. "
+                        android:text="Collect 50 gems and redeem free chennai metro rail ride pass. "
                         android:textColor="@color/agentx_text_light"
                         android:textSize="16sp"
                         custom:fontFace="Lato-Bold.ttf" />
