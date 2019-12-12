@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.R
+import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import kotlinx.android.synthetic.main.activity_otpverify.*
 
@@ -55,17 +56,20 @@ class OTPVerifyActivity : BaseActivity() {
         buttonEffect(VerifyBTN)
 
         VerifyBTN.setOnClickListener {
-            val intent = Intent(this, OTPVerifyActivity::class.java)
-            if (isMobileNumberValid && mobileNumber?.text.toString().isNotEmpty()) {
-                Toast.makeText(applicationContext, "Correct mobile number", Toast.LENGTH_SHORT)
-                    .show()
-//                startActivity(intent)
+            if (VerifyBTN.text == "Get OTP") {
+                if (isMobileNumberValid && mobileNumber?.text.toString().isNotEmpty()) {
+                    setMobileOtpLayout(mobileNumber?.text.toString())
+                    mobileNumber?.text?.clear()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Please enter the correct mobile number",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Please enter the correct mobile number",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val intent = Intent(this, DashBoardActivity::class.java)
+                startActivity(intent)
             }
         }
 
@@ -75,7 +79,10 @@ class OTPVerifyActivity : BaseActivity() {
         button.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(Color.parseColor("#7aa133"), PorterDuff.Mode.SRC_ATOP)
+                    v.background.setColorFilter(
+                        Color.parseColor("#7aa133"),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
                     v.invalidate()
                 }
                 MotionEvent.ACTION_UP -> {
@@ -95,15 +102,14 @@ class OTPVerifyActivity : BaseActivity() {
     }
 
     private fun setTextToLayout(desc: String, title: String, btnTxt: String) {
-
         otpDesc.text = Html.fromHtml(desc)
         titleTxt.text = title
         VerifyBTN.text = btnTxt
     }
 
-    private fun setMobileOtpLayout() {
+    private fun setMobileOtpLayout(mobileNumber: String) {
         setTextToLayout(
-            "Enter the OPT send to <b>+91-XXXXXXXXXX</b>\n", "OTP", "Verify & Proceed"
+            "Enter the OTP send to <b>+91-$mobileNumber</b>\n", "OTP", "Verify & Proceed"
         )
     }
 }

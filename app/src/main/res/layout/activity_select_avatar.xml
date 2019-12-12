@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_rounded_submit"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 custom:fontFace="Lato-Bold.ttf" />
