@@ -51,3 +51,5 @@
 }
 
 ##---------------End: proguard configuration for Gson  ----------
+
+-keep class net.gotev.uploadservice.** { *; }

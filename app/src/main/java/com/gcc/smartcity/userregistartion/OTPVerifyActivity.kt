@@ -68,7 +68,7 @@ class OTPVerifyActivity : BaseActivity() {
                     ).show()
                 }
             } else {
-                val intent = Intent(this, DashBoardActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
         }

@@ -26,12 +26,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.gcc.smartcity.R
-import com.gcc.smartcity.SubmitActivity
+import com.gcc.smartcity.network.PersistantCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
+import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.OnDialogListener
 import kotlinx.android.synthetic.main.activity_image_capture.*
+import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import java.io.File
 import java.io.IOException
+import java.net.CookieHandler
+import java.net.CookieManager
+import java.net.CookiePolicy
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,7 +51,6 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
     private var mCurrentPhotoPath: String? = null
     private var reTakeButton: Button? = null
     private var submitButton: Button? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,9 +76,10 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
         submitButton?.setOnClickListener {
             if (checkPermission()) {
                 if (isLocationEnabled()) {
-                    val intent = Intent(this, SubmitActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    uploadFileToServer()
+//                    val intent = Intent(this, SubmitActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
                 } else {
                     Toast.makeText(
                         applicationContext,
@@ -86,6 +91,31 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
                 requestPermission()
             }
         }
+    }
+
+    private fun uploadFileToServer() {
+        val cookieManager = CookieManager(
+            PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER
+        )
+        CookieHandler.setDefault(cookieManager)
+        try {
+            MultipartUploadRequest(this, serverUrl = "https://ptsv2.com/t/6jvuy-1576154183/post")
+                .setMethod("POST")
+                .addFileToUpload(
+                    filePath = mCurrentPhotoPath!!,
+                    parameterName = "file"
+                )
+                .addParameter("campaignId","5ddabb1cf22d9b5cd5bac910")
+                .addParameter("locationNm","Zone 15 Sholinganallur")
+                .addParameter("location","{\"coordinates\": [68.880948,60.6917]}")
+                .setMaxRetries(2)
+                .startUpload()
+            Logger.d("UPLOAD","SUCCESS")
+
+        } catch (e: Exception) {
+            Logger.d("UPLOAD","FAILED")
+        }
+
     }
 
     private fun buttonEffect(button: View, color: String) {

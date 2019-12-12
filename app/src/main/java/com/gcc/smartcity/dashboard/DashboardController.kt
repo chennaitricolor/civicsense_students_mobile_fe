@@ -20,18 +20,18 @@ class DashboardController(private val mContext: Context) {
 
     fun getMissionData(): ArrayList<MissionModel> {
 
-        doMissionListCall(
-            BuildConfig.HOST + java.lang.String.format(
-                "user/tasks?coordinates=%f&coordinates=%f", 80.304340, 13.161376
-            )
-        )
+//        doMissionListCall(
+//            BuildConfig.HOST + java.lang.String.format(
+//                "user/tasks?coordinates=%f&coordinates=%f", 80.304340, 13.161376
+//            )
+//        )
 //
-//        var missionModel = MissionModel("Capture the potholes", "5")
-//
-//        list.add(missionModel)
-//        missionModel = MissionModel("Capture the Water Stagnation", "3")
-//
-//        list.add(missionModel)
+        var missionModel = MissionModel("Capture the potholes", "5")
+
+        list.add(missionModel)
+        missionModel = MissionModel("Capture the Water Stagnation", "3")
+
+        list.add(missionModel)
         return list
     }
 //
