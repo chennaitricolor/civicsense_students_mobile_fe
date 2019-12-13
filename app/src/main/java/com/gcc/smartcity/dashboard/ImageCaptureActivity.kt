@@ -4,6 +4,7 @@ import android.Manifest.permission.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -25,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.gcc.smartcity.BuildConfig
+import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
 import com.gcc.smartcity.network.PersistantCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
@@ -37,6 +40,7 @@ import java.io.IOException
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,6 +55,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
     private var mCurrentPhotoPath: String? = null
     private var reTakeButton: Button? = null
     private var submitButton: Button? = null
+    private var bitmap:Bitmap?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,23 +103,28 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
             PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER
         )
         CookieHandler.setDefault(cookieManager)
-        try {
-            MultipartUploadRequest(this, serverUrl = "https://ptsv2.com/t/6jvuy-1576154183/post")
-                .setMethod("POST")
-                .addFileToUpload(
-                    filePath = mCurrentPhotoPath!!,
-                    parameterName = "file"
-                )
-                .addParameter("campaignId","5ddabb1cf22d9b5cd5bac910")
-                .addParameter("locationNm","Zone 15 Sholinganallur")
-                .addParameter("location","{\"coordinates\": [68.880948,60.6917]}")
-                .setMaxRetries(2)
-                .startUpload()
-            Logger.d("UPLOAD","SUCCESS")
+        var url: URL =URL(BuildConfig.HOST+"user/task")
 
-        } catch (e: Exception) {
-            Logger.d("UPLOAD","FAILED")
-        }
+     Thread(Runnable { FileUpload(this).uploadScreenshotCall(BuildConfig.HOST+"user/task",bitmap,"image/jpeg") }).start()
+
+
+//        try {
+//            MultipartUploadRequest(this, serverUrl = BuildConfig.HOST+"user/task")
+//                .setMethod("POST")
+//                .addFileToUpload(
+//                    filePath = mCurrentPhotoPath!!,
+//                    parameterName = "file"
+//                )
+//                .addParameter("campaignId","5ddabb1cf22d9b5cd5bac910")
+//                .addParameter("locationNm","Zone 15 Sholinganallur")
+//                .addParameter("location","{\"coordinates\": [68.880948,60.6917]}")
+//                .setMaxRetries(2)
+//                .startUpload()
+//            Logger.d("UPLOAD","SUCCESS")
+//
+//        } catch (e: Exception) {
+//            Logger.d("UPLOAD","FAILED")
+//        }
 
     }
 
@@ -269,7 +279,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
             } else {
                 val bmOptions = BitmapFactory.Options()
                 bmOptions.inSampleSize = 4
-                val bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions)
+                 bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions)
                 ivCameraPreview!!.setImageBitmap(bitmap)
                 setButtonHolderVisibility(true)
             }

@@ -161,9 +161,7 @@ public class RequestExecutor {
 
     private VolleyRequest<?> addAuthHeaders(VolleyRequest<?> volleyRequest) {
         Map<String, String> authHeaders = new HashMap<>();
-        authHeaders.put("Authorization", "Basic " + Base64.encodeToString("denton:ap0ll0".getBytes(), Base64.DEFAULT));
         authHeaders.put("Accept", "application/json");
-        authHeaders.put("X-Application-Id", "mobile-android");
 
         volleyRequest.setHeaders(authHeaders);
 
