@@ -245,7 +245,7 @@ class SignUpActivity : BaseActivity() {
     }
 
     private fun updateLabel() {
-        val myFormat = "dd/MM/yyyy" //In which you need put here
+        val myFormat = "dd-MM-yyyy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
 
         dob?.setText(sdf.format(myCalendar.time))

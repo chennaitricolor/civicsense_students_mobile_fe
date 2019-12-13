@@ -7,6 +7,8 @@ import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
 import com.gcc.smartcity.userregistartion.model.*
+import com.gcc.smartcity.utils.Logger
+import org.json.JSONArray
 import org.json.JSONObject
 
 class RegistrationController(private val mContext: Context) {
@@ -26,9 +28,12 @@ class RegistrationController(private val mContext: Context) {
         val loginRequest = VolleyRequest.newInstance<SignUpModel>(Request.Method.POST, endpoint)
         val jsonObject = JSONObject()
         val addressObject = JSONObject()
+        val coordinatesArray=JSONArray()
         try {
-            addressObject.put("coordinates",[latitude,longitude])
-            jsonObject.put("address",addressObject)
+            coordinatesArray.put(longitude)
+            coordinatesArray.put(latitude)
+            addressObject.put("coordinates",coordinatesArray)
+            //jsonObject.put("address",addressObject)
             jsonObject.put("name", name)
             jsonObject.put("phoneNumber", phoneNumber)
             jsonObject.put("password", password)
@@ -36,11 +41,12 @@ class RegistrationController(private val mContext: Context) {
             jsonObject.put("email", email)
             jsonObject.put("dateOfBirth", dateOfBirth)
             jsonObject.put("avatar", avatar)
-            jsonObject.put("OTP", OTP)
+            jsonObject.put("otp", OTP)
             jsonObject.put("currentLocation", addressObject)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+        Logger.d(""+jsonObject.toString())
         loginRequest.setPayload(jsonObject.toString())
         loginRequest.setResponseParser(parser)
         loginRequest.setErrorResponseParser(errorResponseParser)
