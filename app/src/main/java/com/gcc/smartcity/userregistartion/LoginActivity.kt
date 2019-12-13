@@ -113,13 +113,13 @@ class LoginActivity : BaseActivity() {
 
         LoginBtn.setOnClickListener {
             if (loginEmail?.text!!.isNotEmpty() && loginPassword?.text!!.isNotEmpty()) {
+                showLoader(true)
                 callLogin(loginEmail?.text.toString(), loginPassword?.text.toString())
             }
         }
 
         SignupBtnLogin.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            showLoader(true)
             getLastLocation()
             startActivity(intent)
         }
@@ -128,6 +128,7 @@ class LoginActivity : BaseActivity() {
     private fun callLogin(username: String, password: String) {
         mLoginController?.doLoginCall(BuildConfig.HOST + "user/login", username, password)
             ?.continueWithTask { task ->
+                showLoader(false)
                 postLogin(task)
             }
     }
