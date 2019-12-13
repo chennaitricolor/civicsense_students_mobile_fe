@@ -138,7 +138,7 @@ class LoginActivity : BaseActivity() {
 //            isUserInteractionEnable(true)
             val loginErrorMessage =
                 ((task.error as NetworkError).errorResponse as LoginErrorModel).message
-            showErrorDialog("Sign In Error", loginErrorMessage, "OK")
+            showErrorDialog(getString(R.string.signInErrorTitle), loginErrorMessage, "OK")
             task.makeVoid()
         } else {
             val loginModel = task.result as LoginModel
@@ -152,7 +152,7 @@ class LoginActivity : BaseActivity() {
                     Logger.d(ex.toString())
                 }
             } else {
-                Toast.makeText(this, "Please use the correct credentials", Toast.LENGTH_LONG).show()
+                showErrorDialog(getString(R.string.signInErrorTitle), getString(R.string.useCorrectCredentialMessage), "OK")
             }
         }
 
@@ -248,7 +248,7 @@ class LoginActivity : BaseActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }

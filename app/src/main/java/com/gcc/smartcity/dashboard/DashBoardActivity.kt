@@ -76,10 +76,10 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                     lastLocation = p0.lastLocation
                     if (!isLocationPlausible(lastLocation) && continueAppExecution) {
                         AlertDialogBuilder.getInstance().showErrorDialog(
-                            "TURN OFF MOCK LOCATION",
-                            "Please turn OFF mock location to continue using the app",
-                            "CANCEL",
-                            "GO TO SETTINGS",
+                            getString(R.string.turnOffMockLocationTitle),
+                            getString(R.string.turnOffMockLocationDescription),
+                            getString(R.string.cancelButtonText),
+                            getString(R.string.gotoSettingsButtonText),
                             "mock_location_warning",
                             this@DashBoardActivity,
                             this@DashBoardActivity
@@ -188,10 +188,10 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                 lastLocation = location
                 if (!isLocationPlausible(lastLocation) && continueAppExecution) {
                     AlertDialogBuilder.getInstance().showErrorDialog(
-                        "TURN OFF MOCK LOCATION",
-                        "Please turn OFF mock location to continue using the app",
-                        "CANCEL",
-                        "GO TO SETTINGS",
+                        getString(R.string.turnOffMockLocationTitle),
+                        getString(R.string.turnOffMockLocationDescription),
+                        getString(R.string.cancelButtonText),
+                        getString(R.string.gotoSettingsButtonText),
                         "mock_location_warning",
                         this,
                         this

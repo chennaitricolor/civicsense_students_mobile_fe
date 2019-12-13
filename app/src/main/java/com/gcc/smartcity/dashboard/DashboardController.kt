@@ -23,12 +23,12 @@ class DashboardController(private val mContext: Context,var missionAPIListener: 
             )
         )
 //
-//        var missionModel = MissionModel("Capture the potholes", "5")
+//        var missionModel = MissionModel("gdsvgdsgdw3r3fw", "Capture the Water Stagnation", "gadg","agdag",50)
 //
 //        list.add(missionModel)
-//        missionModel = MissionModel("Capture the Water Stagnation", "3")
-//
-//        list.add(missionModel)
+////        missionModel = MissionModel("Capture the Water Stagnation", "3")
+////
+////        list.add(missionModel)
         return list
     }
 //
@@ -61,16 +61,18 @@ class DashboardController(private val mContext: Context,var missionAPIListener: 
                     for (i in 0 until (missionListModel.tasks?.size ?:0 )) {
 
                         var missionModel = MissionModel(
+                            missionListModel.tasks?.get(i)?._id.toString(),
                             missionListModel.tasks?.get(i)?.campaignName.toString(),
-                            missionListModel.tasks?.get(i)?.rewards.toString()
+                            missionListModel.tasks?.get(i)?.startDate.toString(),
+                            missionListModel.tasks?.get(i)?.endDate.toString(),
+                            missionListModel.tasks?.get(i)?.rewards!!
                         )
                         list.add(missionModel)
                     }
                     missionAPIListener.onSuccess(list)
                 } else {
-                    Logger.d("fial", "fial")
+                    Logger.d("failed", "unable to fetch mission list")
                     missionAPIListener.onFail()
-
                 }
                 null
             })

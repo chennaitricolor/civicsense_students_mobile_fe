@@ -129,7 +129,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                     context.startActivity(rateIntent)
                     marketFound = true
                 } catch (e: Exception) {
-                    Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.tryAgainLater), Toast.LENGTH_SHORT).show()
                 }
                 break
             }
@@ -143,7 +143,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
             try {
                 context.startActivity(webIntent)
             } catch (e: Exception) {
-                Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.tryAgainLater), Toast.LENGTH_SHORT).show()
             }
         }
     }

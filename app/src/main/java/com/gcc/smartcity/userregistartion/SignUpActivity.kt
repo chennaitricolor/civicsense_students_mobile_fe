@@ -10,28 +10,18 @@ import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
-import android.widget.TextView
 import android.widget.Toast
 import bolts.Task
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
-import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
-import com.gcc.smartcity.rewards.RewardsActivity
 import com.gcc.smartcity.userregistartion.controller.RegistrationController
-import com.gcc.smartcity.userregistartion.model.LoginErrorModel
-import com.gcc.smartcity.userregistartion.model.LoginModel
 import com.gcc.smartcity.userregistartion.model.userNameCheckModel
-import com.gcc.smartcity.utils.Logger
-import com.gcc.smartcity.utils.NetworkError
-import kotlinx.android.synthetic.main.activity_select_avatar.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import kotlinx.android.synthetic.main.activity_sign_up.login_RDBTNPasswordshow
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,19 +64,22 @@ class SignUpActivity : BaseActivity() {
         buttonEffect(NextBtn)
 
         NextBtn.setOnClickListener {
-              if (name?.text.toString().isNotEmpty() && (isEmailValid && email?.text.toString().isNotEmpty()) && (isUserNameValid && username?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && password?.text.toString().isNotEmpty()) && dob?.text.toString().isNotEmpty()) {
-                  val intent = Intent(this, OTPVerifyActivity::class.java)
-                  intent.putExtra("name" , name?.text.toString())
-                  intent.putExtra("email" , email?.text.toString())
-                  intent.putExtra("password" , password?.text.toString())
-                  intent.putExtra("dob" , dob?.text.toString())
-                  intent.putExtra("username" , username?.text.toString())
-                  startActivity(intent)
+            if (name?.text.toString().isNotEmpty() && (isEmailValid && email?.text.toString().isNotEmpty()) && (isUserNameValid && username?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && password?.text.toString().isNotEmpty()) && dob?.text.toString().isNotEmpty()) {
+                val intent = Intent(this, OTPVerifyActivity::class.java)
+                intent.putExtra("name", name?.text.toString())
+                intent.putExtra("email", email?.text.toString())
+                intent.putExtra("password", password?.text.toString())
+                intent.putExtra("dob", dob?.text.toString())
+                intent.putExtra("username", username?.text.toString())
+                startActivity(intent)
 //            setContentView(R.layout.activity_select_avatar)
 //            selectAvatar()
-                        } else {
-            showToast("Please check whether you have entered all the details correctly")
-//                Toast.makeText(applicationContext,"Please check whether you have entered all the details correctly",Toast.LENGTH_SHORT).show()
+            } else {
+                showErrorDialog(
+                    getString(R.string.insufficientDetails),
+                    getString(R.string.incorrectSignUpDetails),
+                    "OK"
+                )
             }
         }
 
@@ -193,7 +186,12 @@ class SignUpActivity : BaseActivity() {
     }
 
     private fun validateUserNameCall(userName: String) {
-        mRegistrationController?.checkUserNameExistsCall(BuildConfig.HOST + java.lang.String.format("users/%s/availability", userName))
+        mRegistrationController?.checkUserNameExistsCall(
+            BuildConfig.HOST + java.lang.String.format(
+                "users/%s/availability",
+                userName
+            )
+        )
             ?.continueWithTask { task ->
                 validateUserName(task)
             }
@@ -210,6 +208,12 @@ class SignUpActivity : BaseActivity() {
                 isUserNameValid = true
             } else {
                 username?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+                showErrorDialog(
+                    getString(R.string.usernameUnavailable),
+                    getString(R.string.usernameUnavailableMessage),
+                    "OK"
+                )
+                isUserNameValid = false
             }
         }
 

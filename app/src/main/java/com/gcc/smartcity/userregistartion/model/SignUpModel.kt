@@ -9,4 +9,7 @@ class SignUpModel {
     @JsonField
     var success: Boolean? = false
 
+    @JsonField
+    var message: String? = null
+
 }

@@ -29,6 +29,7 @@ import androidx.core.content.FileProvider
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
+import com.gcc.smartcity.SubmitActivity
 import com.gcc.smartcity.network.PersistantCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
@@ -56,9 +57,16 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
     private var reTakeButton: Button? = null
     private var submitButton: Button? = null
     private var bitmap:Bitmap?=null
+    private var _id: String? = null
+    private var rewards: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (intent.extras != null) {
+            _id = intent.extras!!.getString("_id").toString()
+            rewards = intent.extras!!.getString("rewards").toString()
+        }
 
         initiateImageGrab()
 
@@ -82,13 +90,14 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
             if (checkPermission()) {
                 if (isLocationEnabled()) {
                     uploadFileToServer()
-//                    val intent = Intent(this, SubmitActivity::class.java)
-//                    startActivity(intent)
-//                    finish()
+                    val intent = Intent(this, SubmitActivity::class.java)
+                    intent.putExtra("rewards",rewards)
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Please turn on LOCATION",
+                        getString(R.string.turnOnLocationMessage),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -105,7 +114,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
         CookieHandler.setDefault(cookieManager)
         var url: URL =URL(BuildConfig.HOST+"user/task")
 
-     Thread(Runnable { FileUpload(this).uploadScreenshotCall(BuildConfig.HOST+"user/task",bitmap,"image/jpeg") }).start()
+     Thread(Runnable { FileUpload(this).uploadScreenshotCall(BuildConfig.HOST+"user/task",bitmap,"image/jpeg",_id) }).start()
 
 
 //        try {
@@ -211,15 +220,13 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
                 if (cameraAccepted && writeFileAccepted && locationAccepted) {
                     launchCamera()
                 } else {
-                    Toast.makeText(applicationContext, "Failed permissions", Toast.LENGTH_SHORT)
-                        .show()
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
                             AlertDialogBuilder.getInstance().showErrorDialog(
-                                "Permissions have been denied",
-                                "We need access to all the permissions in order to capture the image and upload it to our servers to serve you better.",
-                                "CANCEL",
-                                "OK",
+                                getString(R.string.permissionsDeniedTitle),
+                                getString(R.string.permissionRequestMessage),
+                                getString(R.string.cancelButtonText),
+                                getString(R.string.okButtonText),
                                 "rationalePermissionRequest",
                                 this,
                                 this
@@ -227,10 +234,10 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
                             return
                         } else {
                             AlertDialogBuilder.getInstance().showErrorDialog(
-                                "Permissions Required",
-                                "It seems you have disabled the required permissions permanently. The app will not work without those permissions. If you would like to grant the permissions, click on 'OK' and grant all permissions. If you wish not to, the app will shutdown itself.",
-                                "CANCEL",
-                                "OK",
+                                getString(R.string.permissionsRequired),
+                                getString(R.string.permanentPermissionDeniedMessage),
+                                getString(R.string.cancelButtonText),
+                                getString(R.string.okButtonText),
                                 "forcePermissionRequest",
                                 this,
                                 this

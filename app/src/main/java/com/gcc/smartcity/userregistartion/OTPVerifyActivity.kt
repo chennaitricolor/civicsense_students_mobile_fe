@@ -102,7 +102,7 @@ class OTPVerifyActivity : BaseActivity() {
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Please enter the correct mobile number",
+                        getString(R.string.incorrectMobileNumberMessage),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -127,23 +127,17 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun afterRegistrationCall(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-            Toast.makeText(this, "Unable to sign up. Please try again later.", Toast.LENGTH_LONG)
-                .show()
+            showErrorDialog(getString(R.string.unableToSignUp), getString(R.string.tryAgainLater), "OK")
             task.makeVoid()
             showLoader(false)
         } else {
             val signUpModel = task.result as SignUpModel
             if (signUpModel.success!!) {
-                Toast.makeText(this, "Signed up successfully. Please login.", Toast.LENGTH_LONG)
-                    .show()
+                showErrorDialog(getString(R.string.successfulSignUp), getString(R.string.loginRedirectMessage), "OK")
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                Toast.makeText(
-                    this,
-                    "Unable to sign up. Please try again later.",
-                    Toast.LENGTH_LONG
-                ).show()
+                showErrorDialog(getString(R.string.unableToSignUp), signUpModel.message, "OK")
             }
             showLoader(false)
         }
@@ -165,8 +159,7 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
         if (task.isFaulted) {
-            Toast.makeText(this, "Unable to send OTP. Please try again later.", Toast.LENGTH_LONG)
-                .show()
+            showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), "OK")
             task.makeVoid()
             showLoader(false)
 
@@ -175,11 +168,7 @@ class OTPVerifyActivity : BaseActivity() {
             if (otpModel.success!!) {
                 setMobileOtpLayout(mobileNumber)
             } else {
-                Toast.makeText(
-                    this,
-                    "Unable to send OTP. Please try again later.",
-                    Toast.LENGTH_LONG
-                ).show()
+                showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), "OK")
             }
             showLoader(false)
         }
@@ -240,7 +229,7 @@ class OTPVerifyActivity : BaseActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }

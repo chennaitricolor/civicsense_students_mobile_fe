@@ -29,6 +29,7 @@ import java.util.Map;
 
 public class FileUpload {
     int serverResponseCode = 0;
+    String campaignId = "";
     Context mContext;
 
     public FileUpload(Context context) {
@@ -36,7 +37,6 @@ public class FileUpload {
     }
 
     public int uploadFile(String sourceFileUri) {
-
 
         String fileName = sourceFileUri;
 
@@ -72,7 +72,7 @@ public class FileUpload {
                 conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 
-                conn.setRequestProperty("campaignId", "5ddabb1cf22d9b5cd5bac910");
+                conn.setRequestProperty("campaignId", campaignId);
                 conn.setRequestProperty("locationNm", "Zone 15 Sholinganallur");
                 conn.setRequestProperty("location", "{\"coordinates\": [68.880948,60.6917]}");
                 conn.setRequestProperty("file", fileName);
@@ -151,7 +151,8 @@ public class FileUpload {
        return bitmap;
     }
 
-    public void uploadScreenshotCall(String url, Bitmap bitmap, String mimeType) {
+    public void uploadScreenshotCall(String url, Bitmap bitmap, String mimeType, String _id) {
+        campaignId = _id;
         RequestExecutor.getInstance(mContext).addMultipartRequest(createVolleyRequestForUpload(url, bitmap, mimeType));
     }
 
@@ -180,7 +181,7 @@ public class FileUpload {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("campaignId", "5ddabb1cf22d9b5cd5bac910");
+                params.put("campaignId", campaignId);
                 params.put("locationNm", "Zone 15 Sholinganallur");
                 params.put("location", "{\"coordinates\": [79.619928, 10.752292]}");
                 return params;

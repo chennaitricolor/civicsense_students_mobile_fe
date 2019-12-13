@@ -48,5 +48,27 @@
     <string name="menu_item_image">menu item image</string>
     <string name="mission_logo">mission logo</string>
     <string name="reward_description_image">reward description image</string>
+    <string name="signInErrorTitle">Sign In Error</string>
+    <string name="useCorrectCredentialMessage">Please use the correct credentials</string>
+    <string name="turnOnLocationMessage">Please turn on location</string>
+    <string name="incorrectMobileNumberMessage">Please enter the correct mobile number</string>
+    <string name="unableToSignUp">Unable to sign up</string>
+    <string name="successfulSignUp">Signed up successfully</string>
+    <string name="loginRedirectMessage">Please use your credentials to login</string>
+    <string name="tryAgainLater">Please try again later</string>
+    <string name="unableToSendOTP">Unable to send OTP</string>
+    <string name="insufficientDetails">Insufficient details</string>
+    <string name="incorrectSignUpDetails">Please check whether you have entered all the details correctly</string>
+    <string name="usernameUnavailable">Username unavailable</string>
+    <string name="usernameUnavailableMessage">The username you entered has already been taken. Please type in a different username.</string>
+    <string name="permissionsDeniedTitle">Permissions have been denied</string>
+    <string name="cancelButtonText">CANCEL</string>
+    <string name="okButtonText">OK</string>
+    <string name="permissionRequestMessage">We need access to all the permissions in order to capture the image and upload it to our servers to serve you better.</string>
+    <string name="permanentPermissionDeniedMessage">It seems you have disabled the required permissions permanently. The app will not work without those permissions. If you would like to grant the permissions, click on \'OK\' and grant all permissions. If you wish not to, the app will shutdown itself.</string>
+    <string name="permissionsRequired">Permissions Required</string>
+    <string name="turnOffMockLocationTitle">TURN OFF MOCK LOCATION</string>
+    <string name="turnOffMockLocationDescription">Please turn OFF mock location to continue using the app</string>
+    <string name="gotoSettingsButtonText">GO TO SETTINGS</string>
 
 </resources>

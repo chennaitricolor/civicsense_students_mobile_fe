@@ -42,17 +42,19 @@ class MissionListAdapter(var context: Context, private var dataSet: ArrayList<Mi
 
         // get current item to be displayed
         val missionModel = getItem(position) as MissionModel
-        missionViewHolder.menuName.text = missionModel.missionName
-        missionViewHolder.gemCount.text = missionModel.gemsCount
+        missionViewHolder.menuName.text = missionModel.campaignName
+        missionViewHolder.gemCount.text = missionModel.rewards.toString()
         missionViewHolder.missionParent.setOnClickListener {
-            launchCameraForImageCapture()
+            launchCameraForImageCapture(missionModel)
         }
         rowView?.tag = missionViewHolder
         return rowView!!
     }
 
-    private fun launchCameraForImageCapture() {
+    private fun launchCameraForImageCapture(missionModel: MissionModel) {
         val intent = Intent(context, ImageCaptureActivity::class.java)
+        intent.putExtra("_id",missionModel._id)
+        intent.putExtra("rewards",missionModel.rewards.toString())
         context.startActivity(intent)
     }
 
