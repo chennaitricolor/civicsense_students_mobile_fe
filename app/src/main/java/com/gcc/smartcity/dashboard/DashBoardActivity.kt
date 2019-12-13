@@ -6,6 +6,7 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.view.View
 import androidx.core.app.ActivityCompat
 import com.gcc.smartcity.NavigationDrawerActivity
 import com.gcc.smartcity.R
@@ -22,7 +23,17 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 
 
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener, OnDialogListener {
+    GoogleMap.OnMarkerClickListener, OnDialogListener, MissionAPIListener {
+
+    override fun onSuccess(missionModel: ArrayList<MissionModel>) {
+        showLoader(false)
+        configureMissionList(missionModel)
+    }
+
+    override fun onFail() {
+        showLoader(false)
+    }
+
     override fun shouldShowNavigationDrawer(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -81,8 +92,20 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             }
 
             createLocationRequest()
+            showLoader(true)
+            DashboardController(this, this).getMissionData()
+        }
+    }
 
-            configureMissionList()
+    private fun showLoader(status: Boolean) {
+        if (status) {
+            loader_layout.visibility = View.VISIBLE
+            mapLayout.visibility = View.GONE
+            rlList.visibility = View.GONE
+        } else {
+            loader_layout.visibility = View.GONE
+            mapLayout.visibility = View.VISIBLE
+            rlList.visibility = View.VISIBLE
         }
     }
 
@@ -104,9 +127,10 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         return d > 1000
     }
 
-    private fun configureMissionList() {
+    private fun configureMissionList(list: ArrayList<MissionModel>) {
+
         val missionListAdapter =
-            MissionListAdapter(this, DashboardController(this).getMissionData())
+            MissionListAdapter(this, list)
 
         dashboardMissionList.adapter = missionListAdapter
     }
@@ -156,7 +180,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
         map.isMyLocationEnabled = false
 
-        map.setPadding(20,200,0,15)
+        map.setPadding(20, 200, 0, 15)
 
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             // Got last known location. In some rare situations this can be null.
@@ -173,7 +197,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                         this
                     )
                     continueAppExecution = false
-                } else if (isLocationPlausible(lastLocation)){
+                } else if (isLocationPlausible(lastLocation)) {
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     placeMarkerOnMap(currentLatLng)
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))

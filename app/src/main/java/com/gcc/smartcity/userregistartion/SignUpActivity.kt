@@ -171,17 +171,7 @@ class SignUpActivity : BaseActivity() {
             dialog.datePicker.maxDate = Calendar.getInstance().timeInMillis - 1000
             dialog.show()
         }
-
-
     }
-
-//    private fun selectAvatar() {
-//        buttonEffect(SubmitBtn)
-//        SubmitBtn.setOnClickListener {
-//            val intent = Intent(this, OTPVerifyActivity::class.java)
-//            startActivity(intent)
-//        }
-//    }
 
     private fun buttonEffect(button: View) {
         button.setOnTouchListener { v, event ->
@@ -253,9 +243,6 @@ class SignUpActivity : BaseActivity() {
 
     private fun showToast(message: String) {
         val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-        val v =
-            toast.view.findViewById<View>(R.id.message) as TextView
-        v.gravity = Gravity.CENTER
         toast.show()
     }
 }

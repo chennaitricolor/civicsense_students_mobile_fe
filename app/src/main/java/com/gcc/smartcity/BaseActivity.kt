@@ -1,6 +1,7 @@
 package com.gcc.smartcity
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
@@ -15,6 +16,18 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base_map)
+    }
+
+    fun showLoader(status:Boolean){
+        if(status){
+            linMap.visibility= View.GONE
+            InflatorLayout.visibility=View.GONE
+            loader_layout.visibility=View.VISIBLE
+        }else{
+            linMap.visibility= View.VISIBLE
+            InflatorLayout.visibility=View.VISIBLE
+            loader_layout.visibility=View.GONE
+        }
     }
 
     protected fun setView(layout: Int) {

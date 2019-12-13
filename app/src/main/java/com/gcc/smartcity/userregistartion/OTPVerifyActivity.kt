@@ -111,13 +111,14 @@ class OTPVerifyActivity : BaseActivity() {
                     doRegistration(userMobileNumber, mobileNumber?.text.toString())
                 }
             }
+            showLoader(true)
         }
         getLastLocation()
     }
 
     private fun doRegistration(mobileNumber: String, otp: String) {
         mRegistrationController?.doSignUpCall(
-            BuildConfig.HOST + "user", name, mobileNumber, password, username, email, dob, 6,otp.toInt(),mLatitude,mLongitude
+            BuildConfig.HOST + "user", name, mobileNumber, password, username, email, dob, 6,otp.toInt(),"12.888370","80.227051"
             )
             ?.continueWithTask { task ->
                 afterRegistrationCall(task)
@@ -129,6 +130,7 @@ class OTPVerifyActivity : BaseActivity() {
             Toast.makeText(this, "Unable to sign up. Please try again later.", Toast.LENGTH_LONG)
                 .show()
             task.makeVoid()
+            showLoader(false)
         } else {
             val signUpModel = task.result as SignUpModel
             if (signUpModel.success!!) {
@@ -143,6 +145,7 @@ class OTPVerifyActivity : BaseActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+            showLoader(false)
         }
 
         return null
@@ -165,6 +168,8 @@ class OTPVerifyActivity : BaseActivity() {
             Toast.makeText(this, "Unable to send OTP. Please try again later.", Toast.LENGTH_LONG)
                 .show()
             task.makeVoid()
+            showLoader(false)
+
         } else {
             val otpModel = task.result as OTPModel
             if (otpModel.success!!) {
@@ -176,6 +181,7 @@ class OTPVerifyActivity : BaseActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+            showLoader(false)
         }
 
         return null

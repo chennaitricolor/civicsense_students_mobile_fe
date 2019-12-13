@@ -222,17 +222,17 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun showLoader(status: Boolean) {
-        if (status) {
-            loader?.visibility = View.VISIBLE
-            loginScreen?.visibility = View.GONE
-            TouchUtility(this).enableUserInteraction(!status)
-        } else {
-            loader?.visibility = View.GONE
-            loginScreen?.visibility = View.VISIBLE
-            TouchUtility(this).enableUserInteraction(!status)
-        }
-    }
+//    private fun showLoader(status: Boolean) {
+//        if (status) {
+//            loader?.visibility = View.VISIBLE
+//            loginScreen?.visibility = View.GONE
+//            TouchUtility(this).enableUserInteraction(!status)
+//        } else {
+//            loader?.visibility = View.GONE
+//            loginScreen?.visibility = View.VISIBLE
+//            TouchUtility(this).enableUserInteraction(!status)
+//        }
+//    }
 
     private fun getLastLocation() {
         if (checkPermissions()) {

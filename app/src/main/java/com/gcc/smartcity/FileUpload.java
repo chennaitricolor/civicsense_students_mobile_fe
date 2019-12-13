@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -181,7 +182,7 @@ public class FileUpload {
                 Map<String, String> params = new HashMap<>();
                 params.put("campaignId", "5ddabb1cf22d9b5cd5bac910");
                 params.put("locationNm", "Zone 15 Sholinganallur");
-                params.put("location", "{\"coordinates\": [80.222122, 13.055125]}");
+                params.put("location", "{\"coordinates\": [79.619928, 10.752292]}");
                 return params;
             }
 
@@ -191,13 +192,23 @@ public class FileUpload {
                 DataPart dataPart = new VolleyMultipartRequest.DataPart();
                 dataPart.setContent(getBytFromBitmap(bitmap, 15));
                 dataPart.setType(mimeType);
-                params.put("file", dataPart);
+                params.put("file", new DataPart( generateUniqueFileName()+".jpg", getBytFromBitmap(bitmap, 15), "image/*"));
 
                 return params;
             }
         };
 
         return multipartRequest;
+    }
+
+   private String generateUniqueFileName() {
+        String filename = "";
+        long millis = System.currentTimeMillis();
+        String datetime = new Date().toGMTString();
+        datetime = datetime.replace(" ", "");
+        datetime = datetime.replace(":", "");
+        filename = "Csr_"+ datetime + "_" + millis;
+        return filename;
     }
 
     private byte[] getBytFromBitmap(Bitmap bitmap, int quality) {

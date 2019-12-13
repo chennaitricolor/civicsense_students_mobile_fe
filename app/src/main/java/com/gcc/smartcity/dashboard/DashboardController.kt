@@ -9,12 +9,9 @@ import com.gcc.smartcity.dashboard.model.MissionListModel
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
-import com.gcc.smartcity.userregistartion.model.LoginErrorModel
-import com.gcc.smartcity.userregistartion.model.LoginModel
 import com.gcc.smartcity.utils.Logger
-import org.json.JSONObject
 
-class DashboardController(private val mContext: Context) {
+class DashboardController(private val mContext: Context,var missionAPIListener: MissionAPIListener) {
     private var list = ArrayList<MissionModel>()
 
 
@@ -61,13 +58,18 @@ class DashboardController(private val mContext: Context) {
                 if (!it.isFaulted) {
                     Logger.d("success", "got list")
                     var missionListModel = it.result as MissionListModel
-                    var missionModel = MissionModel(
-                        missionListModel.tasks?.get(0)?.campaignName.toString(),
-                        missionListModel.tasks?.get(0)?.rewards.toString()
-                    )
-                    list.add(missionModel)
+                    for (i in 0 until (missionListModel.tasks?.size ?:0 )) {
+
+                        var missionModel = MissionModel(
+                            missionListModel.tasks?.get(i)?.campaignName.toString(),
+                            missionListModel.tasks?.get(i)?.rewards.toString()
+                        )
+                        list.add(missionModel)
+                    }
+                    missionAPIListener.onSuccess(list)
                 } else {
                     Logger.d("fial", "fial")
+                    missionAPIListener.onFail()
 
                 }
                 null
