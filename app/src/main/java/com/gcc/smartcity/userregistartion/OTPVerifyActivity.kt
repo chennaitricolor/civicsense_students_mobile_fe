@@ -1,9 +1,16 @@
 package com.gcc.smartcity.userregistartion
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
@@ -11,18 +18,38 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import bolts.Task
 import com.gcc.smartcity.BaseActivity
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
-import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
+import com.gcc.smartcity.userregistartion.controller.RegistrationController
+import com.gcc.smartcity.userregistartion.model.OTPModel
+import com.gcc.smartcity.userregistartion.model.SignUpModel
+import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_otpverify.*
 
 
 class OTPVerifyActivity : BaseActivity() {
 
-
+    private var mRegistrationController: RegistrationController? = null
     private var mobileNumber: FontEditText? = null
     private var isMobileNumberValid: Boolean = false
+    lateinit var name: String
+    lateinit var email: String
+    lateinit var password: String
+    lateinit var dob: String
+    lateinit var username: String
+    lateinit var userMobileNumber: String
+    lateinit var mLatitude: String
+    lateinit var mLongitude: String
+    private val PERMISSION_ID = 42
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
+
+    init {
+        mRegistrationController = RegistrationController(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +58,16 @@ class OTPVerifyActivity : BaseActivity() {
         mobileNumber = findViewById(R.id.mobilenumber)
         val mobileNumberPattern =
             "^[6-9]\\d{9}\$"
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        if (intent.extras != null) {
+            name = intent.extras!!.getString("name").toString()
+            email = intent.extras!!.getString("email").toString()
+            password = intent.extras!!.getString("password").toString()
+            dob = intent.extras!!.getString("dob").toString()
+            username = intent.extras!!.getString("username").toString()
+        }
         mobileNumber?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.matches((mobileNumberPattern).toRegex()) && s.isNotEmpty()) {
@@ -58,6 +95,8 @@ class OTPVerifyActivity : BaseActivity() {
         VerifyBTN.setOnClickListener {
             if (VerifyBTN.text == "Get OTP") {
                 if (isMobileNumberValid && mobileNumber?.text.toString().isNotEmpty()) {
+                    userMobileNumber = mobileNumber?.text.toString()
+                    sendOTP(mobileNumber?.text.toString())
                     setMobileOtpLayout(mobileNumber?.text.toString())
                     mobileNumber?.text?.clear()
                 } else {
@@ -68,11 +107,78 @@ class OTPVerifyActivity : BaseActivity() {
                     ).show()
                 }
             } else {
+                if (mobileNumber?.text.toString().isNotEmpty()) {
+                    doRegistration(userMobileNumber, mobileNumber?.text.toString())
+                }
+            }
+        }
+        getLastLocation()
+    }
+
+    private fun doRegistration(mobileNumber: String, otp: String) {
+        mRegistrationController?.doSignUpCall(
+            BuildConfig.HOST + "user", name, mobileNumber, password, username, email, dob, 6,otp.toInt(),mLatitude,mLongitude
+            )
+            ?.continueWithTask { task ->
+                afterRegistrationCall(task)
+            }
+    }
+
+    private fun afterRegistrationCall(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            Toast.makeText(this, "Unable to sign up. Please try again later.", Toast.LENGTH_LONG)
+                .show()
+            task.makeVoid()
+        } else {
+            val signUpModel = task.result as SignUpModel
+            if (signUpModel.success!!) {
+                Toast.makeText(this, "Signed up successfully. Please login.", Toast.LENGTH_LONG)
+                    .show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Unable to sign up. Please try again later.",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
+        return null
+    }
+
+    private fun sendOTP(mobileNumber: String) {
+        mRegistrationController?.doOTPCall(
+            BuildConfig.HOST + java.lang.String.format(
+                "user/generate-otp?phoneNumber=%s",
+                mobileNumber
+            )
+        )
+            ?.continueWithTask { task ->
+                afterOTPSent(task, mobileNumber)
+            }
+    }
+
+    private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
+        if (task.isFaulted) {
+            Toast.makeText(this, "Unable to send OTP. Please try again later.", Toast.LENGTH_LONG)
+                .show()
+            task.makeVoid()
+        } else {
+            val otpModel = task.result as OTPModel
+            if (otpModel.success!!) {
+                setMobileOtpLayout(mobileNumber)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Unable to send OTP. Please try again later.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        return null
     }
 
     private fun buttonEffect(button: View) {
@@ -111,5 +217,99 @@ class OTPVerifyActivity : BaseActivity() {
         setTextToLayout(
             "Enter the OTP send to <b>+91-$mobileNumber</b>\n", "OTP", "Verify & Proceed"
         )
+    }
+
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    val location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        Log.d("Old Latitude", location.latitude.toString())
+                        Log.d("Old Longitude", location.longitude.toString())
+                        mLatitude = location.latitude.toString()
+                        mLongitude = location.longitude.toString()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+    private fun requestNewLocationData() {
+        val mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            Log.d("New Latitude", mLastLocation.latitude.toString())
+            Log.d("New Longitude", mLastLocation.longitude.toString())
+            mLatitude = mLastLocation.latitude.toString()
+            mLongitude = mLastLocation.longitude.toString()
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            PERMISSION_ID
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_ID) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                getLastLocation()
+            }
+        }
     }
 }

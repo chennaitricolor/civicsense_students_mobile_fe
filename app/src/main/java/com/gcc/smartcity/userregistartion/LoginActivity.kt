@@ -47,7 +47,7 @@ class LoginActivity : BaseActivity() {
     private var isLoginPasswordStrengthValid: Boolean = false
     private var loader: LinearLayout? = null
     private var loginScreen: RelativeLayout? = null
-    val PERMISSION_ID = 42
+    private val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     //    override fun onStart() {

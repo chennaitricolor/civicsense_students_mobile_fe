@@ -16,9 +16,19 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.TextView
 import android.widget.Toast
+import bolts.Task
 import com.gcc.smartcity.BaseActivity
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
+import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
+import com.gcc.smartcity.rewards.RewardsActivity
+import com.gcc.smartcity.userregistartion.controller.RegistrationController
+import com.gcc.smartcity.userregistartion.model.LoginErrorModel
+import com.gcc.smartcity.userregistartion.model.LoginModel
+import com.gcc.smartcity.userregistartion.model.userNameCheckModel
+import com.gcc.smartcity.utils.Logger
+import com.gcc.smartcity.utils.NetworkError
 import kotlinx.android.synthetic.main.activity_select_avatar.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.login_RDBTNPasswordshow
@@ -27,14 +37,21 @@ import java.util.*
 
 
 class SignUpActivity : BaseActivity() {
+
+    private var mRegistrationController: RegistrationController? = null
     private var dob: FontEditText? = null
     private var email: FontEditText? = null
     private var isEmailValid: Boolean = false
+    private var isUserNameValid: Boolean = false
     private var password: FontEditText? = null
     private var username: FontEditText? = null
     private var isPasswordStrengthValid: Boolean = false
     private var name: FontEditText? = null
     private val myCalendar: Calendar = Calendar.getInstance()
+
+    init {
+        mRegistrationController = RegistrationController(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -57,13 +74,20 @@ class SignUpActivity : BaseActivity() {
         buttonEffect(NextBtn)
 
         NextBtn.setOnClickListener {
-            //  if (nameValidate?.text.toString().isNotEmpty() && (isEmailValid && emailValidate?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && passwordStrengthValidate?.text.toString().isNotEmpty()) && dobValidate?.text.toString().isNotEmpty()) {
-            setContentView(R.layout.activity_select_avatar)
-            selectAvatar()
-            //            } else {
-//            showToast("Please check whether you have entered all the details correctly")
+              if (name?.text.toString().isNotEmpty() && (isEmailValid && email?.text.toString().isNotEmpty()) && (isUserNameValid && username?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && password?.text.toString().isNotEmpty()) && dob?.text.toString().isNotEmpty()) {
+                  val intent = Intent(this, OTPVerifyActivity::class.java)
+                  intent.putExtra("name" , name?.text.toString())
+                  intent.putExtra("email" , email?.text.toString())
+                  intent.putExtra("password" , password?.text.toString())
+                  intent.putExtra("dob" , dob?.text.toString())
+                  intent.putExtra("username" , username?.text.toString())
+                  startActivity(intent)
+//            setContentView(R.layout.activity_select_avatar)
+//            selectAvatar()
+                        } else {
+            showToast("Please check whether you have entered all the details correctly")
 //                Toast.makeText(applicationContext,"Please check whether you have entered all the details correctly",Toast.LENGTH_SHORT).show()
-//            }
+            }
         }
 
 
@@ -95,7 +119,7 @@ class SignUpActivity : BaseActivity() {
 
         username?.onFocusChangeListener = OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus && username?.text.toString() != "") {
-                validateUserName()
+                validateUserNameCall(username?.text.toString())
             }
         }
 
@@ -151,13 +175,13 @@ class SignUpActivity : BaseActivity() {
 
     }
 
-    private fun selectAvatar() {
-        buttonEffect(SubmitBtn)
-        SubmitBtn.setOnClickListener {
-            val intent = Intent(this, OTPVerifyActivity::class.java)
-            startActivity(intent)
-        }
-    }
+//    private fun selectAvatar() {
+//        buttonEffect(SubmitBtn)
+//        SubmitBtn.setOnClickListener {
+//            val intent = Intent(this, OTPVerifyActivity::class.java)
+//            startActivity(intent)
+//        }
+//    }
 
     private fun buttonEffect(button: View) {
         button.setOnTouchListener { v, event ->
@@ -178,8 +202,28 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-    private fun validateUserName() {
-        password?.setBackgroundResource(R.drawable.bg_border_edittext)
+    private fun validateUserNameCall(userName: String) {
+        mRegistrationController?.checkUserNameExistsCall(BuildConfig.HOST + java.lang.String.format("users/%s/availability", userName))
+            ?.continueWithTask { task ->
+                validateUserName(task)
+            }
+    }
+
+    private fun validateUserName(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            username?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+            task.makeVoid()
+        } else {
+            val userNameModel = task.result as userNameCheckModel
+            if (userNameModel.success!!) {
+                username?.setBackgroundResource(R.drawable.bg_border_edittext)
+                isUserNameValid = true
+            } else {
+                username?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+            }
+        }
+
+        return null
     }
 
     private fun showVisiblePasswordButton(status: Boolean) {
