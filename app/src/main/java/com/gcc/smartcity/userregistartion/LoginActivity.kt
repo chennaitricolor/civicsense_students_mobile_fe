@@ -18,7 +18,6 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -30,6 +29,9 @@ import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.fontui.FontTextView
+import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.leaderboard.LeaderBoardRecyclerViewModel
+import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.userregistartion.controller.LoginController
 import com.gcc.smartcity.userregistartion.model.LoginErrorModel
 import com.gcc.smartcity.userregistartion.model.LoginModel
@@ -50,6 +52,7 @@ class LoginActivity : BaseActivity() {
     private val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var forgotUserId: FontTextView? = null
+    private var leaderBoardAdapterData = ArrayList<LeaderBoardRecyclerViewModel>()
 
     //    override fun onStart() {
 ////        super.onStart()
@@ -142,16 +145,55 @@ class LoginActivity : BaseActivity() {
 
     private fun postLogin(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-//            isUserInteractionEnable(true)
             val loginErrorMessage =
                 ((task.error as NetworkError).errorResponse as LoginErrorModel).message
-            showErrorDialog(getString(R.string.signInErrorTitle), loginErrorMessage, getString(R.string.okButtonText))
+            showErrorDialog(
+                getString(R.string.signInErrorTitle),
+                loginErrorMessage,
+                getString(R.string.okButtonText)
+            )
             task.makeVoid()
         } else {
             val loginModel = task.result as LoginModel
             Logger.d("HERE IN POST LOGIN")
             if (loginModel.success!!) {
                 try {
+                    callLeaderBoardEndpoint()
+                } catch (ex: Exception) {
+                    Logger.d(ex.toString())
+                }
+            } else {
+                showErrorDialog(
+                    getString(R.string.signInErrorTitle),
+                    getString(R.string.useCorrectCredentialMessage),
+                    getString(R.string.okButtonText)
+                )
+            }
+        }
+
+        return null
+    }
+
+    private fun callLeaderBoardEndpoint() {
+        mLoginController?.doLeaderBoardCall(BuildConfig.HOST + "user/leaderboard?type=local")
+            ?.continueWithTask { task ->
+                postLeaderBoard(task)
+            }
+    }
+
+    private fun postLeaderBoard(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            SessionStorage.getInstance().leaderBoardStatus = false
+            val intent = Intent(this, DashBoardActivity::class.java)
+            startActivity(intent)
+            finish()
+            task.makeVoid()
+        } else {
+            val leaderBoardModel = task.result as LeaderBoardModel
+            if (leaderBoardModel.success!!) {
+                try {
+                    SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
+                    SessionStorage.getInstance().leaderBoardStatus = true
                     val intent = Intent(this, DashBoardActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -159,34 +201,15 @@ class LoginActivity : BaseActivity() {
                     Logger.d(ex.toString())
                 }
             } else {
-                showErrorDialog(getString(R.string.signInErrorTitle), getString(R.string.useCorrectCredentialMessage), getString(R.string.okButtonText))
+                SessionStorage.getInstance().leaderBoardStatus = false
+                val intent = Intent(this, DashBoardActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
 
         return null
     }
-
-    private fun isUserInteractionEnable(status: Boolean) {
-        if (status) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            )
-        }
-//        makeSignInProgressVisible(!status)
-    }
-
-//    private fun makeSignInProgressVisible(status: Boolean) {
-//        if (status) {
-//            login_pgSignin.visibility = View.VISIBLE
-//            login_llSignin.setBackgroundResource(R.drawable.bg_rounded_sigin_grey)
-//        } else {
-//            login_pgSignin.visibility = View.GONE
-//            login_llSignin.setBackgroundResource(R.drawable.bg_rounded_sigin_dark)
-//        }
-//    }
 
     private fun buttonEffect(button: View) {
         button.setOnTouchListener { v, event ->
@@ -255,7 +278,8 @@ class LoginActivity : BaseActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
+                    .show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }

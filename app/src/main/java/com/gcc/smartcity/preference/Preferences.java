@@ -12,6 +12,8 @@ public enum Preferences {
     // Preference Name
     public static final String PREF_NAME = "smartcity_pref";
     private static final String COOKIE = "cookie";
+    private static final String LEADERBOARD_API_MODEL = "leaderboard_api_model";
+    private static final String LEADERBOARD_STATUS = "leaderboard_status";
 
 
     private UserPreferences mPreferenceHandle;
@@ -36,5 +38,19 @@ public enum Preferences {
         return mPreferenceHandle.getString(COOKIE, null);
     }
 
+    public String getLeaderBoardApiModel() {
+        return mPreferenceHandle.getString(LEADERBOARD_API_MODEL, null);
+    }
 
+    public void setLeaderBoardApiModel(String adminApiModel) {
+        mPreferenceHandle.setString(LEADERBOARD_API_MODEL, adminApiModel);
+    }
+
+    public void setLeaderBoardStatus(Boolean leaderBoardStatus) {
+        mPreferenceHandle.setBoolean(LEADERBOARD_STATUS, leaderBoardStatus);
+    }
+
+    public Boolean getLeaderBoardStatus() {
+        return mPreferenceHandle.getBoolean(LEADERBOARD_STATUS, false);
+    }
 }

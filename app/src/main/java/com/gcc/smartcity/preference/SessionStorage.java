@@ -1,5 +1,6 @@
 package com.gcc.smartcity.preference;
 
+import com.gcc.smartcity.leaderboard.LeaderBoardModel;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
 
@@ -49,7 +50,7 @@ public class SessionStorage {
             try {
                 return GSON.fromJson(gson, a);
             } catch (Exception e) {
-                throw new IllegalArgumentException("Object storaged with key is instanceof other class");
+                throw new IllegalArgumentException("Object stored with key is instanceof other class");
             }
         }
     }
@@ -75,6 +76,23 @@ public class SessionStorage {
     public static <T> List<T> stringToArray(String s, Class<T> clazz) {
         T arr = new Gson().fromJson(s, clazz);
         return Arrays.asList(arr); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
+    }
+
+    public void setLeaderBoardModel(LeaderBoardModel leaderBoardModel) {
+        Preferences.INSTANCE.setLeaderBoardApiModel(getStringfromObject(leaderBoardModel));
+
+    }
+
+    public LeaderBoardModel getLeaderBoardModel() {
+        return getObjectfromString(Preferences.INSTANCE.getLeaderBoardApiModel(), LeaderBoardModel.class);
+    }
+
+    public void setLeaderBoardStatus(Boolean status) {
+        Preferences.INSTANCE.setLeaderBoardStatus(status);
+    }
+
+    public Boolean getLeaderBoardStatus() {
+        return Preferences.INSTANCE.getLeaderBoardStatus();
     }
 
 }
