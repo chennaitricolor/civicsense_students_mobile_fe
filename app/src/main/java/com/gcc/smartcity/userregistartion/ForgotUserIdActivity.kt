@@ -10,6 +10,8 @@ import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.userregistartion.controller.RegistrationController
+import com.gcc.smartcity.userregistartion.model.ForgotUserNameModel
+import com.gcc.smartcity.userregistartion.model.userNameCheckModel
 import kotlinx.android.synthetic.main.activity_forgot_user_id.*
 
 class ForgotUserIdActivity : BaseActivity() {
@@ -27,10 +29,12 @@ class ForgotUserIdActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setView(R.layout.activity_forgot_user_id)
         forgotuserid_submit.setOnClickListener {
+            showLoader(true)
             if (isEmailValid && forgotuserid_emailId?.text.toString().isNotEmpty()) {
                 mRegistrationController?.forgotUserId(BuildConfig.HOST + "users/forgot-user-id?email=" + forgotuserid_emailId?.text)
                     ?.continueWith { task ->
                         validateTask(task)
+                        showLoader(false)
                     }
             }
         }
@@ -38,7 +42,14 @@ class ForgotUserIdActivity : BaseActivity() {
     }
 
     fun validateTask(task: Task<Any>) {
+        if (task.isFaulted) {
+            showErrorDialog("Error", "Please give valid EmailID", "Ok")
+        } else {
 
+            val userNameModel = task.result as ForgotUserNameModel
+
+            showErrorDialog("Your username", "" + userNameModel.userId, "Ok")
+        }
     }
 
     fun validateEmail() {
