@@ -29,6 +29,7 @@ import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
+import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.userregistartion.controller.LoginController
 import com.gcc.smartcity.userregistartion.model.LoginErrorModel
 import com.gcc.smartcity.userregistartion.model.LoginModel
@@ -49,6 +50,7 @@ class LoginActivity : BaseActivity() {
     private var loginScreen: RelativeLayout? = null
     private val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var forgotUserId: FontTextView? = null
 
     //    override fun onStart() {
 ////        super.onStart()
@@ -69,6 +71,7 @@ class LoginActivity : BaseActivity() {
         loginPassword = findViewById(R.id.password)
         loader = findViewById(R.id.loader_layout)
         loginScreen = findViewById(R.id.login_screen)
+        forgotUserId = findViewById(R.id.forgotusername)
 
         showLoader(false)
         showVisiblePasswordButton(false)
@@ -123,6 +126,8 @@ class LoginActivity : BaseActivity() {
             getLastLocation()
             startActivity(intent)
         }
+
+        forgotUserId?.setOnClickListener {}
     }
 
     private fun callLogin(username: String, password: String) {
