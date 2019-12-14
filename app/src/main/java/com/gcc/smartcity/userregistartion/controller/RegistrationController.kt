@@ -78,7 +78,7 @@ class RegistrationController(private val mContext: Context) {
     fun forgotUserId(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(ForgotUserNameModel::class.java)
         val userNameRequest =
-            VolleyRequest.newInstance<userNameCheckModel>(Request.Method.GET, endpoint)
+            VolleyRequest.newInstance<ForgotUserNameModel>(Request.Method.GET, endpoint)
         userNameRequest.setResponseParser(parser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(userNameRequest)
     }
