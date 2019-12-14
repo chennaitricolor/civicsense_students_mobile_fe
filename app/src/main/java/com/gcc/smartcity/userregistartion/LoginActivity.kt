@@ -35,7 +35,6 @@ import com.gcc.smartcity.userregistartion.model.LoginErrorModel
 import com.gcc.smartcity.userregistartion.model.LoginModel
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
-import com.gcc.smartcity.utils.TouchUtility
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -127,7 +126,10 @@ class LoginActivity : BaseActivity() {
             startActivity(intent)
         }
 
-        forgotUserId?.setOnClickListener {}
+        forgotUserId?.setOnClickListener {
+            val intent = Intent(this, ForgotUserIdActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun callLogin(username: String, password: String) {
