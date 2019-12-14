@@ -11,9 +11,8 @@ import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
 import com.gcc.smartcity.utils.Logger
 
-class DashboardController(private val mContext: Context,var missionAPIListener: MissionAPIListener) {
+class DashboardController(private val mContext: Context, private var missionAPIListener: MissionAPIListener) {
     private var list = ArrayList<MissionModel>()
-
 
     fun getMissionData(): ArrayList<MissionModel> {
 

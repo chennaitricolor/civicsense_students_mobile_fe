@@ -2,15 +2,15 @@ package com.gcc.smartcity.leaderboard
 
 import android.os.Bundle
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.R
 
-class LeaderBoardActivity : AppCompatActivity() {
-    private var leaderboardListAdapter : LeaderboardListAdapter? = null
-    private var leaderBoardRecyclerView : RecyclerView? = null
-    private var backArrowButton : ImageView? = null
+class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
+    private var leaderBoardListAdapter: LeaderboardListAdapter? = null
+    private var leaderBoardRecyclerView: RecyclerView? = null
+    private var backArrowButton: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +28,21 @@ class LeaderBoardActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        leaderboardListAdapter = LeaderboardListAdapter()
+        leaderBoardListAdapter = LeaderboardListAdapter()
         leaderBoardRecyclerView?.layoutManager = LinearLayoutManager(this)
-        leaderBoardRecyclerView?.adapter = leaderboardListAdapter
-        leaderboardListAdapter!!.setData(LeaderBoardController.getAdapterData())
+        leaderBoardRecyclerView?.adapter = leaderBoardListAdapter
+        leaderBoardListAdapter!!.setData(LeaderBoardController(this, this).getAdapterData())
+    }
+
+    override fun onSuccess(leaderBoardRecyclerViewModel: ArrayList<LeaderBoardRecyclerViewModel>) {
+        leaderBoardListAdapter!!.setData(leaderBoardRecyclerViewModel)
+    }
+
+    override fun onFail(message: String) {
+        showErrorDialog(
+            getString(R.string.tryAgainLater),
+            message,
+            getString(R.string.okButtonText)
+        )
     }
 }
