@@ -17,7 +17,9 @@ import com.gcc.smartcity.navigationdrawer.NavDrawerListItem
 import com.gcc.smartcity.navigationdrawer.NavigationController
 import com.gcc.smartcity.navigationdrawer.OnRecyclerSelectedListener
 import com.gcc.smartcity.rewards.RewardsActivity
+import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
+import com.gcc.smartcity.utils.OnSingleBtnDialogListener
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*
 
 
@@ -25,6 +27,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
 
     private val TAG = NavigationDrawerActivity::class.java.name
     private lateinit var drawerList: ArrayList<NavDrawerListItem>
+    private val mOnSingleBtnDialogListener: OnSingleBtnDialogListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,5 +149,14 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                 Toast.makeText(this, getString(R.string.tryAgainLater), Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    open fun showErrorDialog(
+        title: String?,
+        message: String?,
+        buttonText: String?
+    ) {
+        AlertDialogBuilder.getInstance()
+            .showErrorDialog(title, message, buttonText, this, mOnSingleBtnDialogListener)
     }
 }

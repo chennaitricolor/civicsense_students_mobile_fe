@@ -58,21 +58,25 @@ class DashboardController(private val mContext: Context,var missionAPIListener: 
                 if (!it.isFaulted) {
                     Logger.d("success", "got list")
                     var missionListModel = it.result as MissionListModel
-                    for (i in 0 until (missionListModel.tasks?.size ?:0 )) {
+                    if (missionListModel.success!! && missionListModel.tasks!!.isNotEmpty()) {
+                        for (i in 0 until (missionListModel.tasks?.size ?: 0)) {
 
-                        var missionModel = MissionModel(
-                            missionListModel.tasks?.get(i)?._id.toString(),
-                            missionListModel.tasks?.get(i)?.campaignName.toString(),
-                            missionListModel.tasks?.get(i)?.startDate.toString(),
-                            missionListModel.tasks?.get(i)?.endDate.toString(),
-                            missionListModel.tasks?.get(i)?.rewards!!
-                        )
-                        list.add(missionModel)
+                            var missionModel = MissionModel(
+                                missionListModel.tasks?.get(i)?._id.toString(),
+                                missionListModel.tasks?.get(i)?.campaignName.toString(),
+                                missionListModel.tasks?.get(i)?.startDate.toString(),
+                                missionListModel.tasks?.get(i)?.endDate.toString(),
+                                missionListModel.tasks?.get(i)?.rewards!!
+                            )
+                            list.add(missionModel)
+                        }
+                        missionAPIListener.onSuccess(list)
+                    } else if (missionListModel.success!! && missionListModel.tasks!!.isEmpty()) {
+                        missionAPIListener.onFail("There are no tasks in your area")
                     }
-                    missionAPIListener.onSuccess(list)
                 } else {
                     Logger.d("failed", "unable to fetch mission list")
-                    missionAPIListener.onFail()
+                    missionAPIListener.onFail("Unable to fetch mission list")
                 }
                 null
             })

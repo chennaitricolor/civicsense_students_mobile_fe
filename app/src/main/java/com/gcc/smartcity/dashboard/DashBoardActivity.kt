@@ -30,8 +30,13 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         configureMissionList(missionModel)
     }
 
-    override fun onFail() {
+    override fun onFail(message: String) {
         showLoader(false)
+        showErrorDialog(
+            getString(R.string.tryAgainLater),
+            message,
+            getString(R.string.okButtonText)
+        )
     }
 
     override fun shouldShowNavigationDrawer(): Boolean {
