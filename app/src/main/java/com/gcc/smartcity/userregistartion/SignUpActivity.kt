@@ -78,7 +78,7 @@ class SignUpActivity : BaseActivity() {
                 showErrorDialog(
                     getString(R.string.insufficientDetails),
                     getString(R.string.incorrectSignUpDetails),
-                    "OK"
+                    getString(R.string.okButtonText)
                 )
             }
         }
@@ -211,7 +211,7 @@ class SignUpActivity : BaseActivity() {
                 showErrorDialog(
                     getString(R.string.usernameUnavailable),
                     getString(R.string.usernameUnavailableMessage),
-                    "OK"
+                    getString(R.string.okButtonText)
                 )
                 isUserNameValid = false
             }

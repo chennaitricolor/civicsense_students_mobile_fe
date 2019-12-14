@@ -138,7 +138,7 @@ class LoginActivity : BaseActivity() {
 //            isUserInteractionEnable(true)
             val loginErrorMessage =
                 ((task.error as NetworkError).errorResponse as LoginErrorModel).message
-            showErrorDialog(getString(R.string.signInErrorTitle), loginErrorMessage, "OK")
+            showErrorDialog(getString(R.string.signInErrorTitle), loginErrorMessage, getString(R.string.okButtonText))
             task.makeVoid()
         } else {
             val loginModel = task.result as LoginModel
@@ -152,7 +152,7 @@ class LoginActivity : BaseActivity() {
                     Logger.d(ex.toString())
                 }
             } else {
-                showErrorDialog(getString(R.string.signInErrorTitle), getString(R.string.useCorrectCredentialMessage), "OK")
+                showErrorDialog(getString(R.string.signInErrorTitle), getString(R.string.useCorrectCredentialMessage), getString(R.string.okButtonText))
             }
         }
 

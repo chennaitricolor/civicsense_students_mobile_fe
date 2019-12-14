@@ -127,17 +127,17 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun afterRegistrationCall(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-            showErrorDialog(getString(R.string.unableToSignUp), getString(R.string.tryAgainLater), "OK")
+            showErrorDialog(getString(R.string.unableToSignUp), getString(R.string.tryAgainLater), getString(R.string.okButtonText))
             task.makeVoid()
             showLoader(false)
         } else {
             val signUpModel = task.result as SignUpModel
             if (signUpModel.success!!) {
-                showErrorDialog(getString(R.string.successfulSignUp), getString(R.string.loginRedirectMessage), "OK")
+                showErrorDialog(getString(R.string.successfulSignUp), getString(R.string.loginRedirectMessage), getString(R.string.okButtonText))
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                showErrorDialog(getString(R.string.unableToSignUp), signUpModel.message, "OK")
+                showErrorDialog(getString(R.string.unableToSignUp), signUpModel.message, getString(R.string.okButtonText))
             }
             showLoader(false)
         }
@@ -159,7 +159,7 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
         if (task.isFaulted) {
-            showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), "OK")
+            showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), getString(R.string.okButtonText))
             task.makeVoid()
             showLoader(false)
 
@@ -168,7 +168,7 @@ class OTPVerifyActivity : BaseActivity() {
             if (otpModel.success!!) {
                 setMobileOtpLayout(mobileNumber)
             } else {
-                showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), "OK")
+                showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), getString(R.string.okButtonText))
             }
             showLoader(false)
         }
