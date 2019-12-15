@@ -44,7 +44,9 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private fun switchScreen(menuName: String) {
         when (menuName) {
             getString(R.string.drawer_menu_howtoplay) -> Logger.d("How to play")
-            getString(R.string.drawer_menu_invite) -> Logger.d("Invite")
+            getString(R.string.drawer_menu_invite) -> {
+                shareApp(this)
+            }
             getString(R.string.drawer_menu_faq) -> Logger.d("FAQ")
             getString(R.string.drawer_menu_help) -> Logger.d("Help")
             getString(R.string.drawer_menu_rateus) -> {
@@ -98,6 +100,23 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
 
     }
 
+    open fun shareApp(context: Context) {
+        val appId: String = context.packageName
+        val myIntent = Intent(Intent.ACTION_SEND)
+        myIntent.setType("text/plain")
+        val shareBody =
+            "I use AgentX and I love it. It helps in ensuring a safer city. Download it at https://play.google.com/store/apps/details?id=$appId"
+        val shareSub = "Link to install AgentX App"
+        myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub)
+        myIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+        startActivity(
+            Intent.createChooser(
+                myIntent,
+                "Share \"AgentX app\" via"
+            )
+        )
+    }
+
     open fun openAppRating(context: Context) {
         // you can also use BuildConfig.APPLICATION_ID
         val appId: String = context.packageName
@@ -132,7 +151,8 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                     context.startActivity(rateIntent)
                     marketFound = true
                 } catch (e: Exception) {
-                    Toast.makeText(this, getString(R.string.tryAgainLater), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.tryAgainLater), Toast.LENGTH_SHORT)
+                        .show()
                 }
                 break
             }
