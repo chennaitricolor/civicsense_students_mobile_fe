@@ -1,16 +1,17 @@
 package com.gcc.smartcity.rewards
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.R
 
-class RewardsActivity : AppCompatActivity() {
-    private var rewardsListAdapter : RewardsListAdapter? = null
-    private var rewardsRecyclerView : RecyclerView? = null
-    private var backArrowButton : ImageView? = null
+class RewardsActivity : BaseActivity(), RewardsAPIListener {
+    private var rewardsListAdapter: RewardsListAdapter? = null
+    private var rewardsRecyclerView: RecyclerView? = null
+    private var backArrowButton: ImageView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,18 @@ class RewardsActivity : AppCompatActivity() {
         rewardsListAdapter = RewardsListAdapter()
         rewardsRecyclerView?.layoutManager = LinearLayoutManager(this)
         rewardsRecyclerView?.adapter = rewardsListAdapter
-        rewardsListAdapter!!.setData(RewardsController.getAdapterData())
+        rewardsListAdapter!!.setData(RewardsController(this, this).getAdapterData())
+    }
+
+    override fun onSuccess(rewardsRecyclerViewModel: ArrayList<RewardsRecyclerViewModel>) {
+        rewardsListAdapter!!.setData(rewardsRecyclerViewModel)
+    }
+
+    override fun onFail(message: String) {
+        showErrorDialog(
+            getString(R.string.tryAgainLater),
+            message,
+            getString(R.string.okButtonText)
+        )
     }
 }
