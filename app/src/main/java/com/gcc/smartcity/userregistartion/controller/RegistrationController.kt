@@ -66,10 +66,10 @@ class RegistrationController(private val mContext: Context) {
     }
 
     fun checkUserNameExistsCall(endpoint: String): Task<Any> {
-        val parser = JsonResponseParser(userNameCheckModel::class.java)
-        val errorResponseParser = JsonResponseParser(userNameErrorModel::class.java)
+        val parser = JsonResponseParser(UserNameCheckModel::class.java)
+        val errorResponseParser = JsonResponseParser(UserNameErrorModel::class.java)
         val userNameCheckRequest =
-            VolleyRequest.newInstance<userNameCheckModel>(Request.Method.GET, endpoint)
+            VolleyRequest.newInstance<UserNameCheckModel>(Request.Method.GET, endpoint)
         userNameCheckRequest.setResponseParser(parser)
         userNameCheckRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(userNameCheckRequest)

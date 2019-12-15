@@ -10,19 +10,19 @@ import androidx.appcompat.widget.AppCompatCheckBox;
  */
 public class FontCheckbox extends AppCompatCheckBox {
 
-	public FontCheckbox(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontCheckbox(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontCheckbox(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontCheckbox(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontCheckbox(Context context) {
-		super(context);
-		CustomFont.applyFont(context, this, null);
-	}
-	
+    public FontCheckbox(Context context) {
+        super(context);
+        CustomFont.applyFont(context, this, null);
+    }
+
 }

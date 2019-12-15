@@ -10,19 +10,19 @@ import androidx.appcompat.widget.AppCompatButton;
  */
 public class FontButton extends AppCompatButton {
 
-	public FontButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontButton(Context context) {
-		super(context);
-		CustomFont.applyFont(context, this, null);
-	}
-	
+    public FontButton(Context context) {
+        super(context);
+        CustomFont.applyFont(context, this, null);
+    }
+
 }

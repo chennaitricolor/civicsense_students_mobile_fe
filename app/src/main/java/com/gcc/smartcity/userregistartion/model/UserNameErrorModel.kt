@@ -4,7 +4,7 @@ import com.bluelinelabs.logansquare.annotation.JsonField
 import com.bluelinelabs.logansquare.annotation.JsonObject
 
 @JsonObject
-class userNameErrorModel {
+class UserNameErrorModel {
 
     @JsonField
     var message: String? = null

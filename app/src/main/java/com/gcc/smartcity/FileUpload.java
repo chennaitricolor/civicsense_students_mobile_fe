@@ -3,9 +3,7 @@ package com.gcc.smartcity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -28,9 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileUpload {
-    int serverResponseCode = 0;
-    String campaignId = "";
-    Context mContext;
+    private int serverResponseCode = 0;
+    private String campaignId = "";
+    private Context mContext;
 
     public FileUpload(Context context) {
         mContext = context;
@@ -144,11 +142,11 @@ public class FileUpload {
     }
 
 
-    public Bitmap createBitmap(String filePath){
+    public Bitmap createBitmap(String filePath) {
         File image = new File(filePath, "img");
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
-       return bitmap;
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
+        return bitmap;
     }
 
     public void uploadScreenshotCall(String url, Bitmap bitmap, String mimeType, String _id) {
@@ -193,7 +191,7 @@ public class FileUpload {
                 DataPart dataPart = new VolleyMultipartRequest.DataPart();
                 dataPart.setContent(getBytFromBitmap(bitmap, 15));
                 dataPart.setType(mimeType);
-                params.put("file", new DataPart( generateUniqueFileName()+".jpg", getBytFromBitmap(bitmap, 15), "image/*"));
+                params.put("file", new DataPart(generateUniqueFileName() + ".jpg", getBytFromBitmap(bitmap, 15), "image/*"));
 
                 return params;
             }
@@ -202,13 +200,13 @@ public class FileUpload {
         return multipartRequest;
     }
 
-   private String generateUniqueFileName() {
+    private String generateUniqueFileName() {
         String filename = "";
         long millis = System.currentTimeMillis();
         String datetime = new Date().toGMTString();
         datetime = datetime.replace(" ", "");
         datetime = datetime.replace(":", "");
-        filename = "Csr_"+ datetime + "_" + millis;
+        filename = "Csr_" + datetime + "_" + millis;
         return filename;
     }
 

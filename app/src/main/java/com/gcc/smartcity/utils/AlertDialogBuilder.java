@@ -67,7 +67,7 @@ public class AlertDialogBuilder {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                if(onSingleBtnDialogListener != null)
+                if (onSingleBtnDialogListener != null)
                     onSingleBtnDialogListener.onSingleButtonClicked();
             }
         });

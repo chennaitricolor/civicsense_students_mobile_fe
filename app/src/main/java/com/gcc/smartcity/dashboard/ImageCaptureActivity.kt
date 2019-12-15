@@ -32,10 +32,8 @@ import com.gcc.smartcity.R
 import com.gcc.smartcity.SubmitActivity
 import com.gcc.smartcity.network.PersistantCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
-import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.OnDialogListener
 import kotlinx.android.synthetic.main.activity_image_capture.*
-import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import java.io.File
 import java.io.IOException
 import java.net.CookieHandler
@@ -56,7 +54,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
     private var mCurrentPhotoPath: String? = null
     private var reTakeButton: Button? = null
     private var submitButton: Button? = null
-    private var bitmap:Bitmap?=null
+    private var bitmap: Bitmap? = null
     private var _id: String? = null
     private var rewards: String? = null
 
@@ -91,7 +89,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
                 if (isLocationEnabled()) {
                     uploadFileToServer()
                     val intent = Intent(this, SubmitActivity::class.java)
-                    intent.putExtra("rewards",rewards)
+                    intent.putExtra("rewards", rewards)
                     startActivity(intent)
                     finish()
                 } else {
@@ -112,9 +110,16 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
             PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER
         )
         CookieHandler.setDefault(cookieManager)
-        var url: URL =URL(BuildConfig.HOST+"user/task")
+        var url: URL = URL(BuildConfig.HOST + "user/task")
 
-     Thread(Runnable { FileUpload(this).uploadScreenshotCall(BuildConfig.HOST+"user/task",bitmap,"image/jpeg",_id) }).start()
+        Thread(Runnable {
+            FileUpload(this).uploadScreenshotCall(
+                BuildConfig.HOST + "user/task",
+                bitmap,
+                "image/jpeg",
+                _id
+            )
+        }).start()
 
 
 //        try {
@@ -286,7 +291,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
             } else {
                 val bmOptions = BitmapFactory.Options()
                 bmOptions.inSampleSize = 4
-                 bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions)
+                bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions)
                 ivCameraPreview!!.setImageBitmap(bitmap)
                 setButtonHolderVisibility(true)
             }

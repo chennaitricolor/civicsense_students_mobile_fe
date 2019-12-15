@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.fontui.FontTextView
 import kotlinx.android.synthetic.main.activity_submit.*
 
@@ -42,7 +41,10 @@ class SubmitActivity : AppCompatActivity() {
         button.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(Color.parseColor("#d4993d"), PorterDuff.Mode.SRC_ATOP)
+                    v.background.setColorFilter(
+                        Color.parseColor("#d4993d"),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
                     v.invalidate()
                 }
                 MotionEvent.ACTION_UP -> {

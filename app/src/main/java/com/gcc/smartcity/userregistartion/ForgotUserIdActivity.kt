@@ -8,10 +8,8 @@ import bolts.Task
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
-import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.userregistartion.controller.RegistrationController
 import com.gcc.smartcity.userregistartion.model.ForgotUserNameModel
-import com.gcc.smartcity.userregistartion.model.userNameCheckModel
 import kotlinx.android.synthetic.main.activity_forgot_user_id.*
 
 class ForgotUserIdActivity : BaseActivity() {
@@ -41,7 +39,7 @@ class ForgotUserIdActivity : BaseActivity() {
         validateEmail()
     }
 
-    fun validateTask(task: Task<Any>) {
+    private fun validateTask(task: Task<Any>) {
         if (task.isFaulted) {
             showErrorDialog("Error", "Please give valid EmailID", "Ok")
         } else {
@@ -52,7 +50,7 @@ class ForgotUserIdActivity : BaseActivity() {
         }
     }
 
-    fun validateEmail() {
+    private fun validateEmail() {
         forgotuserid_emailId?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.matches((emailPattern).toRegex()) && s.isNotEmpty()) {

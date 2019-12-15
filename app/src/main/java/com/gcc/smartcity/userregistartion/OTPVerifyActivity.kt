@@ -118,8 +118,18 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun doRegistration(mobileNumber: String, otp: String) {
         mRegistrationController?.doSignUpCall(
-            BuildConfig.HOST + "user", name, mobileNumber, password, username, email, dob, 6,otp.toInt(),"12.888370","80.227051"
-            )
+            BuildConfig.HOST + "user",
+            name,
+            mobileNumber,
+            password,
+            username,
+            email,
+            dob,
+            6,
+            otp.toInt(),
+            "12.888370",
+            "80.227051"
+        )
             ?.continueWithTask { task ->
                 afterRegistrationCall(task)
             }
@@ -127,17 +137,29 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun afterRegistrationCall(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-            showErrorDialog(getString(R.string.unableToSignUp), getString(R.string.tryAgainLater), getString(R.string.okButtonText))
+            showErrorDialog(
+                getString(R.string.unableToSignUp),
+                getString(R.string.tryAgainLater),
+                getString(R.string.okButtonText)
+            )
             task.makeVoid()
             showLoader(false)
         } else {
             val signUpModel = task.result as SignUpModel
             if (signUpModel.success!!) {
-                showErrorDialog(getString(R.string.successfulSignUp), getString(R.string.loginRedirectMessage), getString(R.string.okButtonText))
+                showErrorDialog(
+                    getString(R.string.successfulSignUp),
+                    getString(R.string.loginRedirectMessage),
+                    getString(R.string.okButtonText)
+                )
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                showErrorDialog(getString(R.string.unableToSignUp), signUpModel.message, getString(R.string.okButtonText))
+                showErrorDialog(
+                    getString(R.string.unableToSignUp),
+                    signUpModel.message,
+                    getString(R.string.okButtonText)
+                )
             }
             showLoader(false)
         }
@@ -159,7 +181,11 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
         if (task.isFaulted) {
-            showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), getString(R.string.okButtonText))
+            showErrorDialog(
+                getString(R.string.unableToSendOTP),
+                getString(R.string.tryAgainLater),
+                getString(R.string.okButtonText)
+            )
             task.makeVoid()
             showLoader(false)
 
@@ -168,7 +194,11 @@ class OTPVerifyActivity : BaseActivity() {
             if (otpModel.success!!) {
                 setMobileOtpLayout(mobileNumber)
             } else {
-                showErrorDialog(getString(R.string.unableToSendOTP), getString(R.string.tryAgainLater), getString(R.string.okButtonText))
+                showErrorDialog(
+                    getString(R.string.unableToSendOTP),
+                    getString(R.string.tryAgainLater),
+                    getString(R.string.okButtonText)
+                )
             }
             showLoader(false)
         }
@@ -229,7 +259,8 @@ class OTPVerifyActivity : BaseActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
+                    .show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }

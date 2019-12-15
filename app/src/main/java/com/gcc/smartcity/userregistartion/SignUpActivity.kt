@@ -13,14 +13,13 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
-import android.widget.Toast
 import bolts.Task
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.userregistartion.controller.RegistrationController
-import com.gcc.smartcity.userregistartion.model.userNameCheckModel
+import com.gcc.smartcity.userregistartion.model.UserNameCheckModel
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -202,7 +201,7 @@ class SignUpActivity : BaseActivity() {
             username?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
             task.makeVoid()
         } else {
-            val userNameModel = task.result as userNameCheckModel
+            val userNameModel = task.result as UserNameCheckModel
             if (userNameModel.success!!) {
                 username?.setBackgroundResource(R.drawable.bg_border_edittext)
                 isUserNameValid = true
@@ -245,8 +244,4 @@ class SignUpActivity : BaseActivity() {
         dob?.setText(sdf.format(myCalendar.time))
     }
 
-    private fun showToast(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-        toast.show()
-    }
 }

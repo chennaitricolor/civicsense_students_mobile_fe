@@ -1,12 +1,10 @@
 package com.gcc.smartcity.leaderboard
 
-import android.content.Context
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 
 class LeaderBoardController(
-    private val mContext: Context,
     private var leaderBoardAPIListener: LeaderBoardAPIListener
 ) {
 
@@ -16,7 +14,6 @@ class LeaderBoardController(
 
         leaderBoardAdapterData.clear()
         doLeaderBoardListCall(BuildConfig.HOST + "user/leaderboard?type=local")
-
 //            val tempWinnerRunnerModel = LeaderBoardWinnerRunnerModel(
 //                "Bob",
 //                "1000",

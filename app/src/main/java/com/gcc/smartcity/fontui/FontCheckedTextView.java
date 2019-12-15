@@ -10,19 +10,19 @@ import androidx.appcompat.widget.AppCompatCheckedTextView;
  */
 public class FontCheckedTextView extends AppCompatCheckedTextView {
 
-	public FontCheckedTextView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontCheckedTextView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontCheckedTextView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontCheckedTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontCheckedTextView(Context context) {
-		super(context);
-		CustomFont.applyFont(context, this, null);
-	}
+    public FontCheckedTextView(Context context) {
+        super(context);
+        CustomFont.applyFont(context, this, null);
+    }
 
 }

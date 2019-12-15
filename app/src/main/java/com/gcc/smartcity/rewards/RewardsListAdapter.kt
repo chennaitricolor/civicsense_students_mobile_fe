@@ -11,9 +11,9 @@ class RewardsListAdapter :
     private var rewardsModelList: ArrayList<RewardsRecyclerViewModel> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.layout_rewards_item, parent, false)
-                return RewardsViewHolder(view)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.layout_rewards_item, parent, false)
+        return RewardsViewHolder(view)
     }
 
     override fun getItemCount(): Int {

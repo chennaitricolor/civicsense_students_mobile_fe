@@ -30,7 +30,6 @@ import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
-import com.gcc.smartcity.leaderboard.LeaderBoardRecyclerViewModel
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.userregistartion.controller.LoginController
 import com.gcc.smartcity.userregistartion.model.LoginErrorModel
@@ -44,15 +43,13 @@ class LoginActivity : BaseActivity() {
 
     private var mLoginController: LoginController? = null
     private var loginEmail: FontEditText? = null
-    private var isLoginEmailValid: Boolean = false
     private var loginPassword: FontEditText? = null
     private var isLoginPasswordStrengthValid: Boolean = false
     private var loader: LinearLayout? = null
     private var loginScreen: RelativeLayout? = null
     private val PERMISSION_ID = 42
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var forgotUserId: FontTextView? = null
-    private var leaderBoardAdapterData = ArrayList<LeaderBoardRecyclerViewModel>()
 
     //    override fun onStart() {
 ////        super.onStart()

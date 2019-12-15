@@ -10,19 +10,19 @@ import androidx.appcompat.widget.AppCompatRadioButton;
  */
 public class FontRadioButton extends AppCompatRadioButton {
 
-	public FontRadioButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontRadioButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontRadioButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		CustomFont.applyFont(context, this, attrs);
-	}
+    public FontRadioButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        CustomFont.applyFont(context, this, attrs);
+    }
 
-	public FontRadioButton(Context context) {
-		super(context);
-		CustomFont.applyFont(context, this, null);
-	}
-	
+    public FontRadioButton(Context context) {
+        super(context);
+        CustomFont.applyFont(context, this, null);
+    }
+
 }

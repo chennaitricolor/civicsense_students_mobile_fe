@@ -31,7 +31,7 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
         leaderBoardListAdapter = LeaderboardListAdapter()
         leaderBoardRecyclerView?.layoutManager = LinearLayoutManager(this)
         leaderBoardRecyclerView?.adapter = leaderBoardListAdapter
-        leaderBoardListAdapter!!.setData(LeaderBoardController(this, this).getAdapterData())
+        leaderBoardListAdapter!!.setData(LeaderBoardController(this).getAdapterData())
     }
 
     override fun onSuccess(leaderBoardRecyclerViewModel: ArrayList<LeaderBoardRecyclerViewModel>) {

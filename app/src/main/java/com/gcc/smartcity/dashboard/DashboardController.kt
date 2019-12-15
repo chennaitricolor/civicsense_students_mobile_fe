@@ -11,7 +11,10 @@ import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
 import com.gcc.smartcity.utils.Logger
 
-class DashboardController(private val mContext: Context, private var missionAPIListener: MissionAPIListener) {
+class DashboardController(
+    private val mContext: Context,
+    private var missionAPIListener: MissionAPIListener
+) {
     private var list = ArrayList<MissionModel>()
 
     fun getMissionData(): ArrayList<MissionModel> {
@@ -56,11 +59,11 @@ class DashboardController(private val mContext: Context, private var missionAPIL
             Continuation<Any, Task<Any>> {
                 if (!it.isFaulted) {
                     Logger.d("success", "got list")
-                    var missionListModel = it.result as MissionListModel
+                    val missionListModel = it.result as MissionListModel
                     if (missionListModel.success!! && missionListModel.tasks!!.isNotEmpty()) {
                         for (i in 0 until (missionListModel.tasks?.size ?: 0)) {
 
-                            var missionModel = MissionModel(
+                            val missionModel = MissionModel(
                                 missionListModel.tasks?.get(i)?._id.toString(),
                                 missionListModel.tasks?.get(i)?.campaignName.toString(),
                                 missionListModel.tasks?.get(i)?.startDate.toString(),

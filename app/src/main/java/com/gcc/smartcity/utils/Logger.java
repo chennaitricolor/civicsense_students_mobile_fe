@@ -2,6 +2,7 @@ package com.gcc.smartcity.utils;
 
 import android.os.Environment;
 import android.util.Log;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -257,7 +258,7 @@ public class Logger {
      * False, if otherwise.
      */
     private static boolean canLog(int logLevel) {
-        return logLevel >= LOG_LEVEL ;
+        return logLevel >= LOG_LEVEL;
     }
 
     /**

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.navigationdrawer.NavDrawerListAdapter
 import com.gcc.smartcity.navigationdrawer.NavDrawerListItem
