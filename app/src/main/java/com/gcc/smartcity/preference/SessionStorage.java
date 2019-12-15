@@ -70,7 +70,6 @@ public class SessionStorage {
         }
     }
 
-
     private String getStringFromArrayList(ArrayList list) {
         String inputString = GSON.toJson(list);
         return inputString;
