@@ -75,7 +75,14 @@ class LoginActivity : BaseActivity() {
         loginScreen = findViewById(R.id.login_screen)
         forgotUserId = findViewById(R.id.forgotusername)
 
-        showLoader(false)
+        if (SessionStorage.getInstance().userId != null && SessionStorage.getInstance().password != null) {
+            showLoader(true)
+            callLogin(SessionStorage.getInstance().userId, SessionStorage.getInstance().password)
+
+        } else {
+
+            showLoader(false)
+        }
         showVisiblePasswordButton(false)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -138,12 +145,11 @@ class LoginActivity : BaseActivity() {
     private fun callLogin(username: String, password: String) {
         mLoginController?.doLoginCall(BuildConfig.HOST + "user/login", username, password)
             ?.continueWithTask { task ->
-                showLoader(false)
-                postLogin(task)
+                postLogin(username, password, task)
             }
     }
 
-    private fun postLogin(task: Task<Any>): Task<Any>? {
+    private fun postLogin(username: String, password: String, task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             val loginErrorMessage =
                 ((task.error as NetworkError).errorResponse as LoginErrorModel).message
@@ -152,11 +158,14 @@ class LoginActivity : BaseActivity() {
                 loginErrorMessage,
                 getString(R.string.okButtonText)
             )
+            showLoader(false)
             task.makeVoid()
         } else {
             val loginModel = task.result as LoginModel
             Logger.d("HERE IN POST LOGIN")
             if (loginModel.success!!) {
+                SessionStorage.getInstance().userId = username
+                SessionStorage.getInstance().password = password
                 try {
                     callLeaderBoardEndpoint()
                 } catch (ex: Exception) {
@@ -168,6 +177,7 @@ class LoginActivity : BaseActivity() {
                     getString(R.string.useCorrectCredentialMessage),
                     getString(R.string.okButtonText)
                 )
+                showLoader(false)
             }
         }
 
@@ -228,11 +238,6 @@ class LoginActivity : BaseActivity() {
             }
             false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showLoader(false)
     }
 
     private fun showVisiblePasswordButton(status: Boolean) {

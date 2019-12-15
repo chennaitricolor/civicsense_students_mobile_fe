@@ -32,7 +32,22 @@ public class SessionStorage {
 
     public void setSessionCookies(String sessionCookies) {
         Preferences.INSTANCE.setCookieModel(sessionCookies);
+    }
 
+    public void setUserId(String userId){
+        Preferences.INSTANCE.setUserId(userId);
+    }
+
+    public String getUserId(){
+       return Preferences.INSTANCE.getUserId();
+    }
+
+    public void setPassword(String password){
+        Preferences.INSTANCE.setPassword(password);
+    }
+
+    public String getPassword(){
+        return Preferences.INSTANCE.getPassword();
     }
 
     public String getStringfromObject(Object object) {

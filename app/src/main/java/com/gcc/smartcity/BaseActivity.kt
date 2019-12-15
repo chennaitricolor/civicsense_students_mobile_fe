@@ -18,15 +18,15 @@ open class BaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base_map)
     }
 
-    fun showLoader(status:Boolean){
-        if(status){
-            linMap.visibility= View.GONE
-            InflatorLayout.visibility=View.GONE
-            loader_layout.visibility=View.VISIBLE
-        }else{
-            linMap.visibility= View.VISIBLE
-            InflatorLayout.visibility=View.VISIBLE
-            loader_layout.visibility=View.GONE
+    fun showLoader(status: Boolean) {
+        if (status) {
+            linMap.visibility = View.GONE
+            InflatorLayout.visibility = View.GONE
+            base_loader_layout.visibility = View.VISIBLE
+        } else {
+            linMap.visibility = View.VISIBLE
+            InflatorLayout.visibility = View.VISIBLE
+            base_loader_layout.visibility = View.GONE
         }
     }
 

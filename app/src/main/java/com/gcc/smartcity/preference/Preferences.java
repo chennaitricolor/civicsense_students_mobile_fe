@@ -14,7 +14,8 @@ public enum Preferences {
     private static final String COOKIE = "cookie";
     private static final String LEADERBOARD_API_MODEL = "leaderboard_api_model";
     private static final String LEADERBOARD_STATUS = "leaderboard_status";
-
+    private static final String USER_ID = "user_id";
+    private static final String PASSWORD = "password";
 
     private UserPreferences mPreferenceHandle;
     private PreferenceUnclear mPreferenceUnclear;
@@ -44,6 +45,22 @@ public enum Preferences {
 
     public void setLeaderBoardApiModel(String adminApiModel) {
         mPreferenceHandle.setString(LEADERBOARD_API_MODEL, adminApiModel);
+    }
+
+    public String getUserId() {
+        return mPreferenceHandle.getString(USER_ID, null);
+    }
+
+    public void setUserId(String userId) {
+        mPreferenceHandle.setString(USER_ID, userId);
+    }
+
+    public String getPassword() {
+        return mPreferenceHandle.getString(PASSWORD, null);
+    }
+
+    public void setPassword(String password) {
+        mPreferenceHandle.setString(PASSWORD, password);
     }
 
     public void setLeaderBoardStatus(Boolean leaderBoardStatus) {
