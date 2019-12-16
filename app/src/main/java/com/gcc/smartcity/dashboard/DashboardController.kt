@@ -62,7 +62,6 @@ class DashboardController(
                     val missionListModel = it.result as MissionListModel
                     if (missionListModel.success!! && missionListModel.tasks!!.isNotEmpty()) {
                         for (i in 0 until (missionListModel.tasks?.size ?: 0)) {
-
                             val missionModel = MissionModel(
                                 missionListModel.tasks?.get(i)?._id.toString(),
                                 missionListModel.tasks?.get(i)?.campaignName.toString(),
