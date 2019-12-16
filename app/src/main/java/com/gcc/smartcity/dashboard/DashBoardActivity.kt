@@ -61,7 +61,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     private var continueAppExecution: Boolean = true
 
     companion object {
-        const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val REQUEST_CHECK_SETTINGS = 2
 
     }
@@ -152,7 +152,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        map.setOnMarkerClickListener(this)
+//        map.setOnMarkerClickListener(this)
 
         setMapStyle()
         if (continueAppExecution) {

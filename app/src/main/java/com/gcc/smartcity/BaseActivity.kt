@@ -1,7 +1,9 @@
 package com.gcc.smartcity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
@@ -48,5 +50,15 @@ open class BaseActivity : AppCompatActivity() {
     ) {
         AlertDialogBuilder.getInstance()
             .showErrorDialog(title, message, buttonText, this, mOnSingleBtnDialogListener)
+    }
+
+    fun hideSoftKeyBoard() {
+        val inputManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (inputManager.isAcceptingText) {
+            if (currentFocus != null) {
+                inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+            }
+        }
     }
 }

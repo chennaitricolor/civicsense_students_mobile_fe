@@ -93,6 +93,7 @@ class OTPVerifyActivity : BaseActivity() {
         buttonEffect(VerifyBTN)
 
         VerifyBTN.setOnClickListener {
+            hideSoftKeyBoard()
             if (VerifyBTN.text == "Get OTP") {
                 if (isMobileNumberValid && mobileNumber?.text.toString().isNotEmpty()) {
                     userMobileNumber = mobileNumber?.text.toString()

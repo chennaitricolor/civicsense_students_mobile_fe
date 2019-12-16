@@ -75,12 +75,12 @@ class LoginActivity : BaseActivity() {
         if (SessionStorage.getInstance().userId != null && SessionStorage.getInstance().password != null) {
             showLoader(true)
             callLogin(SessionStorage.getInstance().userId, SessionStorage.getInstance().password)
-
         } else {
-
             showLoader(false)
         }
         showVisiblePasswordButton(false)
+
+        getLastLocation()
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -122,6 +122,7 @@ class LoginActivity : BaseActivity() {
 
         LoginBtn.setOnClickListener {
             if (loginEmail?.text!!.isNotEmpty() && loginPassword?.text!!.isNotEmpty()) {
+                hideSoftKeyBoard()
                 showLoader(true)
                 callLogin(loginEmail?.text.toString(), loginPassword?.text.toString())
             }
@@ -129,7 +130,6 @@ class LoginActivity : BaseActivity() {
 
         SignupBtnLogin.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            getLastLocation()
             startActivity(intent)
         }
 

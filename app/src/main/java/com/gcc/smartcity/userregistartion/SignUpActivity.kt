@@ -63,6 +63,7 @@ class SignUpActivity : BaseActivity() {
         buttonEffect(NextBtn)
 
         NextBtn.setOnClickListener {
+            hideSoftKeyBoard()
             if (name?.text.toString().isNotEmpty() && (isEmailValid && email?.text.toString().isNotEmpty()) && (isUserNameValid && username?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && password?.text.toString().isNotEmpty()) && dob?.text.toString().isNotEmpty()) {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("name", name?.text.toString())
@@ -81,8 +82,6 @@ class SignUpActivity : BaseActivity() {
                 )
             }
         }
-
-
 
         email?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -154,6 +153,7 @@ class SignUpActivity : BaseActivity() {
             }
 
         dob?.setOnClickListener {
+            hideSoftKeyBoard()
             val dialog = DatePickerDialog(
                 this@SignUpActivity, date, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
