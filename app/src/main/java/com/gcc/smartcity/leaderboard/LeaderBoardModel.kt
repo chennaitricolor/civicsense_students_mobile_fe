@@ -15,4 +15,7 @@ class LeaderBoardModel {
 
     @JsonField
     var userRank: Int? = null
+
+    @JsonField
+    var userRewards: Int? = null
 }

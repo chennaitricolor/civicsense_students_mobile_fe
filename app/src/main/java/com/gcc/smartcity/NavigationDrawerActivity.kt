@@ -6,15 +6,19 @@ import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.navigationdrawer.NavDrawerListAdapter
 import com.gcc.smartcity.navigationdrawer.NavDrawerListItem
 import com.gcc.smartcity.navigationdrawer.NavigationController
 import com.gcc.smartcity.navigationdrawer.OnRecyclerSelectedListener
+import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.rewards.RewardsActivity
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
@@ -27,12 +31,37 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private val TAG = NavigationDrawerActivity::class.java.name
     private lateinit var drawerList: ArrayList<NavDrawerListItem>
     private val mOnSingleBtnDialogListener: OnSingleBtnDialogListener? = null
+    private var userStatsHolder: LinearLayout? = null
+    private var userNameDrawer: FontTextView? = null
+    private var gemsCountDrawer: FontTextView? = null
+    private var rankCountDrawer: FontTextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation_drawer)
+        userStatsHolder = findViewById(R.id.userStats)
+        userNameDrawer = findViewById(R.id.usernameDrawer)
+        gemsCountDrawer = findViewById(R.id.gemsCountDrawer)
+        rankCountDrawer = findViewById(R.id.rankCountDrawer)
+        setUserID()
+        userStatsVisibilityModifier()
         setActions()
         setAdapter()
+    }
+
+    private fun setUserID() {
+        userNameDrawer?.text = SessionStorage.getInstance().userId
+    }
+
+    private fun userStatsVisibilityModifier() {
+        if (SessionStorage.getInstance().leaderBoardStatus == false) {
+            userStatsHolder?.visibility = View.GONE
+        } else {
+            gemsCountDrawer?.text =
+                SessionStorage.getInstance().leaderBoardModel.userRewards.toString()
+            rankCountDrawer?.text =
+                SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+        }
     }
 
     override fun onSelected(pos: Int) {

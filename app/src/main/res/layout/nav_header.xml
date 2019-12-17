@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/userStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/agentx_grey_light"
