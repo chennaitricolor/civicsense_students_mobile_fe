@@ -53,3 +53,13 @@
 ##---------------End: proguard configuration for Gson  ----------
 
 -keep class net.gotev.uploadservice.** { *; }
+
+##---------------Begin: proguard configuration for Glide  ----------
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
+##---------------End: proguard configuration for Glide  ----------

@@ -21,38 +21,47 @@ class RewardsController(
 
         rewardsAdapterData.clear()
 
-        doRewardsListCall(BuildConfig.HOST + "rewards")
-//
-//        val tempRewardModel = RewardsModel(
-//            "image",
-//            "Chennai Metro Ride",
-//            "get a free metro ride",
-//            "Insufficient Balance",
-//            "Collect 100 more gems to unlock",
-//            "100"
-//        )
-//        val rewardModel = RewardsRecyclerViewModel(tempRewardModel, 0)
-//        rewardsAdapterData.add(rewardModel)
-//        val tempRewardModel1 = RewardsModel(
-//            "image",
-//            "Chennai Bus Ride",
-//            "get a free metro ride",
-//            "Insufficient Balance",
-//            "Collect 100 more gems to unlock",
-//            "100"
-//        )
-//        val rewardModel1 = RewardsRecyclerViewModel(tempRewardModel1, 0)
-//        rewardsAdapterData.add(rewardModel1)
-//        val tempRewardModel2 = RewardsModel(
-//            "image",
-//            "Chennai Boat Ride",
-//            "get a free metro ride",
-//            "Insufficient Balance",
-//            "Collect 100 more gems to unlock",
-//            "100"
-//        )
-//        val rewardModel2 = RewardsRecyclerViewModel(tempRewardModel2, 0)
-//        rewardsAdapterData.add(rewardModel2)
+//        doRewardsListCall(BuildConfig.HOST + "rewards")
+
+        val tempRewardModel = RewardsModel(
+            "erhuvdshiuey98fwgi",
+            "5df5af5a4f50ea0012a97916.png",
+            "Free ride everywhere",
+            "free free free",
+            "Insufficient Balance",
+            "Collect 100 more gems to unlock",
+            "22",
+            "8gf62y"
+        )
+        val rewardModel = RewardsRecyclerViewModel(tempRewardModel, 0)
+        rewardsAdapterData.add(rewardModel)
+
+        val tempRewardModel1 = RewardsModel(
+            "erhuvdshiuey98fwgi",
+            "5df5bdc64f50ea0012a9791c.png",
+            "Free ride everywhere",
+            "free free free",
+            "Insufficient Balance",
+            "Collect 100 more gems to unlock",
+            "22",
+            "8gf62y"
+        )
+        val rewardModel1 = RewardsRecyclerViewModel(tempRewardModel1, 0)
+        rewardsAdapterData.add(rewardModel1)
+
+        val tempRewardModel2 = RewardsModel(
+            "erhuvdshiuey98fwgi",
+            "5df5b3214f50ea0012a9791a.png",
+            "Free ride everywhere",
+            "free free free",
+            "Insufficient Balance",
+            "Collect 100 more gems to unlock",
+            "22",
+            "8gf62y"
+        )
+        val rewardModel2 = RewardsRecyclerViewModel(tempRewardModel2, 0)
+        rewardsAdapterData.add(rewardModel2)
+
         return rewardsAdapterData
     }
 

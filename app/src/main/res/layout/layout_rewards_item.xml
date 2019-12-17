@@ -9,9 +9,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@color/agent_light_blue"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="2dp"
-        card_view:cardBackgroundColor="@color/agent_light_blue"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -31,8 +31,15 @@
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/img_avatar"
-                    android:contentDescription="@string/reward_description_image" />
+                    android:contentDescription="@string/reward_description_image"
+                    android:src="@drawable/img_avatar" />
+
+                <ProgressBar
+                    android:id="@+id/rewardImageProgressBar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
