@@ -10,11 +10,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
-import com.gcc.smartcity.network.PersistantCookieStore
 import kotlinx.android.synthetic.main.layout_rewards_item.view.*
-import java.net.CookieHandler
-import java.net.CookieManager
-import java.net.CookiePolicy
 
 
 class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,7 +30,8 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 BuildConfig.HOST + java.lang.String.format(
                     "images/%s?isAsset=true",
                     rewards.imageData
-                ))
+                )
+            )
             .error(R.drawable.ic_error_outline_black_24dp)
             .listener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
