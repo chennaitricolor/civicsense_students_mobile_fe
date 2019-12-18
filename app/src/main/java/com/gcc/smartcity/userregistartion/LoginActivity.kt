@@ -79,10 +79,9 @@ class LoginActivity : BaseActivity() {
             showLoader(false)
         }
         showVisiblePasswordButton(false)
-
-        getLastLocation()
-
+        
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        getLastLocation()
 
         buttonEffect(LoginBtn)
 
