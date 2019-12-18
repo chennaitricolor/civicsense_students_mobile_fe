@@ -6,11 +6,11 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.view.View
 import androidx.core.app.ActivityCompat
 import com.gcc.smartcity.NavigationDrawerActivity
 import com.gcc.smartcity.R
-import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.OnDialogListener
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 
@@ -50,6 +51,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     override fun onMarkerClick(p0: Marker?) = false
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var mSettingsClient: SettingsClient
     private lateinit var lastLocation: Location
     private var lastMockLocation: Location? = null
     private lateinit var locationCallback: LocationCallback
@@ -74,32 +76,33 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        if (continueAppExecution) {
-            locationCallback = object : LocationCallback() {
-                override fun onLocationResult(p0: LocationResult) {
-                    super.onLocationResult(p0)
-                    lastLocation = p0.lastLocation
-                    if (!isLocationPlausible(lastLocation) && continueAppExecution) {
-                        AlertDialogBuilder.getInstance().showErrorDialog(
-                            getString(R.string.turnOffMockLocationTitle),
-                            getString(R.string.turnOffMockLocationDescription),
-                            getString(R.string.cancelButtonText),
-                            getString(R.string.gotoSettingsButtonText),
-                            "mock_location_warning",
-                            this@DashBoardActivity,
-                            this@DashBoardActivity
-                        )
-                        continueAppExecution = false
-                    } else if (isLocationPlausible(lastLocation)) {
-                        placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
-                    }
-                }
+        mSettingsClient = LocationServices.getSettingsClient(this)
+//        if (continueAppExecution) {
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+//                    if (!isLocationPlausible(lastLocation) && continueAppExecution) {
+//                        AlertDialogBuilder.getInstance().showErrorDialog(
+//                            getString(R.string.turnOffMockLocationTitle),
+//                            getString(R.string.turnOffMockLocationDescription),
+//                            getString(R.string.cancelButtonText),
+//                            getString(R.string.gotoSettingsButtonText),
+//                            "mock_location_warning",
+//                            this@DashBoardActivity,
+//                            this@DashBoardActivity
+//                        )
+//                        continueAppExecution = false
+//                    } else if (isLocationPlausible(lastLocation)) {
+                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+//                    }
             }
-
-            createLocationRequest()
-            showLoader(true)
-            DashboardController(this, this).getMissionData()
         }
+
+        createLocationRequest()
+        showLoader(true)
+        DashboardController(this, this).getMissionData()
+//        }
     }
 
     private fun showLoader(status: Boolean) {
@@ -152,12 +155,11 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-//        map.setOnMarkerClickListener(this)
+        map.setOnMarkerClickListener(this)
 
-        setMapStyle()
-        if (continueAppExecution) {
-            setUpMap()
-        }
+//        if (continueAppExecution) {
+        setUpMap()
+//        }
     }
 
     private fun setMapStyle() {
@@ -183,7 +185,14 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             return
         }
 
+        setMapStyle()
+
         map.isMyLocationEnabled = false
+
+        map.uiSettings.isTiltGesturesEnabled = false
+        map.uiSettings.isRotateGesturesEnabled = false
+        map.uiSettings.isMapToolbarEnabled = false
+        map.uiSettings.isZoomControlsEnabled = false
 
         map.setPadding(20, 200, 0, 15)
 
@@ -191,22 +200,22 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             // Got last known location. In some rare situations this can be null.
             if (location != null) {
                 lastLocation = location
-                if (!isLocationPlausible(lastLocation) && continueAppExecution) {
-                    AlertDialogBuilder.getInstance().showErrorDialog(
-                        getString(R.string.turnOffMockLocationTitle),
-                        getString(R.string.turnOffMockLocationDescription),
-                        getString(R.string.cancelButtonText),
-                        getString(R.string.gotoSettingsButtonText),
-                        "mock_location_warning",
-                        this,
-                        this
-                    )
-                    continueAppExecution = false
-                } else if (isLocationPlausible(lastLocation)) {
-                    val currentLatLng = LatLng(location.latitude, location.longitude)
-                    placeMarkerOnMap(currentLatLng)
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                }
+//                if (!isLocationPlausible(lastLocation) && continueAppExecution) {
+//                    AlertDialogBuilder.getInstance().showErrorDialog(
+//                        getString(R.string.turnOffMockLocationTitle),
+//                        getString(R.string.turnOffMockLocationDescription),
+//                        getString(R.string.cancelButtonText),
+//                        getString(R.string.gotoSettingsButtonText),
+//                        "mock_location_warning",
+//                        this,
+//                        this
+//                    )
+//                    continueAppExecution = false
+//                } else if (isLocationPlausible(lastLocation)) {
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                placeMarkerOnMap(currentLatLng)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+//                }
             }
         }
     }
@@ -245,7 +254,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
-            null /* Looper */
+            Looper.myLooper() /* Looper */
         )
     }
 
@@ -290,15 +299,26 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                 locationUpdateState = true
                 startLocationUpdates()
             }
-        } else if (requestCode == DEVELOPER_OPTIONS_REQUEST_CODE) {
-            startLocationUpdates()
         }
+//        else if (requestCode == DEVELOPER_OPTIONS_REQUEST_CODE) {
+//            startLocationUpdates()
+//        }
     }
 
     // 2
     override fun onPause() {
         super.onPause()
+        stopLocationUpdates()
+    }
+
+    private fun stopLocationUpdates() {
+        if(!locationUpdateState) {
+            return
+        }
         fusedLocationClient.removeLocationUpdates(locationCallback)
+            .addOnCompleteListener(this) {
+                locationUpdateState = false
+            }
     }
 
     // 3
