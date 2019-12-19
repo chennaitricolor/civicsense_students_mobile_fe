@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.core.app.ActivityCompat
@@ -19,7 +21,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 
@@ -48,7 +49,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mSettingsClient: SettingsClient
@@ -61,6 +61,9 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     private var numGoodReadings: Int = 0
     private val DEVELOPER_OPTIONS_REQUEST_CODE = 1010
     private var continueAppExecution: Boolean = true
+    private var locationAccuracyCircle: Circle? = null
+    private var hasMissionListPopulated: Boolean = true
+
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -94,15 +97,23 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 //                        )
 //                        continueAppExecution = false
 //                    } else if (isLocationPlausible(lastLocation)) {
+                drawLocationAccuracyCircle(lastLocation)
                 placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+                if (hasMissionListPopulated) {
+                    populateMissionList(lastLocation.latitude.toString(), lastLocation.longitude.toString())
+                }
 //                    }
             }
         }
 
         createLocationRequest()
         showLoader(true)
-        DashboardController(this, this).getMissionData()
 //        }
+    }
+
+    private fun populateMissionList(latitude: String, longitude: String) {
+        hasMissionListPopulated = false
+        DashboardController(this, this).getMissionData(latitude, longitude)
     }
 
     private fun showLoader(status: Boolean) {
@@ -162,6 +173,20 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 //        }
     }
 
+    override fun onMarkerClick(marker: Marker): Boolean {
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+        Handler().postDelayed({
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    marker.position,
+                    15f
+                )
+            )
+        }, 300)
+        return true
+    }
+
+
     private fun setMapStyle() {
         map.setMapStyle(
             MapStyleOptions.loadRawResourceStyle(
@@ -193,6 +218,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         map.uiSettings.isRotateGesturesEnabled = false
         map.uiSettings.isMapToolbarEnabled = false
         map.uiSettings.isZoomControlsEnabled = false
+        map.uiSettings.isMyLocationButtonEnabled = true
 
         map.setPadding(20, 200, 0, 15)
 
@@ -213,8 +239,12 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 //                    continueAppExecution = false
 //                } else if (isLocationPlausible(lastLocation)) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
+                drawLocationAccuracyCircle(location)
                 placeMarkerOnMap(currentLatLng)
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                if (hasMissionListPopulated) {
+                    populateMissionList(location.latitude.toString(), location.longitude.toString())
+                }
 //                }
             }
         }
@@ -292,6 +322,27 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         }
     }
 
+    private fun drawLocationAccuracyCircle(location: Location) {
+        if (location.accuracy < 0) {
+            return
+        }
+
+        val latLng = LatLng(location.latitude, location.longitude)
+
+        locationAccuracyCircle?.let {
+            it.center = latLng
+        } ?: run {
+            this.locationAccuracyCircle = map.addCircle(
+                CircleOptions()
+                    .center(latLng)
+                    .fillColor(Color.argb(34, 0, 0, 0))
+                    .strokeColor(Color.argb(64, 0, 0, 0))
+                    .strokeWidth(1.0f)
+                    .radius(location.accuracy.toDouble())
+            ) //set radius to horizontal accuracy in meter.
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
@@ -312,7 +363,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     }
 
     private fun stopLocationUpdates() {
-        if(!locationUpdateState) {
+        if (!locationUpdateState) {
             return
         }
         fusedLocationClient.removeLocationUpdates(locationCallback)

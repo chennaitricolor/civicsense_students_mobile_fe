@@ -19,14 +19,18 @@ import java.util.Map;
 
 public class FileUpload {
     private String campaignId = "";
+    private String latitude = "";
+    private String longitude = "";
     private Context mContext;
 
     public FileUpload(Context context) {
         mContext = context;
     }
 
-    public void uploadScreenshotCall(String url, Bitmap bitmap, String mimeType, String _id) {
+    public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id) {
         campaignId = _id;
+        latitude = mLatitude;
+        longitude = mLongitude;
         RequestExecutor.getInstance(mContext).addMultipartRequest(createVolleyRequestForUpload(url, bitmap, mimeType));
     }
 
@@ -57,7 +61,8 @@ public class FileUpload {
                 Map<String, String> params = new HashMap<>();
                 params.put("campaignId", campaignId);
                 params.put("locationNm", "Zone 15 Sholinganallur");
-                params.put("location", "{\"coordinates\": [79.619928, 10.752292]}");
+//                params.put("location", "{\"coordinates\": [79.619928, 10.752292]}");
+                params.put("location", "{\"coordinates\": [" + longitude + "," + latitude + "]}");
                 return params;
             }
 

@@ -8,11 +8,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
@@ -33,13 +35,13 @@ import com.gcc.smartcity.SubmitActivity
 import com.gcc.smartcity.network.PersistantCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.OnDialogListener
+import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_image_capture.*
 import java.io.File
 import java.io.IOException
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,9 +59,17 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
     private var bitmap: Bitmap? = null
     private var _id: String? = null
     private var rewards: String? = null
+    private val PERMISSION_ID = 42
+    private var mLatitude: String? = null
+    private var mLongitude: String? = null
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        getLastLocation()
 
         if (intent.extras != null) {
             _id = intent.extras!!.getString("_id").toString()
@@ -105,15 +115,98 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
         }
     }
 
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabledPermissionCheck()) {
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    val location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        Log.d("Old Latitude", location.latitude.toString())
+                        Log.d("Old Longitude", location.longitude.toString())
+                        mLatitude = location.latitude.toString()
+                        mLongitude = location.longitude.toString()
+                    }
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
+                    .show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+    private fun requestNewLocationData() {
+        val mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            Log.d("New Latitude", locationResult.lastLocation.latitude.toString())
+            Log.d("New Longitude", locationResult.lastLocation.longitude.toString())
+            mLatitude = locationResult.lastLocation.latitude.toString()
+            mLongitude = locationResult.lastLocation.longitude.toString()
+        }
+    }
+
+    private fun isLocationEnabledPermissionCheck(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                ACCESS_COARSE_LOCATION,
+                ACCESS_FINE_LOCATION
+            ),
+            PERMISSION_ID
+        )
+    }
+
     private fun uploadFileToServer() {
         val cookieManager = CookieManager(
             PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER
         )
         CookieHandler.setDefault(cookieManager)
-        var url: URL = URL(BuildConfig.HOST + "user/task")
 
         Thread(Runnable {
             FileUpload(this).uploadScreenshotCall(
+                mLatitude,
+                mLongitude,
                 BuildConfig.HOST + "user/task",
                 bitmap,
                 "image/jpeg",
@@ -249,6 +342,11 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
                             )
                         }
                     }
+                }
+            }
+            PERMISSION_ID -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    getLastLocation()
                 }
             }
         }

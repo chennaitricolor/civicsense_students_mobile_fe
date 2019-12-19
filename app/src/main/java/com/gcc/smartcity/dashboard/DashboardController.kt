@@ -5,7 +5,9 @@ import bolts.Continuation
 import bolts.Task
 import com.android.volley.Request
 import com.gcc.smartcity.BuildConfig
+import com.gcc.smartcity.dashboard.model.MissionListErrorModel
 import com.gcc.smartcity.dashboard.model.MissionListModel
+import com.gcc.smartcity.leaderboard.LeaderBoardErrorModel
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
@@ -17,11 +19,11 @@ class DashboardController(
 ) {
     private var list = ArrayList<MissionModel>()
 
-    fun getMissionData(): ArrayList<MissionModel> {
+    fun getMissionData(latitude: String, longitude: String): ArrayList<MissionModel> {
 
         doMissionListCall(
             BuildConfig.HOST + java.lang.String.format(
-                "user/tasks?coordinates=%f&coordinates=%f", 80.304340, 13.161376
+                "user/tasks?coordinates=%f&coordinates=%f", longitude, latitude
             )
         )
 //
@@ -54,7 +56,9 @@ class DashboardController(
     private fun doMissionListCall(url: String) {
         val volleyRequest = VolleyRequest.newInstance<MissionListModel>(Request.Method.GET, url)
         val jsonResponseParser = JsonResponseParser<MissionListModel>(MissionListModel::class.java)
+        val errorResponseParser = JsonResponseParser(MissionListErrorModel::class.java)
         volleyRequest.setResponseParser(jsonResponseParser)
+        volleyRequest.setErrorResponseParser(errorResponseParser)
         RequestExecutor.getInstance(mContext).makeRequestCall(volleyRequest).continueWithTask(
             Continuation<Any, Task<Any>> {
                 if (!it.isFaulted) {
@@ -76,8 +80,9 @@ class DashboardController(
                         missionAPIListener.onFail("There are no tasks in your area")
                     }
                 } else {
+                    val missionListErrorModel = it.result as MissionListErrorModel
                     Logger.d("failed", "unable to fetch mission list")
-                    missionAPIListener.onFail("Unable to fetch mission list")
+                    missionAPIListener.onFail(missionListErrorModel.message.toString())
                 }
                 null
             })
