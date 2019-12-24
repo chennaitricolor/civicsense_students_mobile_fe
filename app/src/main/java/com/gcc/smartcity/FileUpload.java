@@ -8,9 +8,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.gcc.smartcity.dashboard.ImageUploadListener;
+import com.gcc.smartcity.dashboard.model.FileUploadResponseModel;
 import com.gcc.smartcity.network.RequestExecutor;
 import com.gcc.smartcity.network.VolleyMultipartRequest;
 import com.gcc.smartcity.utils.Logger;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -22,9 +25,11 @@ public class FileUpload {
     private String latitude = "";
     private String longitude = "";
     private Context mContext;
+    private ImageUploadListener mImageUploadListener;
 
-    public FileUpload(Context context) {
+    public FileUpload(Context context, ImageUploadListener imageUploadListener) {
         mContext = context;
+        mImageUploadListener = imageUploadListener;
     }
 
     public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id) {
@@ -40,7 +45,15 @@ public class FileUpload {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
-                Logger.d("upload successful");
+                Gson gson = new Gson();
+                FileUploadResponseModel responseMode = gson.fromJson(resultResponse, FileUploadResponseModel.class);
+                Logger.d("upload successful" + responseMode.getMessage());
+                if (responseMode.getSuccess()) {
+                    mImageUploadListener.onSuccess();
+
+                } else {
+                    mImageUploadListener.onFailure(responseMode.getMessage());
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -51,7 +64,6 @@ public class FileUpload {
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> map = new HashMap<>();
-//                map.put("Authorization", "Basic " + Base64.encodeToString("denton:ap0ll0".getBytes(), Base64.DEFAULT));
                 map.put("Accept", "application/json");
                 return map;
             }

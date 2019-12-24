@@ -46,7 +46,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
+class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadListener {
+    override fun onSuccess() {
+        val intent = Intent(this, SubmitActivity::class.java)
+        intent.putExtra("rewards", rewards)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onFailure(message: String) {
+        AlertDialogBuilder.getInstance().showErrorDialog("Error", "" + message, "OK", this)
+    }
 
     private val PERMISSION_REQUEST_CODE = 200
     private val CAMERA_REQUEST_CODE = 1450
@@ -98,10 +108,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
             if (checkPermission()) {
                 if (isLocationEnabled()) {
                     uploadFileToServer()
-                    val intent = Intent(this, SubmitActivity::class.java)
-                    intent.putExtra("rewards", rewards)
-                    startActivity(intent)
-                    finish()
+
                 } else {
                     Toast.makeText(
                         applicationContext,
@@ -204,7 +211,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener {
         CookieHandler.setDefault(cookieManager)
 
         Thread(Runnable {
-            FileUpload(this).uploadScreenshotCall(
+            FileUpload(this, this).uploadScreenshotCall(
                 mLatitude,
                 mLongitude,
                 BuildConfig.HOST + "user/task",
