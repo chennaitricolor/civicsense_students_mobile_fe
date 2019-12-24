@@ -21,13 +21,13 @@ class DashboardController(
 
     fun getMissionData(latitude: String, longitude: String): ArrayList<MissionModel> {
 
-//        doMissionListCall(
-//            BuildConfig.HOST + "user/tasks?coordinates=" + longitude + "&coordinates=" + latitude
-//        )
-
         doMissionListCall(
-            BuildConfig.HOST + "user/tasks?coordinates=80.304340&coordinates=13.161376"
+            BuildConfig.HOST + "user/tasks?coordinates=" + longitude + "&coordinates=" + latitude
         )
+
+//        doMissionListCall(
+//            BuildConfig.HOST + "user/tasks?coordinates=80.304340&coordinates=13.161376"
+//        )
 //
 //        var missionModel = MissionModel("gdsvgdsgdw3r3fw", "Capture the Water Stagnation", "gadg","agdag",50)
 //
