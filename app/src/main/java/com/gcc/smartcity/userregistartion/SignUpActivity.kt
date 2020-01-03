@@ -160,8 +160,13 @@ class SignUpActivity : BaseActivity() {
                 myCalendar.get(Calendar.DAY_OF_MONTH)
             )
 
-            dialog.datePicker.maxDate = Calendar.getInstance().timeInMillis - 31556926000
-//            dialog.datePicker.minDate = Calendar.getInstance().timeInMillis -
+            val maxDate = Calendar.getInstance()
+            maxDate.add(Calendar.YEAR,-7)
+            val minDate = Calendar.getInstance()
+            minDate.add(Calendar.YEAR,-100)
+
+            dialog.datePicker.maxDate = maxDate.timeInMillis - 1000
+            dialog.datePicker.minDate = minDate.timeInMillis - 1000
             dialog.show()
         }
     }
