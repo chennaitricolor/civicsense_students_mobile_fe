@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class FileUpload {
     private String campaignId = "";
+    private String campaignName = "";
     private String latitude = "";
     private String longitude = "";
     private Context mContext;
@@ -32,7 +33,8 @@ public class FileUpload {
         mImageUploadListener = imageUploadListener;
     }
 
-    public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id) {
+    public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id, String _campaignName) {
+        campaignName = _campaignName;
         campaignId = _id;
         latitude = mLatitude;
         longitude = mLongitude;
@@ -72,7 +74,7 @@ public class FileUpload {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("campaignId", campaignId);
-                params.put("locationNm", "Zone 15 Sholinganallur");
+                params.put("locationNm", campaignName);
 //                params.put("location", "{\"coordinates\": [79.619928, 10.752292]}");
                 params.put("location", "{\"coordinates\": [" + longitude + "," + latitude + "]}");
                 return params;

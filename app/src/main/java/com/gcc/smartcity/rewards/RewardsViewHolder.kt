@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
+import com.gcc.smartcity.preference.SessionStorage
 import kotlinx.android.synthetic.main.layout_rewards_item.view.*
 
 
@@ -59,7 +60,17 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         rewardTitle.text = rewards.rewardTitle
         rewardDescription.text = rewards.rewardDescription
         balanceStatus.text = rewards.balanceStatus
-        balanceRequired.text = rewards.balanceRequired
+        balanceRequired.text =
+            if (SessionStorage.getInstance().leaderBoardModel.userRewards!! > rewards.gemTarget.toInt()) {
+                "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
+            } else {
+                java.lang.String.format(
+                    "COLLECT %d MORE GEMS TO UNLOCK",
+                    rewards.gemTarget.toInt() - SessionStorage.getInstance().leaderBoardModel.userRewards!!
+                )
+            }
+
+
         gemTarget.text = rewards.gemTarget
     }
 }

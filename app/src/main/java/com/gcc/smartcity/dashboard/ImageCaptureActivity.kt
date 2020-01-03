@@ -68,6 +68,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     private var submitButton: Button? = null
     private var bitmap: Bitmap? = null
     private var _id: String? = null
+    private var _campaignName: String? = null
     private var rewards: String? = null
     private val PERMISSION_ID = 42
     private var mLatitude: String? = null
@@ -83,6 +84,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
 
         if (intent.extras != null) {
             _id = intent.extras!!.getString("_id").toString()
+            _campaignName = intent.extras!!.getString("_campaignName").toString()
             rewards = intent.extras!!.getString("rewards").toString()
         }
 
@@ -217,7 +219,8 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
                 BuildConfig.HOST + "user/task",
                 bitmap,
                 "image/jpeg",
-                _id
+                _id,
+                _campaignName
             )
         }).start()
 
