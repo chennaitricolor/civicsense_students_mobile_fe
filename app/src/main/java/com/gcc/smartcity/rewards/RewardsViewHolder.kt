@@ -60,15 +60,17 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         rewardTitle.text = rewards.rewardTitle
         rewardDescription.text = rewards.rewardDescription
         balanceStatus.text = rewards.balanceStatus
-        balanceRequired.text =
-            if (SessionStorage.getInstance().leaderBoardModel.userRewards!! > rewards.gemTarget.toInt()) {
-                "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
-            } else {
-                java.lang.String.format(
-                    "COLLECT %d MORE GEMS TO UNLOCK",
-                    rewards.gemTarget.toInt() - SessionStorage.getInstance().leaderBoardModel.userRewards!!
-                )
-            }
+
+        if (SessionStorage.getInstance().leaderBoardModel.userRewards!! > rewards.gemTarget.toInt()) {
+            balanceRequired.text = "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
+            balanceStatus.visibility = View.GONE
+        } else {
+            val rewardsBal =
+                rewards.gemTarget.toInt() - SessionStorage.getInstance().leaderBoardModel.userRewards!!
+            balanceRequired.text =
+                "COLLECT " + rewardsBal + " MORE GEMS TO UNLOCK"
+            balanceStatus.visibility = View.VISIBLE
+        }
 
 
         gemTarget.text = rewards.gemTarget

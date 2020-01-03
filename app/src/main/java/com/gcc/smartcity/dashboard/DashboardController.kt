@@ -67,17 +67,21 @@ class DashboardController(
                     Logger.d("success", "got list")
                     val missionListModel = it.result as MissionListModel
                     if (missionListModel.success!! && missionListModel.tasks!!.isNotEmpty()) {
-                        for (i in 0 until (missionListModel.tasks?.size ?: 0)) {
-                            val missionModel = MissionModel(
-                                missionListModel.tasks?.get(i)?._id.toString(),
-                                missionListModel.tasks?.get(i)?.campaignName.toString(),
-                                missionListModel.tasks?.get(i)?.startDate.toString(),
-                                missionListModel.tasks?.get(i)?.endDate.toString(),
-                                missionListModel.tasks?.get(i)?.rewards!!
-                            )
-                            list.add(missionModel)
+                        if (missionListModel.tasks?.size!! > 0) {
+                            for (i in 0 until (missionListModel.tasks?.size ?: 0)) {
+                                val missionModel = MissionModel(
+                                    missionListModel.tasks?.get(i)?._id.toString(),
+                                    missionListModel.tasks?.get(i)?.campaignName.toString(),
+                                    missionListModel.tasks?.get(i)?.startDate.toString(),
+                                    missionListModel.tasks?.get(i)?.endDate.toString(),
+                                    missionListModel.tasks?.get(i)?.rewards!!
+                                )
+                                list.add(missionModel)
+                            }
+                            missionAPIListener.onSuccess(list)
+                        } else {
+                            missionAPIListener.onFail("There are no tasks in your area")
                         }
-                        missionAPIListener.onSuccess(list)
                     } else if (missionListModel.success!! && missionListModel.tasks!!.isEmpty()) {
                         missionAPIListener.onFail("There are no tasks in your area")
                     }
