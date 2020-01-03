@@ -3,6 +3,7 @@ package com.gcc.smartcity.userregistartion
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
@@ -13,6 +14,10 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.Spinner
 import bolts.Task
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
@@ -31,12 +36,16 @@ class SignUpActivity : BaseActivity() {
     private var dob: FontEditText? = null
     private var email: FontEditText? = null
     private var isEmailValid: Boolean = false
+    private var isGenderValid: Boolean = false
     private var isUserNameValid: Boolean = false
     private var password: FontEditText? = null
     private var username: FontEditText? = null
     private var isPasswordStrengthValid: Boolean = false
     private var name: FontEditText? = null
     private val myCalendar: Calendar = Calendar.getInstance()
+    private var spinner: Spinner? = null
+    private var gender: String? = null
+    private var genderLayout: LinearLayout? = null
 
     init {
         mRegistrationController = RegistrationController(this)
@@ -52,6 +61,48 @@ class SignUpActivity : BaseActivity() {
         email = findViewById(R.id.Email)
         password = findViewById(R.id.password)
         username = findViewById(R.id.Username)
+        spinner = findViewById(R.id.spinner)
+        genderLayout = findViewById(R.id.Gender)
+
+        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if(position > 0){
+                    isGenderValid = true
+                    genderLayout?.setBackgroundResource(R.drawable.bg_border_edittext)
+                    gender = parent?.getItemAtPosition(position).toString()
+
+                } else if (position == 0) {
+                    isGenderValid = false
+                    genderLayout?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+                }
+            }
+
+        }
+
+        val categories: MutableList<String> = ArrayList()
+        categories.add("Select as applicable")
+        categories.add("male")
+        categories.add("female")
+        categories.add("not applicable")
+
+        // Creating adapter for spinner
+        val dataAdapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // attaching data adapter to spinner
+        spinner?.adapter = dataAdapter
 
         val emailPattern =
             "^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\$"
@@ -64,13 +115,14 @@ class SignUpActivity : BaseActivity() {
 
         NextBtn.setOnClickListener {
             hideSoftKeyBoard()
-            if (name?.text.toString().isNotEmpty() && (isEmailValid && email?.text.toString().isNotEmpty()) && (isUserNameValid && username?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && password?.text.toString().isNotEmpty()) && dob?.text.toString().isNotEmpty()) {
+            if (name?.text.toString().isNotEmpty() && (isEmailValid && email?.text.toString().isNotEmpty()) && (isUserNameValid && username?.text.toString().isNotEmpty()) && (isPasswordStrengthValid && password?.text.toString().isNotEmpty()) && dob?.text.toString().isNotEmpty() && isGenderValid) {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("name", name?.text.toString())
                 intent.putExtra("email", email?.text.toString())
                 intent.putExtra("password", password?.text.toString())
                 intent.putExtra("dob", dob?.text.toString())
                 intent.putExtra("username", username?.text.toString())
+                intent.putExtra("gender", gender)
                 startActivity(intent)
 //            setContentView(R.layout.activity_select_avatar)
 //            selectAvatar()
@@ -161,9 +213,9 @@ class SignUpActivity : BaseActivity() {
             )
 
             val maxDate = Calendar.getInstance()
-            maxDate.add(Calendar.YEAR,-7)
+            maxDate.add(Calendar.YEAR, -7)
             val minDate = Calendar.getInstance()
-            minDate.add(Calendar.YEAR,-100)
+            minDate.add(Calendar.YEAR, -100)
 
             dialog.datePicker.maxDate = maxDate.timeInMillis - 1000
             dialog.datePicker.minDate = minDate.timeInMillis - 1000

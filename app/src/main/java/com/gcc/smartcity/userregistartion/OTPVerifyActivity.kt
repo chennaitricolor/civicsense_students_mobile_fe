@@ -40,6 +40,7 @@ class OTPVerifyActivity : BaseActivity() {
     lateinit var email: String
     lateinit var password: String
     lateinit var dob: String
+    lateinit var gender: String
     lateinit var username: String
     lateinit var userMobileNumber: String
     lateinit var mLatitude: String
@@ -67,6 +68,7 @@ class OTPVerifyActivity : BaseActivity() {
             password = intent.extras!!.getString("password").toString()
             dob = intent.extras!!.getString("dob").toString()
             username = intent.extras!!.getString("username").toString()
+            gender = intent.extras!!.getString("gender").toString()
         }
         mobileNumber?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -126,6 +128,7 @@ class OTPVerifyActivity : BaseActivity() {
             username,
             email,
             dob,
+            gender,
             6,
             otp.toInt(),
             "12.888370",

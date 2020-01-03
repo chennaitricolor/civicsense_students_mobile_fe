@@ -71,5 +71,6 @@
     <string name="turnOffMockLocationTitle">TURN OFF MOCK LOCATION</string>
     <string name="turnOffMockLocationDescription">Please turn OFF mock location to continue using the app</string>
     <string name="gotoSettingsButtonText">GO TO SETTINGS</string>
+    <string name="gender">Gender</string>
 
 </resources>

@@ -30,6 +30,7 @@ class RegistrationController(private val mContext: Context) {
         userId: String,
         email: String,
         dateOfBirth: String,
+        gender: String,
         avatar: Int,
         OTP: Int,
         latitude: String,
@@ -53,6 +54,7 @@ class RegistrationController(private val mContext: Context) {
             jsonObject.put("email", email)
             jsonObject.put("dateOfBirth", dateOfBirth)
             jsonObject.put("avatar", avatar)
+            jsonObject.put("gender", gender)
             jsonObject.put("otp", OTP)
             jsonObject.put("currentLocation", addressObject)
         } catch (ex: Exception) {

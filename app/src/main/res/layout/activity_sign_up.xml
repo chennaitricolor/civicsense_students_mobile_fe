@@ -11,9 +11,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/csrx_background"
+        android:contentDescription="@string/csrxbackgroundimage"
         android:scaleType="centerCrop"
-        android:contentDescription="@string/csrxbackgroundimage" />
+        android:src="@mipmap/csrx_background" />
 
     <RelativeLayout
         android:id="@+id/signUpScreen"
@@ -76,6 +76,31 @@
                 android:singleLine="true"
                 android:textColor="@color/davyGrey"
                 android:textCursorDrawable="@drawable/style_cursor" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/gender"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <LinearLayout
+                android:id="@+id/Gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_border_edittext"
+                android:padding="10dp">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
 
             <com.gcc.smartcity.fontui.FontTextView
                 android:layout_width="match_parent"

@@ -63,13 +63,13 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         if (SessionStorage.getInstance().leaderBoardModel.userRewards!! > rewards.gemTarget.toInt()) {
             balanceRequired.text = "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
-            balanceStatus.visibility = View.GONE
+            balanceStatus.text = "SUFFICIENT BALANCE"
         } else {
             val rewardsBal =
                 rewards.gemTarget.toInt() - SessionStorage.getInstance().leaderBoardModel.userRewards!!
             balanceRequired.text =
                 "COLLECT " + rewardsBal + " MORE GEMS TO UNLOCK"
-            balanceStatus.visibility = View.VISIBLE
+            balanceStatus.text = "INSUFFICIENT BALANCE"
         }
 
 
