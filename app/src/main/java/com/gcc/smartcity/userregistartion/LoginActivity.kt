@@ -37,7 +37,12 @@ import com.gcc.smartcity.userregistartion.model.LoginModel
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.InstanceIdResult
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.android.synthetic.main.activity_login.*
+
 
 class LoginActivity : BaseActivity() {
 
@@ -50,13 +55,7 @@ class LoginActivity : BaseActivity() {
     private val PERMISSION_ID = 42
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var forgotUserId: FontTextView? = null
-
-    //    override fun onStart() {
-////        super.onStart()
-////        val br: BroadcastReceiver = LocationProviderChangedReceiver()
-////        val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
-////        registerReceiver(br, filter)
-////    }
+    lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     init {
         mLoginController = LoginController(this)
@@ -85,6 +84,8 @@ class LoginActivity : BaseActivity() {
         getLastLocation()
 
         buttonEffect(LoginBtn)
+
+        getFirebaseRemoteConfigData()
 
         val passwordPattern =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$"
@@ -137,6 +138,20 @@ class LoginActivity : BaseActivity() {
             val intent = Intent(this, ForgotUserIdActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun getFirebaseRemoteConfigData() {
+        Log.d("Firebase----->>", "token " + FirebaseInstanceId.getInstance().token)
+        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            val newToken = it.token
+            Log.e("Firebase", newToken)
+        }.addOnFailureListener {
+            Logger.d(it.toString())
+        }
+
+
     }
 
     private fun callLogin(username: String, password: String) {
