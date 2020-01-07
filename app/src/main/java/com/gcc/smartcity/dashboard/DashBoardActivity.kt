@@ -100,7 +100,10 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                 drawLocationAccuracyCircle(lastLocation)
                 placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
                 if (hasMissionListPopulated) {
-                    populateMissionList(lastLocation.latitude.toString(), lastLocation.longitude.toString())
+                    populateMissionList(
+                        lastLocation.latitude.toString(),
+                        lastLocation.longitude.toString()
+                    )
                 }
 //                    }
             }

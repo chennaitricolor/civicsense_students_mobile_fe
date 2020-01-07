@@ -224,25 +224,6 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
             )
         }).start()
 
-
-//        try {
-//            MultipartUploadRequest(this, serverUrl = BuildConfig.HOST+"user/task")
-//                .setMethod("POST")
-//                .addFileToUpload(
-//                    filePath = mCurrentPhotoPath!!,
-//                    parameterName = "file"
-//                )
-//                .addParameter("campaignId","5ddabb1cf22d9b5cd5bac910")
-//                .addParameter("locationNm","Zone 15 Sholinganallur")
-//                .addParameter("location","{\"coordinates\": [68.880948,60.6917]}")
-//                .setMaxRetries(2)
-//                .startUpload()
-//            Logger.d("UPLOAD","SUCCESS")
-//
-//        } catch (e: Exception) {
-//            Logger.d("UPLOAD","FAILED")
-//        }
-
     }
 
     private fun buttonEffect(button: View, color: String) {

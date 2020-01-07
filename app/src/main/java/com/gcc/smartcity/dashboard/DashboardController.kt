@@ -7,7 +7,6 @@ import com.android.volley.Request
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.dashboard.model.MissionListErrorModel
 import com.gcc.smartcity.dashboard.model.MissionListModel
-import com.gcc.smartcity.leaderboard.LeaderBoardErrorModel
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
@@ -37,23 +36,6 @@ class DashboardController(
 ////        list.add(missionModel)
         return list
     }
-//
-//    fun doMissionListCall(endpoint: String): Task<Any> {
-//        val parser = JsonResponseParser(MissionListModel::class.java)
-//        val errorResponseParser = JsonResponseParser(LoginErrorModel::class.java)
-//        val loginRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.POST, endpoint)
-//        val jsonObject = JSONObject()
-//        try {
-//            jsonObject.put("coordinates", latitude)
-//            jsonObject.put("coordinates", longitude)
-//        } catch (ex: Exception) {
-//            ex.printStackTrace()
-//        }
-//        loginRequest.setPayload(jsonObject.toString())
-//        loginRequest.setResponseParser(parser)
-//        loginRequest.setErrorResponseParser(errorResponseParser)
-//        return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
-//    }
 
     private fun doMissionListCall(url: String) {
         val volleyRequest = VolleyRequest.newInstance<MissionListModel>(Request.Method.GET, url)
@@ -88,7 +70,7 @@ class DashboardController(
                 } else {
                     missionAPIListener.onFail("App not supported in your area")
 
-              //      val missionListErrorModel = it.result as MissionListErrorModel
+                    //      val missionListErrorModel = it.result as MissionListErrorModel
                     Logger.d("failed", "unable to fetch mission list")
                 }
                 null

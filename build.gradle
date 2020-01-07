@@ -41,7 +41,4 @@ ext {
 
     // GSon
     gsonVersion = '2.8.5'
-
-    // Android Upload Service
-    uploadServiceVersion = "4.0.0-rc1"
 }
