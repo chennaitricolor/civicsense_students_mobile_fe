@@ -4,12 +4,10 @@ import android.Manifest.permission.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.location.Location
 import android.location.LocationManager
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -381,10 +379,34 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
                 val bmOptions = BitmapFactory.Options()
                 bmOptions.inSampleSize = 4
                 bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions)
-                ivCameraPreview!!.setImageBitmap(bitmap)
+
+                val ei = ExifInterface(mCurrentPhotoPath!!)
+                val orientation: Int = ei.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED
+                )
+                val rotatedBitmap: Bitmap?
+                when (orientation) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> rotatedBitmap = rotateImage(bitmap, 90F)
+                    ExifInterface.ORIENTATION_ROTATE_180 -> rotatedBitmap = rotateImage(bitmap, 180F)
+                    ExifInterface.ORIENTATION_ROTATE_270 -> rotatedBitmap = rotateImage(bitmap, 270F)
+                    ExifInterface.ORIENTATION_NORMAL -> rotatedBitmap = bitmap
+                    else -> rotatedBitmap = bitmap
+                }
+
+                ivCameraPreview!!.setImageBitmap(rotatedBitmap)
                 setButtonHolderVisibility(true)
             }
         }
+    }
+
+    private fun rotateImage(source: Bitmap?, angle: Float): Bitmap {
+        val matrix: Matrix? = Matrix()
+        matrix?.postRotate(angle)
+        return Bitmap.createBitmap(
+            source!!, 0, 0, source.width, source.height,
+            matrix, true
+        )
     }
 
     /**

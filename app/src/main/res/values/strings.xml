@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartCity</string>
+    <string name="app_name">Agent X</string>
     <string name="title_activity_maps">Map</string>
     <string name="map_key" translatable="false">AIzaSyATCamD6FNW8UuOE6QlOvYTJ3-H2IWanuc</string>
     <string name="previewimageDescription">previewImage</string>
