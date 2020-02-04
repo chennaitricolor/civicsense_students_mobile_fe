@@ -75,8 +75,8 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
             getString(R.string.drawer_menu_invite) -> {
                 shareApp(this)
             }
-            getString(R.string.drawer_menu_faq) -> Logger.d("FAQ")
-            getString(R.string.drawer_menu_help) -> Logger.d("Help")
+//            getString(R.string.drawer_menu_faq) -> Logger.d("FAQ")
+//            getString(R.string.drawer_menu_help) -> Logger.d("Help")
             getString(R.string.drawer_menu_rateus) -> {
                 openAppRating(this)
             }
