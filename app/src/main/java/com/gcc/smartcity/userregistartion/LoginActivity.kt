@@ -45,14 +45,10 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity() {
 
     private var mLoginController: LoginController? = null
-    private var loginEmail: FontEditText? = null
-    private var loginPassword: FontEditText? = null
-    private var isLoginPasswordStrengthValid: Boolean = false
     private var loader: LinearLayout? = null
     private var loginScreen: RelativeLayout? = null
     private val PERMISSION_ID = 42
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private var forgotUserId: FontTextView? = null
     lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     init {
@@ -63,11 +59,8 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setView(R.layout.activity_login)
 
-        loginEmail = findViewById(R.id.emailId)
-        loginPassword = findViewById(R.id.password)
         loader = findViewById(R.id.loader_layout)
         loginScreen = findViewById(R.id.login_screen)
-        forgotUserId = findViewById(R.id.forgotusername)
 
         if (SessionStorage.getInstance().userId != null && SessionStorage.getInstance().password != null) {
             showLoader(true)
@@ -75,67 +68,67 @@ class LoginActivity : BaseActivity() {
         } else {
             showLoader(false)
         }
-        showVisiblePasswordButton(false)
+//        showVisiblePasswordButton(false)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         getLastLocation()
 
-        buttonEffect(LoginBtn)
+        buttonEffect(getOTP)
 
         getFirebaseRemoteConfigData()
 
         val passwordPattern =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$"
 
-        loginPassword?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.toString().isNotEmpty()) {
-                    showVisiblePasswordButton(true)
-                } else {
-                    showVisiblePasswordButton(false)
-                }
+//        loginPassword?.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(s: Editable) {
+//                if (s.toString().isNotEmpty()) {
+//                    showVisiblePasswordButton(true)
+//                } else {
+//                    showVisiblePasswordButton(false)
+//                }
+//
+//                if (s.matches((passwordPattern).toRegex()) && s.isNotEmpty()) {
+//                    Log.d("success", "valid")
+//                    isLoginPasswordStrengthValid = true
+//                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext)
+//                } else if (s.isEmpty()) {
+//                    isLoginPasswordStrengthValid = false
+//                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext)
+//                } else {
+//                    Log.d("failure", "FAIL")
+//                    isLoginPasswordStrengthValid = false
+//                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+//                }
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+//                // other stuffs
+//            }
+//
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//                // other stuffs
+//            }
+//        })
 
-                if (s.matches((passwordPattern).toRegex()) && s.isNotEmpty()) {
-                    Log.d("success", "valid")
-                    isLoginPasswordStrengthValid = true
-                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext)
-                } else if (s.isEmpty()) {
-                    isLoginPasswordStrengthValid = false
-                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext)
-                } else {
-                    Log.d("failure", "FAIL")
-                    isLoginPasswordStrengthValid = false
-                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // other stuffs
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // other stuffs
-            }
-        })
-
-        LoginBtn.setOnClickListener {
-            if (loginEmail?.text!!.isNotEmpty() && loginPassword?.text!!.isNotEmpty()) {
-                hideSoftKeyBoard()
-                showLoader(true)
-                callLogin(loginEmail?.text.toString(), loginPassword?.text.toString())
-            }
-        }
+//        LoginBtn.setOnClickListener {
+//            if (loginEmail?.text!!.isNotEmpty() && loginPassword?.text!!.isNotEmpty()) {
+//                hideSoftKeyBoard()
+//                showLoader(true)
+//                callLogin(loginEmail?.text.toString(), loginPassword?.text.toString())
+//            }
+//        }
 
         SignupBtnLogin.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 
-        forgotUserId?.setOnClickListener {
-            val intent = Intent(this, ForgotUserIdActivity::class.java)
-            startActivity(intent)
-        }
+//        forgotUserId?.setOnClickListener {
+//            val intent = Intent(this, ForgotUserIdActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
     private fun getFirebaseRemoteConfigData() {
@@ -250,23 +243,23 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun showVisiblePasswordButton(status: Boolean) {
-        if (status) {
-            login_RDBTNPasswordshow.visibility = View.VISIBLE
-        } else {
-            login_RDBTNPasswordshow.visibility = View.INVISIBLE
-
-        }
-        login_RDBTNPasswordshow.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                loginPassword?.transformationMethod = PasswordTransformationMethod.getInstance()
-                loginPassword?.setSelection(loginPassword!!.text?.length!!)
-            } else {
-                loginPassword?.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                loginPassword?.setSelection(loginPassword!!.text?.length!!)
-            }
-        }
-    }
+//    private fun showVisiblePasswordButton(status: Boolean) {
+//        if (status) {
+//            login_RDBTNPasswordshow.visibility = View.VISIBLE
+//        } else {
+//            login_RDBTNPasswordshow.visibility = View.INVISIBLE
+//
+//        }
+//        login_RDBTNPasswordshow.setOnCheckedChangeListener { _, b ->
+//            if (b) {
+//                loginPassword?.transformationMethod = PasswordTransformationMethod.getInstance()
+//                loginPassword?.setSelection(loginPassword!!.text?.length!!)
+//            } else {
+//                loginPassword?.transformationMethod = HideReturnsTransformationMethod.getInstance()
+//                loginPassword?.setSelection(loginPassword!!.text?.length!!)
+//            }
+//        }
+//    }
 
 //    private fun showLoader(status: Boolean) {
 //        if (status) {

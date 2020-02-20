@@ -26,12 +26,6 @@ class RegistrationController(private val mContext: Context) {
         endpoint: String,
         name: String,
         phoneNumber: String,
-        password: String,
-        userId: String,
-        email: String,
-        dateOfBirth: String,
-        gender: String,
-        avatar: Int,
         OTP: Int,
         latitude: String,
         longitude: String
@@ -49,12 +43,6 @@ class RegistrationController(private val mContext: Context) {
             //jsonObject.put("address",addressObject)
             jsonObject.put("name", name)
             jsonObject.put("phoneNumber", phoneNumber)
-            jsonObject.put("password", password)
-            jsonObject.put("userId", userId)
-            jsonObject.put("email", email)
-            jsonObject.put("dateOfBirth", dateOfBirth)
-            jsonObject.put("avatar", avatar)
-            jsonObject.put("gender", gender)
             jsonObject.put("otp", OTP)
             jsonObject.put("currentLocation", addressObject)
         } catch (ex: Exception) {

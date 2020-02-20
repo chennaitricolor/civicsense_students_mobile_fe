@@ -34,14 +34,8 @@ import kotlinx.android.synthetic.main.activity_otpverify.*
 class OTPVerifyActivity : BaseActivity() {
 
     private var mRegistrationController: RegistrationController? = null
-    private var mobileNumber: FontEditText? = null
-    private var isMobileNumberValid: Boolean = false
+    private var otpField: FontEditText? = null
     lateinit var name: String
-    lateinit var email: String
-    lateinit var password: String
-    lateinit var dob: String
-    lateinit var gender: String
-    lateinit var username: String
     lateinit var userMobileNumber: String
     lateinit var mLatitude: String
     lateinit var mLongitude: String
@@ -55,81 +49,31 @@ class OTPVerifyActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setView(R.layout.activity_otpverify)
-        setInitialOTPLayout()
-        mobileNumber = findViewById(R.id.mobilenumber)
-        val mobileNumberPattern =
-            "^[6-9]\\d{9}\$"
+        otpField = findViewById(R.id.otpfield)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (intent.extras != null) {
             name = intent.extras!!.getString("name").toString()
-            email = intent.extras!!.getString("email").toString()
-            password = intent.extras!!.getString("password").toString()
-            dob = intent.extras!!.getString("dob").toString()
-            username = intent.extras!!.getString("username").toString()
-            gender = intent.extras!!.getString("gender").toString()
+            userMobileNumber = intent.extras!!.getString("mobilenumber").toString()
         }
-        mobileNumber?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.matches((mobileNumberPattern).toRegex()) && s.isNotEmpty()) {
-                    Log.d("success", "valid")
-                    isMobileNumberValid = true
-                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext)
-                } else {
-                    Log.d("failure", "FAIL")
-                    isMobileNumberValid = false
-                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // other stuffs
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // other stuffs
-            }
-        })
 
         buttonEffect(VerifyBTN)
 
         VerifyBTN.setOnClickListener {
-            hideSoftKeyBoard()
-            if (VerifyBTN.text == "Get OTP") {
-                if (isMobileNumberValid && mobileNumber?.text.toString().isNotEmpty()) {
-                    userMobileNumber = mobileNumber?.text.toString()
-                    sendOTP(mobileNumber?.text.toString())
-                    setMobileOtpLayout(mobileNumber?.text.toString())
-                    mobileNumber?.text?.clear()
-                } else {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.incorrectMobileNumberMessage),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if (otpField?.text.toString().isNotEmpty()) {
+                    doRegistration(name, userMobileNumber, otpField?.text.toString())
                 }
-            } else {
-                if (mobileNumber?.text.toString().isNotEmpty()) {
-                    doRegistration(userMobileNumber, mobileNumber?.text.toString())
-                }
-            }
             showLoader(true)
         }
         getLastLocation()
     }
 
-    private fun doRegistration(mobileNumber: String, otp: String) {
+    private fun doRegistration(name: String, mobileNumber: String, otp: String) {
         mRegistrationController?.doSignUpCall(
             BuildConfig.HOST + "user",
             name,
             mobileNumber,
-            password,
-            username,
-            email,
-            dob,
-            gender,
-            6,
             otp.toInt(),
             "12.888370",
             "80.227051"
@@ -171,44 +115,7 @@ class OTPVerifyActivity : BaseActivity() {
         return null
     }
 
-    private fun sendOTP(mobileNumber: String) {
-        mRegistrationController?.doOTPCall(
-            BuildConfig.HOST + java.lang.String.format(
-                "user/generate-otp?phoneNumber=%s",
-                mobileNumber
-            )
-        )
-            ?.continueWithTask { task ->
-                afterOTPSent(task, mobileNumber)
-            }
-    }
 
-    private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
-        if (task.isFaulted) {
-            showErrorDialog(
-                getString(R.string.unableToSendOTP),
-                getString(R.string.tryAgainLater),
-                getString(R.string.okButtonText)
-            )
-            task.makeVoid()
-            showLoader(false)
-
-        } else {
-            val otpModel = task.result as OTPModel
-            if (otpModel.success!!) {
-                setMobileOtpLayout(mobileNumber)
-            } else {
-                showErrorDialog(
-                    getString(R.string.unableToSendOTP),
-                    getString(R.string.tryAgainLater),
-                    getString(R.string.okButtonText)
-                )
-            }
-            showLoader(false)
-        }
-
-        return null
-    }
 
     private fun buttonEffect(button: View) {
         button.setOnTouchListener { v, event ->
@@ -227,25 +134,6 @@ class OTPVerifyActivity : BaseActivity() {
             }
             false
         }
-    }
-
-    private fun setInitialOTPLayout() {
-        setTextToLayout(
-            "We will send you an <b>One Time Password</b>\n" +
-                    "to verify this mobile number", "Mobile", "Get OTP"
-        )
-    }
-
-    private fun setTextToLayout(desc: String, title: String, btnTxt: String) {
-        otpDesc.text = Html.fromHtml(desc)
-        titleTxt.text = title
-        VerifyBTN.text = btnTxt
-    }
-
-    private fun setMobileOtpLayout(mobileNumber: String) {
-        setTextToLayout(
-            "Enter the OTP send to <b>+91-$mobileNumber</b>\n", "OTP", "Verify & Proceed"
-        )
     }
 
     private fun getLastLocation() {

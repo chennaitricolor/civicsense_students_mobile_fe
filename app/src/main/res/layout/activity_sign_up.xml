@@ -82,38 +82,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="@string/gender"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                custom:fontFace="Lato-Bold.ttf" />
-
-            <LinearLayout
-                android:id="@+id/Gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_edittext"
-                android:padding="10dp">
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <com.gcc.smartcity.fontui.FontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/userid"
+                android:text="Mobile Number"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 custom:fontFace="Lato-Bold.ttf" />
 
             <com.gcc.smartcity.fontui.FontEditText
-                android:id="@+id/Username"
+                android:id="@+id/registerMobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -127,98 +102,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/email"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                custom:fontFace="Lato-Bold.ttf" />
-
-            <com.gcc.smartcity.fontui.FontEditText
-                android:id="@+id/Email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_edittext"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/davyGrey"
-                android:textCursorDrawable="@drawable/style_cursor" />
-
-            <com.gcc.smartcity.fontui.FontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/password"
+                android:text="@string/sendingOTPDescription"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 custom:fontFace="Lato-Bold.ttf" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.gcc.smartcity.fontui.FontEditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_border_edittext"
-                    android:inputType="textPassword"
-                    android:maxLength="20"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/davyGrey"
-                    android:textCursorDrawable="@drawable/style_cursor" />
-
-                <ToggleButton
-                    android:id="@+id/login_RDBTNPasswordshow"
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="-40dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@null"
-                    android:checked="true"
-                    android:drawableEnd="@drawable/selector_show_password"
-                    android:textOff=""
-                    android:textOn="" />
-
-            </LinearLayout>
-
-
-            <com.gcc.smartcity.fontui.FontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/dob"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                custom:fontFace="Lato-Bold.ttf" />
-
-            <com.gcc.smartcity.fontui.FontEditText
-                android:id="@+id/dob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_edittext"
-                android:clickable="true"
-                android:editable="false"
-                android:focusable="false"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/davyGrey"
-                android:textCursorDrawable="@drawable/style_cursor" />
 
             <com.gcc.smartcity.fontui.FontButton
-                android:id="@+id/NextBtn"
+                android:id="@+id/continueBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/bg_rounded_submit"
-                android:text="@string/next"
+                android:text="@string/continueButtonText"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 custom:fontFace="Lato-Bold.ttf" />
