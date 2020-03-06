@@ -42,9 +42,9 @@ class RegistrationController(private val mContext: Context) {
             addressObject.put("coordinates", coordinatesArray)
             //jsonObject.put("address",addressObject)
             jsonObject.put("name", name)
-            jsonObject.put("phoneNumber", phoneNumber)
+            jsonObject.put("userId", phoneNumber)
             jsonObject.put("otp", OTP)
-            jsonObject.put("currentLocation", addressObject)
+//            jsonObject.put("currentLocation", addressObject)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
