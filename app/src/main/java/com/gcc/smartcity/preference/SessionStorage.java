@@ -42,14 +42,6 @@ public class SessionStorage {
        return Preferences.INSTANCE.getUserId();
     }
 
-    public void setPassword(String password){
-        Preferences.INSTANCE.setPassword(password);
-    }
-
-    public String getPassword(){
-        return Preferences.INSTANCE.getPassword();
-    }
-
     public String getStringfromObject(Object object) {
         if (object == null) {
             throw new IllegalArgumentException("object is null");

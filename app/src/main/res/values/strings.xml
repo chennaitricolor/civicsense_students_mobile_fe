@@ -57,7 +57,7 @@
     <string name="successfulSignUp">Signed up successfully</string>
     <string name="loginRedirectMessage">Please use your credentials to login</string>
     <string name="tryAgainLater">Please try again later</string>
-    <string name="unableToSendOTP">Unable to send OTP</string>
+    <string name="unableToSendOTP">Unable to send an OTP</string>
     <string name="insufficientDetails">Insufficient details</string>
     <string name="incorrectSignUpDetails">Please check whether you have entered all the details correctly</string>
     <string name="usernameUnavailable">Username unavailable</string>

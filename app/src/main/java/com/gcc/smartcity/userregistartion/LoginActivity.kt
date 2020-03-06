@@ -13,8 +13,6 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -28,12 +26,13 @@ import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
-import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.userregistartion.controller.LoginController
+import com.gcc.smartcity.userregistartion.controller.RegistrationController
 import com.gcc.smartcity.userregistartion.model.LoginErrorModel
 import com.gcc.smartcity.userregistartion.model.LoginModel
+import com.gcc.smartcity.userregistartion.model.OTPModel
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.google.android.gms.location.*
@@ -45,14 +44,18 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity() {
 
     private var mLoginController: LoginController? = null
+    private var mRegistrationController: RegistrationController? = null
     private var loader: LinearLayout? = null
     private var loginScreen: RelativeLayout? = null
+    private var mobileNumber: FontEditText? = null
+    private var isMobileNumberValid: Boolean = false
     private val PERMISSION_ID = 42
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     init {
         mLoginController = LoginController(this)
+        mRegistrationController = RegistrationController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,14 +64,17 @@ class LoginActivity : BaseActivity() {
 
         loader = findViewById(R.id.loader_layout)
         loginScreen = findViewById(R.id.login_screen)
+        mobileNumber = findViewById(R.id.mobileNumber)
 
-        if (SessionStorage.getInstance().userId != null && SessionStorage.getInstance().password != null) {
-            showLoader(true)
-            callLogin(SessionStorage.getInstance().userId, SessionStorage.getInstance().password)
-        } else {
-            showLoader(false)
-        }
-//        showVisiblePasswordButton(false)
+        val mobileNumberPattern =
+            "^[6-9]\\d{9}\$"
+
+//        if (SessionStorage.getInstance().userId != null) {
+//            showLoader(true)
+//            callLogin(SessionStorage.getInstance().userId)
+//        } else {
+//            showLoader(false)
+//        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -78,57 +84,87 @@ class LoginActivity : BaseActivity() {
 
         getFirebaseRemoteConfigData()
 
-        val passwordPattern =
-            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$"
+        mobileNumber?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.matches((mobileNumberPattern).toRegex()) && s.isNotEmpty()) {
+                    Log.d("success", "valid")
+                    isMobileNumberValid = true
+                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext)
+                } else {
+                    Log.d("failure", "FAIL")
+                    isMobileNumberValid = false
+                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+                }
+            }
 
-//        loginPassword?.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable) {
-//                if (s.toString().isNotEmpty()) {
-//                    showVisiblePasswordButton(true)
-//                } else {
-//                    showVisiblePasswordButton(false)
-//                }
-//
-//                if (s.matches((passwordPattern).toRegex()) && s.isNotEmpty()) {
-//                    Log.d("success", "valid")
-//                    isLoginPasswordStrengthValid = true
-//                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext)
-//                } else if (s.isEmpty()) {
-//                    isLoginPasswordStrengthValid = false
-//                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext)
-//                } else {
-//                    Log.d("failure", "FAIL")
-//                    isLoginPasswordStrengthValid = false
-//                    loginPassword?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
-//                }
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-//                // other stuffs
-//            }
-//
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                // other stuffs
-//            }
-//        })
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // other stuffs
+            }
 
-//        LoginBtn.setOnClickListener {
-//            if (loginEmail?.text!!.isNotEmpty() && loginPassword?.text!!.isNotEmpty()) {
-//                hideSoftKeyBoard()
-//                showLoader(true)
-//                callLogin(loginEmail?.text.toString(), loginPassword?.text.toString())
-//            }
-//        }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // other stuffs
+            }
+        })
+
+        getOTP.setOnClickListener {
+            hideSoftKeyBoard()
+            if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
+                sendOTP(mobileNumber?.text.toString())
+            } else {
+                showErrorDialog(
+                    getString(R.string.insufficientDetails),
+                    getString(R.string.incorrectSignUpDetails),
+                    getString(R.string.okButtonText)
+                )
+            }
+        }
 
         SignupBtnLogin.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
+            intent.putExtra("fromScreen", "loginScreen")
             startActivity(intent)
         }
 
-//        forgotUserId?.setOnClickListener {
-//            val intent = Intent(this, ForgotUserIdActivity::class.java)
-//            startActivity(intent)
-//        }
+    }
+
+    private fun sendOTP(mobileNumber: String) {
+        mRegistrationController?.doOTPCall(
+            BuildConfig.HOST + java.lang.String.format(
+                "user/generate-otp?phoneNumber=%s",
+                mobileNumber
+            )
+        )
+            ?.continueWithTask { task ->
+                afterOTPSent(task, mobileNumber)
+            }
+    }
+
+    private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
+        if (task.isFaulted) {
+            showErrorDialog(
+                getString(R.string.unableToSendOTP),
+                getString(R.string.tryAgainLater),
+                getString(R.string.okButtonText)
+            )
+            task.makeVoid()
+            showLoader(false)
+        } else {
+            val otpModel = task.result as OTPModel
+            if (otpModel.success!!) {
+                val intent = Intent(this, OTPVerifyActivity::class.java)
+                intent.putExtra("mobilenumber", mobileNumber)
+                startActivity(intent)
+            } else {
+                showErrorDialog(
+                    getString(R.string.unableToSendOTP),
+                    getString(R.string.tryAgainLater),
+                    getString(R.string.okButtonText)
+                )
+            }
+            showLoader(false)
+        }
+
+        return null
     }
 
     private fun getFirebaseRemoteConfigData() {
@@ -145,14 +181,7 @@ class LoginActivity : BaseActivity() {
 
     }
 
-    private fun callLogin(username: String, password: String) {
-        mLoginController?.doLoginCall(BuildConfig.HOST + "user/login", username, password)
-            ?.continueWithTask { task ->
-                postLogin(username, password, task)
-            }
-    }
-
-    private fun postLogin(username: String, password: String, task: Task<Any>): Task<Any>? {
+    private fun postLogin(mobileNumber: String, task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             val loginErrorMessage =
                 ((task.error as NetworkError).errorResponse as LoginErrorModel).message
@@ -167,8 +196,7 @@ class LoginActivity : BaseActivity() {
             val loginModel = task.result as LoginModel
             Logger.d("HERE IN POST LOGIN")
             if (loginModel.success!!) {
-                SessionStorage.getInstance().userId = username
-                SessionStorage.getInstance().password = password
+                SessionStorage.getInstance().userId = mobileNumber
                 try {
                     callLeaderBoardEndpoint()
                 } catch (ex: Exception) {

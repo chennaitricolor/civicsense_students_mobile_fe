@@ -100,13 +100,13 @@ class SignUpActivity : BaseActivity() {
             )
             task.makeVoid()
             showLoader(false)
-
         } else {
             val otpModel = task.result as OTPModel
             if (otpModel.success!!) {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("name", name)
                 intent.putExtra("mobilenumber", mobileNumber)
+                intent.putExtra("fromScreen", "signUpScreen")
                 startActivity(intent)
             } else {
                 showErrorDialog(

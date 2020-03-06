@@ -14,14 +14,14 @@ import org.json.JSONObject
 
 class LoginController(private val mContext: Context) {
 
-    fun doLoginCall(endpoint: String, username: String, password: String): Task<Any> {
+    fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int): Task<Any> {
         val parser = JsonResponseParser(LoginModel::class.java)
         val errorResponseParser = JsonResponseParser(LoginErrorModel::class.java)
         val loginRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.POST, endpoint)
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("password", password)
-            jsonObject.put("userId", username)
+            jsonObject.put("userId", mobileNumber)
+            jsonObject.put("otp", OTP)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }

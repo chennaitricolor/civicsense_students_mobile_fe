@@ -55,15 +55,15 @@ class RegistrationController(private val mContext: Context) {
         return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
     }
 
-    fun checkUserNameExistsCall(endpoint: String): Task<Any> {
-        val parser = JsonResponseParser(UserNameCheckModel::class.java)
-        val errorResponseParser = JsonResponseParser(UserNameErrorModel::class.java)
-        val userNameCheckRequest =
-            VolleyRequest.newInstance<UserNameCheckModel>(Request.Method.GET, endpoint)
-        userNameCheckRequest.setResponseParser(parser)
-        userNameCheckRequest.setErrorResponseParser(errorResponseParser)
-        return RequestExecutor.getInstance(mContext).makeRequestCall(userNameCheckRequest)
-    }
+//    fun checkUserNameExistsCall(endpoint: String): Task<Any> {
+//        val parser = JsonResponseParser(UserNameCheckModel::class.java)
+//        val errorResponseParser = JsonResponseParser(UserNameErrorModel::class.java)
+//        val userNameCheckRequest =
+//            VolleyRequest.newInstance<UserNameCheckModel>(Request.Method.GET, endpoint)
+//        userNameCheckRequest.setResponseParser(parser)
+//        userNameCheckRequest.setErrorResponseParser(errorResponseParser)
+//        return RequestExecutor.getInstance(mContext).makeRequestCall(userNameCheckRequest)
+//    }
 
     fun forgotUserId(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(ForgotUserNameModel::class.java)

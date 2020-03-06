@@ -55,14 +55,6 @@ public enum Preferences {
         mPreferenceHandle.setString(USER_ID, userId);
     }
 
-    public String getPassword() {
-        return mPreferenceHandle.getString(PASSWORD, null);
-    }
-
-    public void setPassword(String password) {
-        mPreferenceHandle.setString(PASSWORD, password);
-    }
-
     public void setLeaderBoardStatus(Boolean leaderBoardStatus) {
         mPreferenceHandle.setBoolean(LEADERBOARD_STATUS, leaderBoardStatus);
     }
