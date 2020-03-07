@@ -126,21 +126,18 @@ class LoginActivity : BaseActivity() {
         }
 
         if(isValidSession()){
-            val dashboardIntent=Intent(this,DashBoardActivity::class.java)
-            startActivity(dashboardIntent)
-            finish()
+            callLeaderBoardEndpoint()
         }
+
 
 
     }
 
     private fun isValidSession():Boolean{
         return (SessionStorage.getInstance().userId!=null
-                && !SessionStorage.getInstance().userId.trim().equals("")
+                && SessionStorage.getInstance().userId.trim() != ""
                 && SessionStorage.getInstance().sessionCookies!=null
-                && !SessionStorage.getInstance().sessionCookies.equals(""))
-
-
+                && SessionStorage.getInstance().sessionCookies != "")
     }
 
     private fun sendOTP(mobileNumber: String) {
@@ -286,24 +283,6 @@ class LoginActivity : BaseActivity() {
             false
         }
     }
-
-//    private fun showVisiblePasswordButton(status: Boolean) {
-//        if (status) {
-//            login_RDBTNPasswordshow.visibility = View.VISIBLE
-//        } else {
-//            login_RDBTNPasswordshow.visibility = View.INVISIBLE
-//
-//        }
-//        login_RDBTNPasswordshow.setOnCheckedChangeListener { _, b ->
-//            if (b) {
-//                loginPassword?.transformationMethod = PasswordTransformationMethod.getInstance()
-//                loginPassword?.setSelection(loginPassword!!.text?.length!!)
-//            } else {
-//                loginPassword?.transformationMethod = HideReturnsTransformationMethod.getInstance()
-//                loginPassword?.setSelection(loginPassword!!.text?.length!!)
-//            }
-//        }
-//    }
 
 //    private fun showLoader(status: Boolean) {
 //        if (status) {
