@@ -50,7 +50,7 @@
     <string name="mission_logo">mission logo</string>
     <string name="reward_description_image">reward description image</string>
     <string name="signInErrorTitle">Sign In Error</string>
-    <string name="useCorrectCredentialMessage">Please use the correct credentials</string>
+    <string name="useCorrectCredentialMessage">Please enter a valid otp</string>
     <string name="turnOnLocationMessage">Please turn on location</string>
     <string name="incorrectMobileNumberMessage">Please enter the correct mobile number</string>
     <string name="unableToSignUp">Unable to sign up</string>

@@ -125,6 +125,22 @@ class LoginActivity : BaseActivity() {
             startActivity(intent)
         }
 
+        if(isValidSession()){
+            val dashboardIntent=Intent(this,DashBoardActivity::class.java)
+            startActivity(dashboardIntent)
+            finish()
+        }
+
+
+    }
+
+    private fun isValidSession():Boolean{
+        return (SessionStorage.getInstance().userId!=null
+                && !SessionStorage.getInstance().userId.trim().equals("")
+                && SessionStorage.getInstance().sessionCookies!=null
+                && !SessionStorage.getInstance().sessionCookies.equals(""))
+
+
     }
 
     private fun sendOTP(mobileNumber: String) {

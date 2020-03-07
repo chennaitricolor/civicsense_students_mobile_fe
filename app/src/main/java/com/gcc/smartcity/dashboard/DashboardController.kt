@@ -62,13 +62,13 @@ class DashboardController(
                             }
                             missionAPIListener.onSuccess(list)
                         } else {
-                            missionAPIListener.onFail("There are no tasks in your area")
+                            missionAPIListener.onFail("There are no tasks in your area", it)
                         }
                     } else if (missionListModel.success!! && missionListModel.tasks!!.isEmpty()) {
-                        missionAPIListener.onFail("There are no tasks in your area")
+                        missionAPIListener.onFail("There are no tasks in your area", it)
                     }
                 } else {
-                    missionAPIListener.onFail("App not supported in your area")
+                    missionAPIListener.onFail("App not supported in your area", it)
 
                     //      val missionListErrorModel = it.result as MissionListErrorModel
                     Logger.d("failed", "unable to fetch mission list")

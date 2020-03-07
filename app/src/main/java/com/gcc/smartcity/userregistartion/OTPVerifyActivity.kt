@@ -152,7 +152,7 @@ class OTPVerifyActivity : BaseActivity() {
         } else {
             val loginModel = task.result as LoginModel
             Logger.d("HERE IN POST LOGIN")
-            if (loginModel.success!!) {
+            if (!loginModel.success!!) {
                 SessionStorage.getInstance().userId = mobileNumber
                 try {
                     callLeaderBoardEndpoint()
