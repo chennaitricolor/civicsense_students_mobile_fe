@@ -40,11 +40,10 @@ class RegistrationController(private val mContext: Context) {
             coordinatesArray.put(longitude)
             coordinatesArray.put(latitude)
             addressObject.put("coordinates", coordinatesArray)
-            //jsonObject.put("address",addressObject)
             jsonObject.put("name", name)
             jsonObject.put("userId", phoneNumber)
             jsonObject.put("otp", OTP)
-//            jsonObject.put("currentLocation", addressObject)
+            jsonObject.put("currentLocation", addressObject)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
@@ -54,16 +53,6 @@ class RegistrationController(private val mContext: Context) {
         loginRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
     }
-
-//    fun checkUserNameExistsCall(endpoint: String): Task<Any> {
-//        val parser = JsonResponseParser(UserNameCheckModel::class.java)
-//        val errorResponseParser = JsonResponseParser(UserNameErrorModel::class.java)
-//        val userNameCheckRequest =
-//            VolleyRequest.newInstance<UserNameCheckModel>(Request.Method.GET, endpoint)
-//        userNameCheckRequest.setResponseParser(parser)
-//        userNameCheckRequest.setErrorResponseParser(errorResponseParser)
-//        return RequestExecutor.getInstance(mContext).makeRequestCall(userNameCheckRequest)
-//    }
 
     fun forgotUserId(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(ForgotUserNameModel::class.java)

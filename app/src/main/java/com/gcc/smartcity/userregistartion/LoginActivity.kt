@@ -121,22 +121,18 @@ class LoginActivity : BaseActivity() {
 
         SignupBtnLogin.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra("fromScreen", "loginScreen")
             startActivity(intent)
         }
 
-        if(isValidSession()){
+        if (isValidSession()) {
             callLeaderBoardEndpoint()
         }
-
-
-
     }
 
-    private fun isValidSession():Boolean{
-        return (SessionStorage.getInstance().userId!=null
+    private fun isValidSession(): Boolean {
+        return (SessionStorage.getInstance().userId != null
                 && SessionStorage.getInstance().userId.trim() != ""
-                && SessionStorage.getInstance().sessionCookies!=null
+                && SessionStorage.getInstance().sessionCookies != null
                 && SessionStorage.getInstance().sessionCookies != "")
     }
 
@@ -166,6 +162,7 @@ class LoginActivity : BaseActivity() {
             if (otpModel.success!!) {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("mobilenumber", mobileNumber)
+                intent.putExtra("fromScreen", "loginScreen")
                 startActivity(intent)
             } else {
                 showErrorDialog(
@@ -235,13 +232,30 @@ class LoginActivity : BaseActivity() {
             }
     }
 
+    private fun Intent.clearStack() {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+
     private fun postLeaderBoard(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-            SessionStorage.getInstance().leaderBoardStatus = false
-            val intent = Intent(this, DashBoardActivity::class.java)
-            startActivity(intent)
-            finish()
-            task.makeVoid()
+            if ((task.error as NetworkError).errorCode == 401) {
+                Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_LONG)
+                    .show()
+                SessionStorage.getInstance().userId = null
+                SessionStorage.getInstance().sessionCookies = null
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.clearStack()
+                startActivity(intent)
+                finish()
+                task.makeVoid()
+            } else {
+                SessionStorage.getInstance().leaderBoardStatus = false
+                val intent = Intent(this, DashBoardActivity::class.java)
+                intent.clearStack()
+                startActivity(intent)
+                finish()
+                task.makeVoid()
+            }
         } else {
             val leaderBoardModel = task.result as LeaderBoardModel
             if (leaderBoardModel.success!!) {
@@ -249,6 +263,7 @@ class LoginActivity : BaseActivity() {
                     SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
                     SessionStorage.getInstance().leaderBoardStatus = true
                     val intent = Intent(this, DashBoardActivity::class.java)
+                    intent.clearStack()
                     startActivity(intent)
                     finish()
                 } catch (ex: Exception) {
@@ -257,6 +272,7 @@ class LoginActivity : BaseActivity() {
             } else {
                 SessionStorage.getInstance().leaderBoardStatus = false
                 val intent = Intent(this, DashBoardActivity::class.java)
+                intent.clearStack()
                 startActivity(intent)
                 finish()
             }

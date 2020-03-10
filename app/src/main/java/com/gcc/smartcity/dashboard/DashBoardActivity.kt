@@ -35,6 +35,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         val error = task.error as NetworkError
         if (error.errorCode == 401) {
             val intent = Intent(this, LoginActivity::class.java)
+            intent.clearStack()
             startActivity(intent)
             finish()
         } else {
@@ -129,6 +130,10 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     private fun populateMissionList(latitude: String, longitude: String) {
         hasMissionListPopulated = false
         DashboardController(this, this).getMissionData(latitude, longitude)
+    }
+
+    private fun Intent.clearStack() {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
 
     private fun showLoader(status: Boolean) {

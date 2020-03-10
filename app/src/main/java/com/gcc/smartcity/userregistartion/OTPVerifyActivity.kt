@@ -70,7 +70,7 @@ class OTPVerifyActivity : BaseActivity() {
 
         VerifyBTN.setOnClickListener {
             if (otpField?.text.toString().isNotEmpty()) { //check if the right otp is entered or not and then call registration
-                if(fromScreen == "signUpScreen") {
+                if (fromScreen == "signUpScreen") {
                     doRegistration(name, userMobileNumber, otpField?.text.toString())
                 } else {
                     doLogin(userMobileNumber, otpField?.text.toString())
@@ -179,10 +179,15 @@ class OTPVerifyActivity : BaseActivity() {
             }
     }
 
+    private fun Intent.clearStack() {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+
     private fun postLeaderBoard(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             SessionStorage.getInstance().leaderBoardStatus = false
             val intent = Intent(this, DashBoardActivity::class.java)
+            intent.clearStack()
             startActivity(intent)
             finish()
             task.makeVoid()
@@ -193,6 +198,7 @@ class OTPVerifyActivity : BaseActivity() {
                     SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
                     SessionStorage.getInstance().leaderBoardStatus = true
                     val intent = Intent(this, DashBoardActivity::class.java)
+                    intent.clearStack()
                     startActivity(intent)
                     finish()
                 } catch (ex: Exception) {
@@ -201,6 +207,7 @@ class OTPVerifyActivity : BaseActivity() {
             } else {
                 SessionStorage.getInstance().leaderBoardStatus = false
                 val intent = Intent(this, DashBoardActivity::class.java)
+                intent.clearStack()
                 startActivity(intent)
                 finish()
             }
