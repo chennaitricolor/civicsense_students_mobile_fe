@@ -35,6 +35,7 @@ import com.gcc.smartcity.userregistartion.model.LoginModel
 import com.gcc.smartcity.userregistartion.model.OTPModel
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
+import com.gcc.smartcity.utils.TouchUtility
 import com.google.android.gms.location.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -121,18 +122,20 @@ class LoginActivity : BaseActivity() {
 
         SignupBtnLogin.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
+            intent.putExtra("fromScreen", "loginScreen")
             startActivity(intent)
         }
 
-        if (isValidSession()) {
+        if(isValidSession()){
+            showLoader(true)
             callLeaderBoardEndpoint()
         }
     }
 
-    private fun isValidSession(): Boolean {
-        return (SessionStorage.getInstance().userId != null
+    private fun isValidSession():Boolean{
+        return (SessionStorage.getInstance().userId!=null
                 && SessionStorage.getInstance().userId.trim() != ""
-                && SessionStorage.getInstance().sessionCookies != null
+                && SessionStorage.getInstance().sessionCookies!=null
                 && SessionStorage.getInstance().sessionCookies != "")
     }
 
@@ -241,6 +244,7 @@ class LoginActivity : BaseActivity() {
             if ((task.error as NetworkError).errorCode == 401) {
                 Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_LONG)
                     .show()
+
                 SessionStorage.getInstance().userId = null
                 SessionStorage.getInstance().sessionCookies = null
                 val intent = Intent(this, LoginActivity::class.java)
@@ -277,7 +281,7 @@ class LoginActivity : BaseActivity() {
                 finish()
             }
         }
-
+        showLoader(false)
         return null
     }
 
