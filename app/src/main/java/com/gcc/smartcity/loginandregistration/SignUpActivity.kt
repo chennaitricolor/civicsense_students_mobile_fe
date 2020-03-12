@@ -140,4 +140,9 @@ class SignUpActivity : BaseActivity() {
             false
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        showLoader(false)
+    }
 }

@@ -347,4 +347,9 @@ class LoginActivity : BaseActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        showLoader(false)
+    }
 }

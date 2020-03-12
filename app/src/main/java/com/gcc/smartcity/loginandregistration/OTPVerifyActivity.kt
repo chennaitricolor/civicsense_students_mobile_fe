@@ -24,10 +24,10 @@ import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
-import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.loginandregistration.model.LoginErrorModel
 import com.gcc.smartcity.loginandregistration.model.LoginModel
 import com.gcc.smartcity.loginandregistration.model.SignUpModel
+import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.google.android.gms.location.*
@@ -51,7 +51,7 @@ class OTPVerifyActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showLoader(false)
+//        showLoader(false)
         setView(R.layout.activity_otpverify)
         otpField = findViewById(R.id.otpfield)
 
