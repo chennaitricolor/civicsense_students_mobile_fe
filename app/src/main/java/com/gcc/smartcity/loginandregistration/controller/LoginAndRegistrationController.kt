@@ -1,17 +1,19 @@
-package com.gcc.smartcity.userregistartion.controller
+package com.gcc.smartcity.loginandregistration.controller
 
 import android.content.Context
 import bolts.Task
 import com.android.volley.Request
+import com.gcc.smartcity.leaderboard.LeaderBoardErrorModel
+import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.loginandregistration.model.*
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
-import com.gcc.smartcity.userregistartion.model.*
 import com.gcc.smartcity.utils.Logger
 import org.json.JSONArray
 import org.json.JSONObject
 
-class RegistrationController(private val mContext: Context) {
+class LoginAndRegistrationController(private val mContext: Context) {
 
     fun doOTPCall(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(OTPModel::class.java)
@@ -20,6 +22,33 @@ class RegistrationController(private val mContext: Context) {
         otpRequest.setResponseParser(parser)
         otpRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(otpRequest)
+    }
+
+    fun doLeaderBoardCall(endpoint: String): Task<Any> {
+        val parser = JsonResponseParser(LeaderBoardModel::class.java)
+        val errorResponseParser = JsonResponseParser(LeaderBoardErrorModel::class.java)
+        val leaderBoardRequest =
+            VolleyRequest.newInstance<LeaderBoardModel>(Request.Method.GET, endpoint)
+        leaderBoardRequest.setResponseParser(parser)
+        leaderBoardRequest.setErrorResponseParser(errorResponseParser)
+        return RequestExecutor.getInstance(mContext).makeRequestCall(leaderBoardRequest)
+    }
+
+    fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int): Task<Any> {
+        val parser = JsonResponseParser(LoginModel::class.java)
+        val errorResponseParser = JsonResponseParser(LoginErrorModel::class.java)
+        val loginRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.POST, endpoint)
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("userId", mobileNumber)
+            jsonObject.put("otp", OTP)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        loginRequest.setPayload(jsonObject.toString())
+        loginRequest.setResponseParser(parser)
+        loginRequest.setErrorResponseParser(errorResponseParser)
+        return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
     }
 
     fun doSignUpCall(
@@ -52,14 +81,6 @@ class RegistrationController(private val mContext: Context) {
         loginRequest.setResponseParser(parser)
         loginRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
-    }
-
-    fun forgotUserId(endpoint: String): Task<Any> {
-        val parser = JsonResponseParser(ForgotUserNameModel::class.java)
-        val userNameRequest =
-            VolleyRequest.newInstance<ForgotUserNameModel>(Request.Method.GET, endpoint)
-        userNameRequest.setResponseParser(parser)
-        return RequestExecutor.getInstance(mContext).makeRequestCall(userNameRequest)
     }
 
 }

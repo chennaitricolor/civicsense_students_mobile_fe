@@ -1,4 +1,4 @@
-package com.gcc.smartcity.userregistartion
+package com.gcc.smartcity.loginandregistration
 
 import android.Manifest
 import android.content.Context
@@ -23,22 +23,19 @@ import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
 import com.gcc.smartcity.preference.SessionStorage
-import com.gcc.smartcity.userregistartion.controller.LoginController
-import com.gcc.smartcity.userregistartion.controller.RegistrationController
-import com.gcc.smartcity.userregistartion.model.LoginErrorModel
-import com.gcc.smartcity.userregistartion.model.LoginModel
-import com.gcc.smartcity.userregistartion.model.SignUpModel
+import com.gcc.smartcity.loginandregistration.model.LoginErrorModel
+import com.gcc.smartcity.loginandregistration.model.LoginModel
+import com.gcc.smartcity.loginandregistration.model.SignUpModel
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_otpverify.*
 
-
 class OTPVerifyActivity : BaseActivity() {
 
-    private var mLoginController: LoginController? = null
-    private var mRegistrationController: RegistrationController? = null
+    private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
     private var otpField: FontEditText? = null
     lateinit var name: String
     lateinit var userMobileNumber: String
@@ -49,21 +46,23 @@ class OTPVerifyActivity : BaseActivity() {
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     init {
-        mLoginController = LoginController(this)
-        mRegistrationController = RegistrationController(this)
+        mLoginAndRegistrationController = LoginAndRegistrationController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showLoader(false)
         setView(R.layout.activity_otpverify)
         otpField = findViewById(R.id.otpfield)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (intent.extras != null) {
-            name = intent.extras!!.getString("name").toString()
             userMobileNumber = intent.extras!!.getString("mobilenumber").toString()
             fromScreen = intent.extras!!.getString("fromScreen").toString()
+            if (fromScreen == "signUpScreen") {
+                name = intent.extras!!.getString("name").toString()
+            }
         }
 
         buttonEffect(VerifyBTN)
@@ -82,7 +81,7 @@ class OTPVerifyActivity : BaseActivity() {
     }
 
     private fun doRegistration(name: String, mobileNumber: String, otp: String) {
-        mRegistrationController?.doSignUpCall(
+        mLoginAndRegistrationController?.doSignUpCall(
             BuildConfig.HOST + "user/signup",
             name,
             mobileNumber,
@@ -96,7 +95,7 @@ class OTPVerifyActivity : BaseActivity() {
     }
 
     private fun doLogin(mobileNumber: String, otp: String) {
-        mLoginController?.doLoginCall(
+        mLoginAndRegistrationController?.doLoginCall(
             BuildConfig.HOST + "user/login",
             mobileNumber,
             otp.toInt()
@@ -131,8 +130,9 @@ class OTPVerifyActivity : BaseActivity() {
                     signUpModel.message,
                     getString(R.string.okButtonText)
                 )
+                showLoader(false)
             }
-            showLoader(false)
+//            showLoader(false)
         }
 
         return null
@@ -152,7 +152,7 @@ class OTPVerifyActivity : BaseActivity() {
         } else {
             val loginModel = task.result as LoginModel
             Logger.d("HERE IN POST LOGIN")
-            if (!loginModel.success!!) {
+            if (loginModel.success!!) {
                 SessionStorage.getInstance().userId = mobileNumber
                 try {
                     callLeaderBoardEndpoint()
@@ -173,7 +173,7 @@ class OTPVerifyActivity : BaseActivity() {
     }
 
     private fun callLeaderBoardEndpoint() {
-        mLoginController?.doLeaderBoardCall(BuildConfig.HOST + "user/leaderboard?type=local")
+        mLoginAndRegistrationController?.doLeaderBoardCall(BuildConfig.HOST + "user/leaderboard?type=local")
             ?.continueWithTask { task ->
                 postLeaderBoard(task)
             }

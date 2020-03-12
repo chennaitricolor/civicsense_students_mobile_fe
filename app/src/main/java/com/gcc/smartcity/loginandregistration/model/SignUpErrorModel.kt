@@ -1,12 +1,12 @@
-package com.gcc.smartcity.userregistartion.model
+package com.gcc.smartcity.loginandregistration.model
 
 import com.bluelinelabs.logansquare.annotation.JsonField
 import com.bluelinelabs.logansquare.annotation.JsonObject
 
 @JsonObject
-class OTPModel {
+class SignUpErrorModel {
 
     @JsonField
-    var success: Boolean? = false
+    var message: String? = null
 
 }

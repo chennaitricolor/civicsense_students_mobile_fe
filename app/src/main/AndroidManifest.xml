@@ -27,20 +27,18 @@
         android:theme="@style/AppThemeNoTitleBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".userregistartion.ForgotUserIdActivity"></activity>
-        <activity android:name=".userregistartion.ForgotPasswordActivity" />
         <activity android:name=".leaderboard.LeaderBoardActivity" />
         <activity android:name=".rewards.RewardsActivity" />
         <activity android:name=".SubmitActivity" />
         <activity android:name=".dashboard.ImageCaptureActivity" />
         <activity
-            android:name=".userregistartion.OTPVerifyActivity"
+            android:name=".loginandregistration.OTPVerifyActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".userregistartion.SignUpActivity"
+            android:name=".loginandregistration.SignUpActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".userregistartion.LoginActivity"
+            android:name=".loginandregistration.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

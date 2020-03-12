@@ -1,12 +1,12 @@
-package com.gcc.smartcity.userregistartion.model
+package com.gcc.smartcity.loginandregistration.model
 
 import com.bluelinelabs.logansquare.annotation.JsonField
 import com.bluelinelabs.logansquare.annotation.JsonObject
 
 @JsonObject
-class UserNameCheckModel {
+class ForgotUserNameModel {
 
     @JsonField
-    var success: Boolean? = false
+    var userId: String? = null
 
 }
