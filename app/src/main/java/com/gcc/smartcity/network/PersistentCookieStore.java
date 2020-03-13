@@ -10,12 +10,12 @@ import java.net.HttpCookie;
 import java.net.URI;
 import java.util.List;
 
-public class PersistantCookieStore implements CookieStore {
+public class PersistentCookieStore implements CookieStore {
 
     private CookieStore mCookieStore;
     private Gson mGson;
 
-    public PersistantCookieStore() {
+    public PersistentCookieStore() {
 
         mGson = new Gson();
 

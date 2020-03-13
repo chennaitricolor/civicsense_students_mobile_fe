@@ -5,9 +5,6 @@ import com.gcc.smartcity.utils.Logger;
 
 import java.io.IOException;
 
-/**
- * Created by NSM Services on 08/06/16.
- */
 public class JsonResponseParser<T> implements ResponseParser {
 
     private Class<T> mClz;
@@ -19,7 +16,7 @@ public class JsonResponseParser<T> implements ResponseParser {
     @Override
     public T parse(String response) {
         try {
-            Logger.d("Response -- "+response);
+            Logger.d("Response -- " + response);
             return LoganSquare.parse(response, mClz);
         } catch (IOException e) {
             e.printStackTrace();

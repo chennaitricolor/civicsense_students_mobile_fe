@@ -2,13 +2,12 @@ package com.gcc.smartcity.network;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Base64;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.Volley;
-import com.gcc.smartcity.utils.NetworkError;
 import com.gcc.smartcity.utils.Logger;
+import com.gcc.smartcity.utils.NetworkError;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +18,6 @@ import javax.net.ssl.SSLSocketFactory;
 import bolts.Task;
 import bolts.TaskCompletionSource;
 
-/**
- * Created by NSM Services on 09/06/16.
- * <p>
- * Request executor is a bridge between Volley network component and the
- * controllers. Controllers can use request executor to initiate an
- * API call to the network with a @link{VolleyRequest} object.
- */
 public class RequestExecutor {
 
     private RequestExecutor() {
@@ -137,7 +129,7 @@ public class RequestExecutor {
 
     }
 
-    public Task<Object> makeRequestCallforPDFDownloadWithCustomHeaders(ByteArrayRequest request, Map<String, String> headers) {
+    public Task<Object> makeRequestCallForPDFDownloadWithCustomHeaders(ByteArrayRequest request, Map<String, String> headers) {
         final TaskCompletionSource<Object> task = new TaskCompletionSource<>();
         headers.put("X-Application-Id", "mobile-android");
         request.setHeaders(headers);

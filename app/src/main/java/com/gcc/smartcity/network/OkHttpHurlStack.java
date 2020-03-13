@@ -1,9 +1,5 @@
 package com.gcc.smartcity.network;
 
-/**
- * Created by NSM Services on 3/28/2017.
- */
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 
@@ -37,7 +33,7 @@ public class OkHttpHurlStack extends CustomHurlStack {
     private final SSLSocketFactory mSslSocketFactory;
 
     public OkHttpHurlStack(SSLSocketFactory mSslSocketFactory) {
-        this(new OkHttpClient(),mSslSocketFactory);
+        this(new OkHttpClient(), mSslSocketFactory);
     }
 
     public OkHttpHurlStack(OkHttpClient client, SSLSocketFactory mSslSocketFactory) {
@@ -65,7 +61,7 @@ public class OkHttpHurlStack extends CustomHurlStack {
 
         // use caller-provided custom SslSocketFactory, if any, for HTTPS
         if ("https".equals(url.getProtocol()) && mSslSocketFactory != null) {
-            ((HttpsURLConnection)connection).setSSLSocketFactory(mSslSocketFactory);
+            ((HttpsURLConnection) connection).setSSLSocketFactory(mSslSocketFactory);
         }
 
         return connection;

@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity() {
         if (isValidSession()) {
             showLoader(true)
             callLeaderBoardEndpoint()
-        } else  {
+        } else {
             setView(R.layout.activity_login)
 
             loader = findViewById(R.id.loader_layout)
@@ -84,13 +84,14 @@ class LoginActivity : BaseActivity() {
                     }
                 }
 
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                    // other stuffs
-                }
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
 
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // other stuffs
-                }
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             })
 
             getOTP.setOnClickListener {
@@ -162,7 +163,6 @@ class LoginActivity : BaseActivity() {
                     getString(R.string.okButtonText)
                 )
             }
-//            showLoader(false)
         }
 
         return null

@@ -51,7 +51,6 @@ class OTPVerifyActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        showLoader(false)
         setView(R.layout.activity_otpverify)
         otpField = findViewById(R.id.otpfield)
 
@@ -68,7 +67,7 @@ class OTPVerifyActivity : BaseActivity() {
         buttonEffect(VerifyBTN)
 
         VerifyBTN.setOnClickListener {
-            if (otpField?.text.toString().isNotEmpty()) { //check if the right otp is entered or not and then call registration
+            if (otpField?.text.toString().isNotEmpty()) {
                 if (fromScreen == "signUpScreen") {
                     doRegistration(name, userMobileNumber, otpField?.text.toString())
                 } else {
@@ -132,7 +131,6 @@ class OTPVerifyActivity : BaseActivity() {
                 )
                 showLoader(false)
             }
-//            showLoader(false)
         }
 
         return null

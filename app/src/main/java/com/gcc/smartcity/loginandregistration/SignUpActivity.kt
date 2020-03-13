@@ -18,7 +18,6 @@ import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationCon
 import com.gcc.smartcity.loginandregistration.model.OTPModel
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
-
 class SignUpActivity : BaseActivity() {
 
     private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
@@ -116,7 +115,6 @@ class SignUpActivity : BaseActivity() {
                     getString(R.string.okButtonText)
                 )
             }
-//            showLoader(false)
         }
 
         return null

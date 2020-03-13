@@ -56,7 +56,7 @@ public class CustomHurlStack implements HttpStack {
     }
 
     /**
-     * @param urlRewriter Rewriter to use for request URLs
+     * @param urlRewriter      Rewriter to use for request URLs
      * @param sslSocketFactory SSL factory to use for HTTPS connections
      */
     public CustomHurlStack(UrlRewriter urlRewriter, SSLSocketFactory sslSocketFactory) {
@@ -107,6 +107,7 @@ public class CustomHurlStack implements HttpStack {
 
     /**
      * Initializes an {@link HttpEntity} from the given {@link HttpURLConnection}.
+     *
      * @param connection
      * @return an HttpEntity populated with data from <code>connection</code>.
      */
@@ -134,6 +135,7 @@ public class CustomHurlStack implements HttpStack {
 
     /**
      * Opens an {@link HttpURLConnection} with parameters.
+     *
      * @param url
      * @return an open connection
      * @throws IOException
@@ -149,7 +151,7 @@ public class CustomHurlStack implements HttpStack {
 
         // use caller-provided custom SslSocketFactory, if any, for HTTPS
         if ("https".equals(url.getProtocol()) && mSslSocketFactory != null) {
-            ((HttpsURLConnection)connection).setSSLSocketFactory(mSslSocketFactory);
+            ((HttpsURLConnection) connection).setSSLSocketFactory(mSslSocketFactory);
         }
 
         return connection;
