@@ -72,7 +72,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private fun switchScreen(menuName: String) {
         when (menuName) {
             getString(R.string.drawer_menu_howtoplay) -> {
-                watchYoutubeVideo(this, "1lMBW6u2L2Y")
+                watchYoutubeVideo(this, "Avt-1ucQhps")
             }
             getString(R.string.drawer_menu_invite) -> {
                 shareApp(this)
