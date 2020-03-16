@@ -43,6 +43,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+
     open fun showErrorDialog(
         title: String?,
         message: String?,
