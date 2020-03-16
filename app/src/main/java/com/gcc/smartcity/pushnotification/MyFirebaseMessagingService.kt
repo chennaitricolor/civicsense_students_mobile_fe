@@ -12,7 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.gcc.smartcity.R
-import com.gcc.smartcity.userregistartion.LoginActivity
+import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 

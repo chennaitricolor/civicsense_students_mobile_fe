@@ -1,4 +1,4 @@
-package com.gcc.smartcity.userregistartion
+package com.gcc.smartcity.loginandregistration
 
 import android.content.Intent
 import android.graphics.Color
@@ -14,20 +14,19 @@ import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.fontui.FontEditText
-import com.gcc.smartcity.userregistartion.controller.RegistrationController
-import com.gcc.smartcity.userregistartion.model.OTPModel
+import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
+import com.gcc.smartcity.loginandregistration.model.OTPModel
 import kotlinx.android.synthetic.main.activity_sign_up.*
-
 
 class SignUpActivity : BaseActivity() {
 
-    private var mRegistrationController: RegistrationController? = null
+    private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
     private var name: FontEditText? = null
     private var mobileNumber: FontEditText? = null
     private var isMobileNumberValid: Boolean = false
 
     init {
-        mRegistrationController = RegistrationController(this)
+        mLoginAndRegistrationController = LoginAndRegistrationController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +79,8 @@ class SignUpActivity : BaseActivity() {
     }
 
     private fun sendOTP(name: String, mobileNumber: String) {
-        mRegistrationController?.doOTPCall(
+        showLoader(true)
+        mLoginAndRegistrationController?.doOTPCall(
             BuildConfig.HOST + java.lang.String.format(
                 "user/generate-otp?phoneNumber=%s",
                 mobileNumber
@@ -115,7 +115,6 @@ class SignUpActivity : BaseActivity() {
                     getString(R.string.okButtonText)
                 )
             }
-            showLoader(false)
         }
 
         return null
@@ -138,5 +137,10 @@ class SignUpActivity : BaseActivity() {
             }
             false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showLoader(false)
     }
 }

@@ -1,5 +1,6 @@
 package com.gcc.smartcity
 
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -24,7 +25,6 @@ import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.OnSingleBtnDialogListener
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*
-
 
 abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelectedListener {
 
@@ -71,7 +71,9 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
 
     private fun switchScreen(menuName: String) {
         when (menuName) {
-            getString(R.string.drawer_menu_howtoplay) -> Logger.d("How to play")
+            getString(R.string.drawer_menu_howtoplay) -> {
+                watchYoutubeVideo(this, "Avt-1ucQhps")
+            }
             getString(R.string.drawer_menu_invite) -> {
                 shareApp(this)
             }
@@ -108,9 +110,6 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         mHambugerImg.setOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
     }
 
-    /**
-     * Abstract methods
-     */
     protected abstract fun shouldShowNavigationDrawer(): Boolean
 
     protected abstract fun shouldShowToolbarBackButton(): Boolean
@@ -196,6 +195,20 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
             } catch (e: Exception) {
                 Toast.makeText(this, getString(R.string.tryAgainLater), Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    open fun watchYoutubeVideo(context: Context, id: String) {
+        val appIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$id")
+        )
+        try {
+            context.startActivity(appIntent)
+        } catch (ex: ActivityNotFoundException) {
+            context.startActivity(webIntent)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.gcc.smartcity.userregistartion
+package com.gcc.smartcity.loginandregistration
 
 import android.Manifest
 import android.content.Context
@@ -11,13 +11,9 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import bolts.Task
@@ -27,174 +23,120 @@ import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
+import com.gcc.smartcity.loginandregistration.model.LoginErrorModel
+import com.gcc.smartcity.loginandregistration.model.LoginModel
+import com.gcc.smartcity.loginandregistration.model.SignUpModel
 import com.gcc.smartcity.preference.SessionStorage
-import com.gcc.smartcity.userregistartion.controller.LoginController
-import com.gcc.smartcity.userregistartion.controller.RegistrationController
-import com.gcc.smartcity.userregistartion.model.LoginErrorModel
-import com.gcc.smartcity.userregistartion.model.LoginModel
-import com.gcc.smartcity.userregistartion.model.OTPModel
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
-import com.gcc.smartcity.utils.TouchUtility
 import com.google.android.gms.location.*
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_otpverify.*
 
+class OTPVerifyActivity : BaseActivity() {
 
-class LoginActivity : BaseActivity() {
-
-    private var mLoginController: LoginController? = null
-    private var mRegistrationController: RegistrationController? = null
-    private var loader: LinearLayout? = null
-    private var loginScreen: RelativeLayout? = null
-    private var mobileNumber: FontEditText? = null
-    private var isMobileNumberValid: Boolean = false
+    private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
+    private var otpField: FontEditText? = null
+    lateinit var name: String
+    lateinit var userMobileNumber: String
+    lateinit var fromScreen: String
+    lateinit var mLatitude: String
+    lateinit var mLongitude: String
     private val PERMISSION_ID = 42
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     init {
-        mLoginController = LoginController(this)
-        mRegistrationController = RegistrationController(this)
+        mLoginAndRegistrationController = LoginAndRegistrationController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setView(R.layout.activity_login)
-
-        loader = findViewById(R.id.loader_layout)
-        loginScreen = findViewById(R.id.login_screen)
-        mobileNumber = findViewById(R.id.mobileNumber)
-
-        val mobileNumberPattern =
-            "^[6-9]\\d{9}\$"
-
-//        if (SessionStorage.getInstance().userId != null) {
-//            showLoader(true)
-//            callLogin(SessionStorage.getInstance().userId)
-//        } else {
-//            showLoader(false)
-//        }
+        setView(R.layout.activity_otpverify)
+        otpField = findViewById(R.id.otpfield)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        getLastLocation()
+        if (intent.extras != null) {
+            userMobileNumber = intent.extras!!.getString("mobilenumber").toString()
+            fromScreen = intent.extras!!.getString("fromScreen").toString()
+            if (fromScreen == "signUpScreen") {
+                name = intent.extras!!.getString("name").toString()
+            }
+        }
 
-        buttonEffect(getOTP)
+        buttonEffect(VerifyBTN)
 
-        getFirebaseRemoteConfigData()
-
-        mobileNumber?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.matches((mobileNumberPattern).toRegex()) && s.isNotEmpty()) {
-                    Log.d("success", "valid")
-                    isMobileNumberValid = true
-                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext)
+        VerifyBTN.setOnClickListener {
+            if (otpField?.text.toString().isNotEmpty()) {
+                if (fromScreen == "signUpScreen") {
+                    doRegistration(name, userMobileNumber, otpField?.text.toString())
                 } else {
-                    Log.d("failure", "FAIL")
-                    isMobileNumberValid = false
-                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+                    doLogin(userMobileNumber, otpField?.text.toString())
                 }
             }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // other stuffs
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // other stuffs
-            }
-        })
-
-        getOTP.setOnClickListener {
-            hideSoftKeyBoard()
-            if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
-                sendOTP(mobileNumber?.text.toString())
-            } else {
-                showErrorDialog(
-                    getString(R.string.insufficientDetails),
-                    getString(R.string.incorrectSignUpDetails),
-                    getString(R.string.okButtonText)
-                )
-            }
-        }
-
-        SignupBtnLogin.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra("fromScreen", "loginScreen")
-            startActivity(intent)
-        }
-
-        if(isValidSession()){
             showLoader(true)
-            callLeaderBoardEndpoint()
         }
+        getLastLocation()
     }
 
-    private fun isValidSession():Boolean{
-        return (SessionStorage.getInstance().userId!=null
-                && SessionStorage.getInstance().userId.trim() != ""
-                && SessionStorage.getInstance().sessionCookies!=null
-                && SessionStorage.getInstance().sessionCookies != "")
-    }
-
-    private fun sendOTP(mobileNumber: String) {
-        mRegistrationController?.doOTPCall(
-            BuildConfig.HOST + java.lang.String.format(
-                "user/generate-otp?phoneNumber=%s",
-                mobileNumber
-            )
+    private fun doRegistration(name: String, mobileNumber: String, otp: String) {
+        mLoginAndRegistrationController?.doSignUpCall(
+            BuildConfig.HOST + "user/signup",
+            name,
+            mobileNumber,
+            otp.toInt(),
+            "12.888370",
+            "80.227051"
         )
             ?.continueWithTask { task ->
-                afterOTPSent(task, mobileNumber)
+                afterRegistrationCall(mobileNumber, task)
             }
     }
 
-    private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
+    private fun doLogin(mobileNumber: String, otp: String) {
+        mLoginAndRegistrationController?.doLoginCall(
+            BuildConfig.HOST + "user/login",
+            mobileNumber,
+            otp.toInt()
+        )
+            ?.continueWithTask { task ->
+                afterLoginCall(mobileNumber, task)
+            }
+    }
+
+    private fun afterRegistrationCall(mobileNumber: String, task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             showErrorDialog(
-                getString(R.string.unableToSendOTP),
+                getString(R.string.unableToSignUp),
                 getString(R.string.tryAgainLater),
                 getString(R.string.okButtonText)
             )
             task.makeVoid()
             showLoader(false)
         } else {
-            val otpModel = task.result as OTPModel
-            if (otpModel.success!!) {
-                val intent = Intent(this, OTPVerifyActivity::class.java)
-                intent.putExtra("mobilenumber", mobileNumber)
-                intent.putExtra("fromScreen", "loginScreen")
-                startActivity(intent)
+            val signUpModel = task.result as SignUpModel
+            if (signUpModel.success!!) {
+                Toast.makeText(this, "SignedUp successfully", Toast.LENGTH_SHORT).show()
+                SessionStorage.getInstance().userId = mobileNumber
+                try {
+                    callLeaderBoardEndpoint()
+                } catch (ex: Exception) {
+                    Logger.d(ex.toString())
+                }
             } else {
                 showErrorDialog(
-                    getString(R.string.unableToSendOTP),
-                    getString(R.string.tryAgainLater),
+                    getString(R.string.unableToSignUp),
+                    signUpModel.message,
                     getString(R.string.okButtonText)
                 )
+                showLoader(false)
             }
-            showLoader(false)
         }
 
         return null
     }
 
-    private fun getFirebaseRemoteConfigData() {
-        Log.d("Firebase----->>", "token " + FirebaseInstanceId.getInstance().token)
-        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
-            val newToken = it.token
-            Log.e("Firebase", newToken)
-        }.addOnFailureListener {
-            Logger.d(it.toString())
-        }
-
-
-    }
-
-    private fun postLogin(mobileNumber: String, task: Task<Any>): Task<Any>? {
+    private fun afterLoginCall(mobileNumber: String, task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             val loginErrorMessage =
                 ((task.error as NetworkError).errorResponse as LoginErrorModel).message
@@ -229,7 +171,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun callLeaderBoardEndpoint() {
-        mLoginController?.doLeaderBoardCall(BuildConfig.HOST + "user/leaderboard?type=local")
+        mLoginAndRegistrationController?.doLeaderBoardCall(BuildConfig.HOST + "user/leaderboard?type=local")
             ?.continueWithTask { task ->
                 postLeaderBoard(task)
             }
@@ -241,25 +183,12 @@ class LoginActivity : BaseActivity() {
 
     private fun postLeaderBoard(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-            if ((task.error as NetworkError).errorCode == 401) {
-                Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_LONG)
-                    .show()
-
-                SessionStorage.getInstance().userId = null
-                SessionStorage.getInstance().sessionCookies = null
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.clearStack()
-                startActivity(intent)
-                finish()
-                task.makeVoid()
-            } else {
-                SessionStorage.getInstance().leaderBoardStatus = false
-                val intent = Intent(this, DashBoardActivity::class.java)
-                intent.clearStack()
-                startActivity(intent)
-                finish()
-                task.makeVoid()
-            }
+            SessionStorage.getInstance().leaderBoardStatus = false
+            val intent = Intent(this, DashBoardActivity::class.java)
+            intent.clearStack()
+            startActivity(intent)
+            finish()
+            task.makeVoid()
         } else {
             val leaderBoardModel = task.result as LeaderBoardModel
             if (leaderBoardModel.success!!) {
@@ -281,7 +210,7 @@ class LoginActivity : BaseActivity() {
                 finish()
             }
         }
-        showLoader(false)
+
         return null
     }
 
@@ -290,7 +219,7 @@ class LoginActivity : BaseActivity() {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     v.background.setColorFilter(
-                        Color.parseColor("#d4993d"),
+                        Color.parseColor("#7aa133"),
                         PorterDuff.Mode.SRC_ATOP
                     )
                     v.invalidate()
@@ -304,18 +233,6 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-//    private fun showLoader(status: Boolean) {
-//        if (status) {
-//            loader?.visibility = View.VISIBLE
-//            loginScreen?.visibility = View.GONE
-//            TouchUtility(this).enableUserInteraction(!status)
-//        } else {
-//            loader?.visibility = View.GONE
-//            loginScreen?.visibility = View.VISIBLE
-//            TouchUtility(this).enableUserInteraction(!status)
-//        }
-//    }
-
     private fun getLastLocation() {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
@@ -326,6 +243,8 @@ class LoginActivity : BaseActivity() {
                     } else {
                         Log.d("Old Latitude", location.latitude.toString())
                         Log.d("Old Longitude", location.longitude.toString())
+                        mLatitude = location.latitude.toString()
+                        mLongitude = location.longitude.toString()
                     }
                 }
             } else {
@@ -358,6 +277,8 @@ class LoginActivity : BaseActivity() {
             val mLastLocation: Location = locationResult.lastLocation
             Log.d("New Latitude", mLastLocation.latitude.toString())
             Log.d("New Longitude", mLastLocation.longitude.toString())
+            mLatitude = mLastLocation.latitude.toString()
+            mLongitude = mLastLocation.longitude.toString()
         }
     }
 

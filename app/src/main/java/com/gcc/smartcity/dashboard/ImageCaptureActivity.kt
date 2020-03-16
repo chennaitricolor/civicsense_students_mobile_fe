@@ -30,7 +30,7 @@ import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
 import com.gcc.smartcity.SubmitActivity
-import com.gcc.smartcity.network.PersistantCookieStore
+import com.gcc.smartcity.network.PersistentCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.OnDialogListener
 import com.google.android.gms.location.*
@@ -206,7 +206,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
 
     private fun uploadFileToServer() {
         val cookieManager = CookieManager(
-            PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER
+            PersistentCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER
         )
         CookieHandler.setDefault(cookieManager)
 

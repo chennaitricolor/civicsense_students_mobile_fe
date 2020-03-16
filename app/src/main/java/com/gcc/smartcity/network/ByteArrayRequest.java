@@ -6,17 +6,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.gcc.smartcity.utils.NetworkError;
 import com.gcc.smartcity.utils.Logger;
+import com.gcc.smartcity.utils.NetworkError;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.Map;
-
-/**
- * Created by ktt on 8/31/17.
- */
 
 public class ByteArrayRequest extends Request<byte[]> {
 
@@ -56,7 +52,7 @@ public class ByteArrayRequest extends Request<byte[]> {
         super(method, url, null);
         this.mUrl = url;
         setRetryPolicy(new DefaultRetryPolicy(DEFAULT_TIMEOUT, RETRY_COUNT, BACKOFF_MULTIPLIER));
-        CookieManager cookieManager = new CookieManager(new PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
         CookieHandler.setDefault(cookieManager);
     }
 

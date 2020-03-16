@@ -14,8 +14,7 @@ import androidx.core.app.ActivityCompat
 import bolts.Task
 import com.gcc.smartcity.NavigationDrawerActivity
 import com.gcc.smartcity.R
-import com.gcc.smartcity.dashboard.model.MissionListModel
-import com.gcc.smartcity.userregistartion.LoginActivity
+import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.utils.NetworkError
 import com.gcc.smartcity.utils.OnDialogListener
 import com.google.android.gms.common.api.ResolvableApiException
@@ -30,8 +29,8 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener, OnDialogListener, MissionAPIListener {
-    override fun onFail(message: String, task: Task<Any>) {
 
+    override fun onFail(message: String, task: Task<Any>) {
         val error = task.error as NetworkError
         if (error.errorCode == 401) {
             val intent = Intent(this, LoginActivity::class.java)
@@ -52,7 +51,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         showLoader(false)
         configureMissionList(missionModel)
     }
-
 
     override fun shouldShowNavigationDrawer(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

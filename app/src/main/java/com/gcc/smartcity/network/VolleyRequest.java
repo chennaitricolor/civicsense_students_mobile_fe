@@ -6,10 +6,9 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.gcc.smartcity.utils.NetworkError;
 import com.androidboilerplate.utils.StringUtil;
 import com.gcc.smartcity.utils.Logger;
-
+import com.gcc.smartcity.utils.NetworkError;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -44,7 +43,6 @@ public class VolleyRequest<T> extends Request<T> {
 
     private final float BACKOFF_MULTIPLIER = 1.0f;    // Volley requires this. Not sure what this is for exactly.
 
-
     private Map<String, String> mHeaders = null;
 
     private LinkedHashMap<String, String> mQueryParams = null;
@@ -74,7 +72,7 @@ public class VolleyRequest<T> extends Request<T> {
         super(method, url, null);
         mUrl = url;
         setRetryPolicy(new DefaultRetryPolicy(DEFAULT_TIMEOUT, RETRY_COUNT, BACKOFF_MULTIPLIER));
-        CookieManager cookieManager = new CookieManager(new PersistantCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
         CookieHandler.setDefault(cookieManager);
     }
 

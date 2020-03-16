@@ -8,10 +8,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by bgnanaraj on 9/26/2017.
- */
-
 public class VolleyImageLoader {
     private static RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
@@ -26,16 +22,18 @@ public class VolleyImageLoader {
     }
 
 
-   public ImageLoader setImageLoader(){
-       mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-           private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
-           public void putBitmap(String url, Bitmap bitmap) {
-               mCache.put(url, bitmap);
-           }
-           public Bitmap getBitmap(String url) {
-               return mCache.get(url);
-           }
-       });
-       return mImageLoader;
-   }
+    public ImageLoader setImageLoader() {
+        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
+            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
+
+            public void putBitmap(String url, Bitmap bitmap) {
+                mCache.put(url, bitmap);
+            }
+
+            public Bitmap getBitmap(String url) {
+                return mCache.get(url);
+            }
+        });
+        return mImageLoader;
+    }
 }

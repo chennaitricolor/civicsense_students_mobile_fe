@@ -16,7 +16,7 @@
     <string name="loginButton">Login</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="signupButton">Signup</string>
-    <string name="otp_verification_text">OTP Verification Text</string>
+    <string name="otp_verification_text">Please enter the OTP that you\'ve received</string>
     <string name="submit">Submit</string>
     <string name="create_account">Create Account</string>
     <string name="name">Name</string>
