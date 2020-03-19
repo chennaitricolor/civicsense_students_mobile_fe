@@ -115,13 +115,13 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                         lastLocation.latitude.toString(),
                         lastLocation.longitude.toString()
                     )
+                    showLoader(true)
                 }
 //                    }
             }
         }
 
         createLocationRequest()
-        showLoader(true)
 //        }
     }
 
