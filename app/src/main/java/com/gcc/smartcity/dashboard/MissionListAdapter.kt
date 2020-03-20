@@ -40,7 +40,6 @@ class MissionListAdapter(var context: Context, private var dataSet: ArrayList<Mi
             missionViewHolder = rowView?.tag as MissionViewHolder
         }
 
-        // get current item to be displayed
         val missionModel = getItem(position) as MissionModel
         missionViewHolder.menuName.text = missionModel.campaignName
         missionViewHolder.gemCount.text = missionModel.rewards.toString()

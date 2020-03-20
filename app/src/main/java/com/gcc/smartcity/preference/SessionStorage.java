@@ -15,7 +15,6 @@ public class SessionStorage {
     private static volatile SessionStorage sInstance;
 
     public static synchronized SessionStorage getInstance() {
-//        db = new DatabaseHandler();
         if (sInstance == null) {
             sInstance = new SessionStorage();
         }
