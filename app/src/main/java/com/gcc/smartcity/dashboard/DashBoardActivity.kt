@@ -26,7 +26,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
-
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener, OnDialogListener, MissionAPIListener {
 
@@ -71,7 +70,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     private var currentLocationMarker: Marker? = null
     private var numGoodReadings: Int = 0
     private val DEVELOPER_OPTIONS_REQUEST_CODE = 1010
-    private var continueAppExecution: Boolean = true
     private var locationAccuracyCircle: Circle? = null
     private var hasMissionListPopulated: Boolean = true
 
@@ -79,35 +77,20 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val REQUEST_CHECK_SETTINGS = 2
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setMainContentView(R.layout.activity_dashboard)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mSettingsClient = LocationServices.getSettingsClient(this)
-//        if (continueAppExecution) {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-//                    if (!isLocationPlausible(lastLocation) && continueAppExecution) {
-//                        AlertDialogBuilder.getInstance().showErrorDialog(
-//                            getString(R.string.turnOffMockLocationTitle),
-//                            getString(R.string.turnOffMockLocationDescription),
-//                            getString(R.string.cancelButtonText),
-//                            getString(R.string.gotoSettingsButtonText),
-//                            "mock_location_warning",
-//                            this@DashBoardActivity,
-//                            this@DashBoardActivity
-//                        )
-//                        continueAppExecution = false
-//                    } else if (isLocationPlausible(lastLocation)) {
                 drawLocationAccuracyCircle(lastLocation)
                 placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
                 if (hasMissionListPopulated) {
@@ -117,12 +100,9 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                     )
                     showLoader(true)
                 }
-//                    }
             }
         }
-
         createLocationRequest()
-//        }
     }
 
     private fun populateMissionList(latitude: String, longitude: String) {
@@ -186,9 +166,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
         map.setOnMarkerClickListener(this)
 
-//        if (continueAppExecution) {
         setUpMap()
-//        }
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
@@ -244,18 +222,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             // Got last known location. In some rare situations this can be null.
             if (location != null) {
                 lastLocation = location
-//                if (!isLocationPlausible(lastLocation) && continueAppExecution) {
-//                    AlertDialogBuilder.getInstance().showErrorDialog(
-//                        getString(R.string.turnOffMockLocationTitle),
-//                        getString(R.string.turnOffMockLocationDescription),
-//                        getString(R.string.cancelButtonText),
-//                        getString(R.string.gotoSettingsButtonText),
-//                        "mock_location_warning",
-//                        this,
-//                        this
-//                    )
-//                    continueAppExecution = false
-//                } else if (isLocationPlausible(lastLocation)) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 drawLocationAccuracyCircle(location)
                 placeMarkerOnMap(currentLatLng)
@@ -263,7 +229,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                 if (hasMissionListPopulated) {
                     populateMissionList(location.latitude.toString(), location.longitude.toString())
                 }
-//                }
             }
         }
     }
@@ -302,7 +267,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
-            Looper.myLooper() /* Looper */
+            Looper.myLooper()
         )
     }
 
@@ -357,7 +322,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                     .strokeColor(Color.argb(64, 0, 0, 0))
                     .strokeWidth(1.0f)
                     .radius(location.accuracy.toDouble())
-            ) //set radius to horizontal accuracy in meter.
+            )
         }
     }
 
@@ -369,12 +334,8 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
                 startLocationUpdates()
             }
         }
-//        else if (requestCode == DEVELOPER_OPTIONS_REQUEST_CODE) {
-//            startLocationUpdates()
-//        }
     }
 
-    // 2
     override fun onPause() {
         super.onPause()
         stopLocationUpdates()
@@ -390,7 +351,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             }
     }
 
-    // 3
     public override fun onResume() {
         super.onResume()
         if (!locationUpdateState) {
@@ -408,5 +368,4 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     override fun onNegativeButtonClick(whichDialog: String?) {
         this.finishAffinity()
     }
-
 }
