@@ -50,7 +50,29 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     }
 
     private fun setUserID() {
-        userNameDrawer?.text = SessionStorage.getInstance().userId
+        val userId = SessionStorage.getInstance().userId
+        if (isUserNameAvailable(userId)) {
+            userNameDrawer?.text = SessionStorage.getInstance().userName
+        } else {
+            userNameDrawer?.text = userId
+        }
+    }
+
+    private fun isUserNameAvailable(userId: String): Boolean {
+        val leaderBoardData = SessionStorage.getInstance().leaderBoardModel.leaderboard
+        if (leaderBoardData != null) {
+            for (i in 0 until (leaderBoardData.size)) {
+                if (leaderBoardData[i]?._id == userId) {
+                    if (!leaderBoardData[i]?.name.isNullOrEmpty()) {
+                        SessionStorage.getInstance().userName = leaderBoardData[i]?.name ?: "Guest"
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            }
+        }
+        return false
     }
 
     private fun userStatsVisibilityModifier() {
@@ -59,8 +81,15 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         } else {
             gemsCountDrawer?.text =
                 SessionStorage.getInstance().leaderBoardModel.userRewards.toString()
-            rankCountDrawer?.text =
-                SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+            val userRank = SessionStorage.getInstance().leaderBoardModel.userRank
+            if (userRank != null) {
+                if (userRank < 1) {
+                    rankCountDrawer?.text = "-"
+                } else {
+                    rankCountDrawer?.text =
+                        SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+                }
+            }
         }
     }
 
@@ -130,7 +159,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     open fun shareApp(context: Context) {
         val appId: String = context.packageName
         val myIntent = Intent(Intent.ACTION_SEND)
-        myIntent.setType("text/plain")
+        myIntent.type = "text/plain"
         val shareBody =
             "I use AgentX and I love it. It helps in ensuring a safer city. Download it at https://play.google.com/store/apps/details?id=$appId"
         val shareSub = "Link to install AgentX App"

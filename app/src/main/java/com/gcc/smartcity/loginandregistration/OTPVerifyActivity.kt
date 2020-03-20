@@ -81,24 +81,27 @@ class OTPVerifyActivity : BaseActivity() {
 
     private fun doRegistration(name: String, mobileNumber: String, otp: String) {
         mLoginAndRegistrationController?.doSignUpCall(
-            BuildConfig.HOST + "user/signup",
-            name,
-            mobileNumber,
-            otp.toInt(),
-            "12.888370",
-            "80.227051"
-        )
+                BuildConfig.HOST + "user/signup",
+                name,
+                mobileNumber,
+                otp.toInt(),
+                mLatitude,
+                mLongitude
+            )
             ?.continueWithTask { task ->
                 afterRegistrationCall(mobileNumber, task)
             }
     }
 
     private fun doLogin(mobileNumber: String, otp: String) {
-        mLoginAndRegistrationController?.doLoginCall(
-            BuildConfig.HOST + "user/login",
-            mobileNumber,
-            otp.toInt()
-        )
+        mLoginAndRegistrationController?.doSignUpCall(
+                BuildConfig.HOST + "user/signup",
+                "Guest",
+                mobileNumber,
+                otp.toInt(),
+                mLatitude,
+                mLongitude
+            )
             ?.continueWithTask { task ->
                 afterLoginCall(mobileNumber, task)
             }

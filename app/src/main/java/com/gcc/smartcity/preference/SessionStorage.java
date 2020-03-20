@@ -41,6 +41,14 @@ public class SessionStorage {
        return Preferences.INSTANCE.getUserId();
     }
 
+    public void setUserName(String userName){
+        Preferences.INSTANCE.setUserName(userName);
+    }
+
+    public String getUserName(){
+        return Preferences.INSTANCE.getUserName();
+    }
+
     public String getStringfromObject(Object object) {
         if (object == null) {
             throw new IllegalArgumentException("object is null");

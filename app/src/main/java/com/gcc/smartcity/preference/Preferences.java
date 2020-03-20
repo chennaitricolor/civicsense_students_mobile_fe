@@ -15,7 +15,7 @@ public enum Preferences {
     private static final String LEADERBOARD_API_MODEL = "leaderboard_api_model";
     private static final String LEADERBOARD_STATUS = "leaderboard_status";
     private static final String USER_ID = "user_id";
-    private static final String PASSWORD = "password";
+    private static final String USER_NAME = "user_name";
 
     private UserPreferences mPreferenceHandle;
     private PreferenceUnclear mPreferenceUnclear;
@@ -53,6 +53,14 @@ public enum Preferences {
 
     public void setUserId(String userId) {
         mPreferenceHandle.setString(USER_ID, userId);
+    }
+
+    public String getUserName() {
+        return mPreferenceHandle.getString(USER_NAME, null);
+    }
+
+    public void setUserName(String userName) {
+        mPreferenceHandle.setString(USER_NAME, userName);
     }
 
     public void setLeaderBoardStatus(Boolean leaderBoardStatus) {

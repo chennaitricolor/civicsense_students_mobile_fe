@@ -10,7 +10,7 @@ class LeaderBoardDetailsModel {
     var _id: String? = null
 
     @JsonField
-    var avatar: Int? = null
+    var name: String? = null
 
     @JsonField
     var rewards: Int? = null

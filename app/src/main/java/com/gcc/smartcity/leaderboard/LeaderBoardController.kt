@@ -1,6 +1,5 @@
 package com.gcc.smartcity.leaderboard
 
-import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 
@@ -13,43 +12,7 @@ class LeaderBoardController(
     fun getAdapterData(): ArrayList<LeaderBoardRecyclerViewModel> {
 
         leaderBoardAdapterData.clear()
-        doLeaderBoardListCall(BuildConfig.HOST + "user/leaderboard?type=local")
-//            val tempWinnerRunnerModel = LeaderBoardWinnerRunnerModel(
-//                "Bob",
-//                "1000",
-//                "FIRST",
-//                "Danny",
-//                "900",
-//                "SECOND",
-//                "Bob 2",
-//                "900",
-//                "THIRD"
-//            )
-//            val winnerRunnerModel = LeaderBoardRecyclerViewModel(tempWinnerRunnerModel, 0)
-//            leaderBoardAdapterData.add(winnerRunnerModel)
-////            for (every user)
-//            val tempParticipantModel = LeaderBoardParticipantsModel("user 1", "55", "35")
-//            val participantModel = LeaderBoardRecyclerViewModel(tempParticipantModel, 1)
-//            leaderBoardAdapterData.add(participantModel)
-//            val tempParticipantModel1 = LeaderBoardParticipantsModel("user 2", "55", "56")
-//            val participantModel1 = LeaderBoardRecyclerViewModel(tempParticipantModel1, 1)
-//            leaderBoardAdapterData.add(participantModel1)
-//            val tempParticipantModel2 = LeaderBoardParticipantsModel("user 3", "55", "78")
-//            val participantModel2 = LeaderBoardRecyclerViewModel(tempParticipantModel2, 1)
-//            leaderBoardAdapterData.add(participantModel2)
-        return leaderBoardAdapterData
-    }
 
-    private fun doLeaderBoardListCall(url: String) {
-//            val volleyRequest = VolleyRequest.newInstance<LeaderBoardModel>(Request.Method.GET, url)
-//            val jsonResponseParser =
-//                JsonResponseParser<LeaderBoardModel>(LeaderBoardModel::class.java)
-//            volleyRequest.setResponseParser(jsonResponseParser)
-//            RequestExecutor.getInstance(mContext).makeRequestCall(volleyRequest).continueWithTask(
-//                Continuation<Any, Task<Any>> {
-//                    if (!it.isFaulted) {
-//                        Logger.d("success", "got leaderboard list")
-//                        val leaderBoardModel = it.result as LeaderBoardModel
         val leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
         if (leaderBoardModel.success!! && leaderBoardModel.leaderboard!!.isNotEmpty()) {
             val tempWinnerRunnerModel = LeaderBoardWinnerRunnerModel(
@@ -82,11 +45,6 @@ class LeaderBoardController(
             Logger.d("failed", "leader board is empty")
             leaderBoardAPIListener.onFail("There are no stats to populate the leader board")
         }
-//                    } else {
-//                        Logger.d("failed", "unable to fetch leader board")
-//                        leaderBoardAPIListener.onFail("Unable to fetch stats for the leader board")
-//                    }
-//                    null
-//                })
+        return leaderBoardAdapterData
     }
 }

@@ -24,16 +24,6 @@ class DashboardController(
             BuildConfig.HOST + "user/tasks?coordinates=" + longitude + "&coordinates=" + latitude
         )
 
-//        doMissionListCall(
-//            BuildConfig.HOST + "user/tasks?coordinates=80.304340&coordinates=13.161376"
-//        )
-//
-//        var missionModel = MissionModel("gdsvgdsgdw3r3fw", "Capture the Water Stagnation", "gadg","agdag",50)
-//
-//        list.add(missionModel)
-////        missionModel = MissionModel("Capture the Water Stagnation", "3")
-////
-////        list.add(missionModel)
         return list
     }
 
@@ -68,10 +58,8 @@ class DashboardController(
                         missionAPIListener.onFail("There are no tasks in your area", it)
                     }
                 } else {
-                    missionAPIListener.onFail("App not supported in your area", it)
-
-                    //      val missionListErrorModel = it.result as MissionListErrorModel
-                    Logger.d("failed", "unable to fetch mission list")
+                    missionAPIListener.onFail("No Tasks/Activities found in your area", it)
+                    Logger.d("Failed", "Unable to fetch mission list")
                 }
                 null
             })
