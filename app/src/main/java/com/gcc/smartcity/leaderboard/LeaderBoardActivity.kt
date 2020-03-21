@@ -36,8 +36,15 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
         leaderboardUserName?.text = SessionStorage.getInstance().userId
         leaderboardUserPointsEarned?.text =
             SessionStorage.getInstance().leaderBoardModel.userRewards.toString()
-        leaderboardUserRanking?.text =
-            SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+        val userRank = SessionStorage.getInstance().leaderBoardModel.userRank
+        if (userRank != null) {
+            if (userRank < 1) {
+                leaderboardUserRanking?.text = "-"
+            } else {
+                leaderboardUserRanking?.text =
+                    SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+            }
+        }
     }
 
     private fun goBack() {

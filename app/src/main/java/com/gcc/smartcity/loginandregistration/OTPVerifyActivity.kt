@@ -126,7 +126,6 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         } else {
             val signUpModel = task.result as SignUpModel
             if (signUpModel.success!!) {
-                Toast.makeText(this, "SignedUp successfully", Toast.LENGTH_SHORT).show()
                 SessionStorage.getInstance().userId = mobileNumber
                 try {
                     callLeaderBoardEndpoint()
