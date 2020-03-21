@@ -75,7 +75,6 @@ public class FileUpload {
                 Map<String, String> params = new HashMap<>();
                 params.put("campaignId", campaignId);
                 params.put("locationNm", campaignName);
-//                params.put("location", "{\"coordinates\": [79.619928, 10.752292]}");
                 params.put("location", "{\"coordinates\": [" + longitude + "," + latitude + "]}");
                 return params;
             }

@@ -121,17 +121,13 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                 val intent = Intent(this, LeaderBoardActivity::class.java)
                 startActivity(intent)
             }
-
         }
     }
 
     private fun setAdapter() {
         drawerList = NavigationController(this).getAdapterData()
-        // Create adapter passing in the sample user data
         val adapter = NavDrawerListAdapter(drawerList, this)
-        // Attach the adapter to the recyclerView to populate items
         navListMenu.adapter = adapter
-        // Set layout manager to position the items
         navListMenu.layoutManager = LinearLayoutManager(this)
     }
 
@@ -153,7 +149,6 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
             Logger.d(e.localizedMessage)
             e.message?.let { Logger.d(it) }
         }
-
     }
 
     open fun shareApp(context: Context) {

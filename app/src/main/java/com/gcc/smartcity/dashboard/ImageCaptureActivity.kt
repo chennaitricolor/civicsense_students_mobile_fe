@@ -388,8 +388,10 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
                 val rotatedBitmap: Bitmap?
                 when (orientation) {
                     ExifInterface.ORIENTATION_ROTATE_90 -> rotatedBitmap = rotateImage(bitmap, 90F)
-                    ExifInterface.ORIENTATION_ROTATE_180 -> rotatedBitmap = rotateImage(bitmap, 180F)
-                    ExifInterface.ORIENTATION_ROTATE_270 -> rotatedBitmap = rotateImage(bitmap, 270F)
+                    ExifInterface.ORIENTATION_ROTATE_180 -> rotatedBitmap =
+                        rotateImage(bitmap, 180F)
+                    ExifInterface.ORIENTATION_ROTATE_270 -> rotatedBitmap =
+                        rotateImage(bitmap, 270F)
                     ExifInterface.ORIENTATION_NORMAL -> rotatedBitmap = bitmap
                     else -> rotatedBitmap = bitmap
                 }

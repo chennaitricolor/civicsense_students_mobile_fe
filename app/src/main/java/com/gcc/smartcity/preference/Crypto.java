@@ -1,8 +1,10 @@
 package com.gcc.smartcity.preference;
 
 import android.util.Log;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;

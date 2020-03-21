@@ -89,7 +89,8 @@ class LoginActivity : BaseActivity() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {}
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             })
@@ -130,11 +131,11 @@ class LoginActivity : BaseActivity() {
     private fun sendOTP(mobileNumber: String) {
         showLoader(true)
         mLoginAndRegistrationController?.doOTPCall(
-            BuildConfig.HOST + java.lang.String.format(
-                "user/generate-otp?phoneNumber=%s",
-                mobileNumber
+                BuildConfig.HOST + java.lang.String.format(
+                    "user/generate-otp?phoneNumber=%s",
+                    mobileNumber
+                )
             )
-        )
             ?.continueWithTask { task ->
                 afterOTPSent(task, mobileNumber)
             }

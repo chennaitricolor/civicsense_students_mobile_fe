@@ -26,14 +26,17 @@ import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
 import com.gcc.smartcity.loginandregistration.model.LoginErrorModel
 import com.gcc.smartcity.loginandregistration.model.LoginModel
+import com.gcc.smartcity.loginandregistration.model.SignUpErrorModel
 import com.gcc.smartcity.loginandregistration.model.SignUpModel
 import com.gcc.smartcity.preference.SessionStorage
+import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
+import com.gcc.smartcity.utils.OnSingleBtnDialogListener
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_otpverify.*
 
-class OTPVerifyActivity : BaseActivity() {
+class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
     private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
     private var otpField: FontEditText? = null
@@ -103,16 +106,20 @@ class OTPVerifyActivity : BaseActivity() {
                 mLongitude
             )
             ?.continueWithTask { task ->
-                afterLoginCall(mobileNumber, task)
+                afterRegistrationCall(mobileNumber, task)
             }
     }
 
     private fun afterRegistrationCall(mobileNumber: String, task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
-            showErrorDialog(
-                getString(R.string.unableToSignUp),
+            val signUpErrorMessage =
+                ((task.error as NetworkError).errorResponse as SignUpErrorModel).message
+            AlertDialogBuilder.getInstance().showErrorDialog(
                 getString(R.string.tryAgainLater),
-                getString(R.string.okButtonText)
+                signUpErrorMessage,
+                getString(R.string.okButtonText),
+                this,
+                this
             )
             task.makeVoid()
             showLoader(false)
@@ -329,5 +336,12 @@ class OTPVerifyActivity : BaseActivity() {
                 getLastLocation()
             }
         }
+    }
+
+    override fun onSingleButtonClicked() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.clearStack()
+        startActivity(intent)
+        finish()
     }
 }

@@ -44,7 +44,9 @@ class SignUpActivity : BaseActivity() {
 
         continueBtn.setOnClickListener {
             hideSoftKeyBoard()
-            if (name?.text.toString().isNotEmpty() && mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
+            if (name?.text.toString().isNotEmpty() && mobileNumber?.text.toString()
+                    .isNotEmpty() && isMobileNumberValid
+            ) {
                 sendOTP(name?.text.toString(), mobileNumber?.text.toString())
             } else {
                 showErrorDialog(
@@ -77,11 +79,11 @@ class SignUpActivity : BaseActivity() {
     private fun sendOTP(name: String, mobileNumber: String) {
         showLoader(true)
         mLoginAndRegistrationController?.doOTPCall(
-            BuildConfig.HOST + java.lang.String.format(
-                "user/generate-otp?phoneNumber=%s",
-                mobileNumber
+                BuildConfig.HOST + java.lang.String.format(
+                    "user/generate-otp?phoneNumber=%s",
+                    mobileNumber
+                )
             )
-        )
             ?.continueWithTask { task ->
                 afterOTPSent(task, name, mobileNumber)
             }

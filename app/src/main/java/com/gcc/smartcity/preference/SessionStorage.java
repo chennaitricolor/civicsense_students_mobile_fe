@@ -33,19 +33,19 @@ public class SessionStorage {
         Preferences.INSTANCE.setCookieModel(sessionCookies);
     }
 
-    public void setUserId(String userId){
+    public void setUserId(String userId) {
         Preferences.INSTANCE.setUserId(userId);
     }
 
-    public String getUserId(){
-       return Preferences.INSTANCE.getUserId();
+    public String getUserId() {
+        return Preferences.INSTANCE.getUserId();
     }
 
-    public void setUserName(String userName){
+    public void setUserName(String userName) {
         Preferences.INSTANCE.setUserName(userName);
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return Preferences.INSTANCE.getUserName();
     }
 

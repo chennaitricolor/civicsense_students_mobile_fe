@@ -76,7 +76,7 @@ public class AlertDialogBuilder {
         mAlertDialog.show();
     }
 
-    public void showErrorDialog(String title, String message, String negativeButtonText, String positiveButtonText, final String whichDialog, Context context, final OnDialogListener mDialogListner) {
+    public void showErrorDialog(String title, String message, String negativeButtonText, String positiveButtonText, final String whichDialog, Context context, final OnDialogListener mDialogListener) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
@@ -94,14 +94,14 @@ public class AlertDialogBuilder {
         builder.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mDialogListner.onNegativeButtonClick(whichDialog);
+                mDialogListener.onNegativeButtonClick(whichDialog);
             }
         });
 
         builder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mDialogListner.onPositiveButtonClick(whichDialog);
+                mDialogListener.onPositiveButtonClick(whichDialog);
 
             }
         });

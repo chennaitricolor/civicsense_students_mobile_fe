@@ -1,15 +1,10 @@
 package com.gcc.smartcity.preference;
 
-
 import android.content.Context;
 
-/**
- * Preferences to store/retrieve values/model as string/JsonParcels
- */
 public enum Preferences {
     INSTANCE;
 
-    // Preference Name
     public static final String PREF_NAME = "smartcity_pref";
     private static final String COOKIE = "cookie";
     private static final String LEADERBOARD_API_MODEL = "leaderboard_api_model";

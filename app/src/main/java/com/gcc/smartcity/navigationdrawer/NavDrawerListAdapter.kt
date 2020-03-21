@@ -20,10 +20,8 @@ class NavDrawerListAdapter(
         val context = parent.context
         val inflater = LayoutInflater.from(context)
 
-        // Inflate the custom layout
         val menuView = inflater.inflate(R.layout.layout_list_item, parent, false)
 
-        // Return a new holder instance
         return ViewHolder(menuView)
 
     }
@@ -36,26 +34,16 @@ class NavDrawerListAdapter(
         val holderData = navDrawerListItem[position]
 
         val textView = viewHolder.menuName
-        textView.setText(holderData.menuName)
-        val ImageView = viewHolder.menuImage
-        ImageView.setImageResource(holderData.imgResource)
+        textView.text = holderData.menuName
+        val imageView = viewHolder.menuImage
+        imageView.setImageResource(holderData.imgResource)
         val view = viewHolder.dataView
-        view.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                OnRecyclerSelectedListener.onSelected(position)
-            }
-        })
+        view.setOnClickListener { OnRecyclerSelectedListener.onSelected(position) }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
         var menuName: TextView = itemView.findViewById(R.id.lst_itm_menuname)
         var menuImage: ImageView = itemView.findViewById(R.id.lst_itm_menuimg)
         var dataView: LinearLayout = itemView.findViewById(R.id.lstView)
-
-        // Stores the itemView in a public final member variable that can be used
-        // to access the context from any ViewHolder instance.
     }
-
 }

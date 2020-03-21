@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
+
 import com.gcc.smartcity.R;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Set;
+
 import javax.crypto.spec.SecretKeySpec;
 
 /**

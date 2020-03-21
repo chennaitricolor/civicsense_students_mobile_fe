@@ -170,7 +170,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
         Handler().postDelayed({
             map.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(

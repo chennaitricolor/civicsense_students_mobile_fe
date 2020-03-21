@@ -8,6 +8,7 @@ class FileUploadResponseModel {
 
     @JsonField
     var message: String? = null
+
     @JsonField
     var success: Boolean? = false
 }
