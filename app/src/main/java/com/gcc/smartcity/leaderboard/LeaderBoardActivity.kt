@@ -13,17 +13,17 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
     private var leaderBoardListAdapter: LeaderboardListAdapter? = null
     private var leaderBoardRecyclerView: RecyclerView? = null
     private var backArrowButton: ImageView? = null
-    private var leaderboardUserName: FontTextView? = null
-    private var leaderboardUserPointsEarned: FontTextView? = null
-    private var leaderboardUserRanking: FontTextView? = null
+    private var leaderBoardUserName: FontTextView? = null
+    private var leaderBoardUserPointsEarned: FontTextView? = null
+    private var leaderBoardUserRanking: FontTextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leader_board)
         leaderBoardRecyclerView = findViewById(R.id.leaderboardRecyclerView)
-        leaderboardUserName = findViewById(R.id.leaderboardUserName)
-        leaderboardUserPointsEarned = findViewById(R.id.leaderboardUserPointsEarned)
-        leaderboardUserRanking = findViewById(R.id.leaderboardUserRanking)
+        leaderBoardUserName = findViewById(R.id.leaderboardUserName)
+        leaderBoardUserPointsEarned = findViewById(R.id.leaderboardUserPointsEarned)
+        leaderBoardUserRanking = findViewById(R.id.leaderboardUserRanking)
         backArrowButton = findViewById(R.id.backArrowButton)
         backArrowButton?.setOnClickListener {
             goBack()
@@ -33,15 +33,15 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
     }
 
     private fun setUserLeaderBoardValues() {
-        leaderboardUserName?.text = SessionStorage.getInstance().userId
-        leaderboardUserPointsEarned?.text =
+        leaderBoardUserName?.text = SessionStorage.getInstance().userId
+        leaderBoardUserPointsEarned?.text =
             SessionStorage.getInstance().leaderBoardModel.userRewards.toString()
         val userRank = SessionStorage.getInstance().leaderBoardModel.userRank
         if (userRank != null) {
             if (userRank < 1) {
-                leaderboardUserRanking?.text = "-"
+                leaderBoardUserRanking?.text = "-"
             } else {
-                leaderboardUserRanking?.text =
+                leaderBoardUserRanking?.text =
                     SessionStorage.getInstance().leaderBoardModel.userRank.toString()
             }
         }
