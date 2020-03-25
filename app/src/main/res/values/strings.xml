@@ -78,4 +78,10 @@
     <string name="sendingOTPDescription">We will send you a One Time Password to this number</string>
     <string name="get_otp_button">Get OTP</string>
 
+    <!-- Policy details -->
+    <string name="policy_title">Terms and Conditions</string>
+    <string name="policy_description">Accept it</string>
+    <string name="policy_agreement_text">I agree</string>
+    <string name="policy_error">Please check the checkbox in order to continue.</string>
+
 </resources>

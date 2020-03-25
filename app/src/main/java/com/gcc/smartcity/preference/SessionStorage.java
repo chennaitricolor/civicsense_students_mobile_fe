@@ -33,6 +33,14 @@ public class SessionStorage {
         Preferences.INSTANCE.setCookieModel(sessionCookies);
     }
 
+    public void setIntroSlidesVisibility(Boolean status) {
+        Preferences.INSTANCE.setIntroSlidesStatus(status);
+    }
+
+    public Boolean getIntroSlidesVisibility() {
+        return Preferences.INSTANCE.getIntroSlidesStatus();
+    }
+
     public void setUserId(String userId) {
         Preferences.INSTANCE.setUserId(userId);
     }

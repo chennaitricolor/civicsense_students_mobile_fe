@@ -11,6 +11,7 @@ public enum Preferences {
     private static final String LEADERBOARD_STATUS = "leaderboard_status";
     private static final String USER_ID = "user_id";
     private static final String USER_NAME = "user_name";
+    private static final String INTRO_SLIDES_STATUS = "intro_slides_status";
 
     private UserPreferences mPreferenceHandle;
     private PreferenceUnclear mPreferenceUnclear;
@@ -40,6 +41,14 @@ public enum Preferences {
 
     public void setLeaderBoardApiModel(String adminApiModel) {
         mPreferenceHandle.setString(LEADERBOARD_API_MODEL, adminApiModel);
+    }
+
+    public Boolean getIntroSlidesStatus() {
+        return mPreferenceHandle.getBoolean(INTRO_SLIDES_STATUS, true);
+    }
+
+    public void setIntroSlidesStatus(Boolean status) {
+        mPreferenceHandle.setBoolean(INTRO_SLIDES_STATUS, status);
     }
 
     public String getUserId() {

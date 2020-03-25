@@ -16,13 +16,13 @@ class LeaderBoardController(
         val leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
         if (leaderBoardModel.success!! && leaderBoardModel.leaderboard!!.isNotEmpty()) {
             val tempWinnerRunnerModel = LeaderBoardWinnerRunnerModel(
-                leaderBoardModel.leaderboard?.get(0)?._id.toString(),
+                leaderBoardModel.leaderboard?.get(0)?.name.toString(),
                 leaderBoardModel.leaderboard?.get(0)?.rewards.toString(),
                 "FIRST",
-                leaderBoardModel.leaderboard?.get(1)?._id.toString(),
+                leaderBoardModel.leaderboard?.get(1)?.name.toString(),
                 leaderBoardModel.leaderboard?.get(1)?.rewards.toString(),
                 "SECOND",
-                leaderBoardModel.leaderboard?.get(2)?._id.toString(),
+                leaderBoardModel.leaderboard?.get(2)?.name.toString(),
                 leaderBoardModel.leaderboard?.get(2)?.rewards.toString(),
                 "THIRD"
             )
@@ -32,7 +32,7 @@ class LeaderBoardController(
 
             for (i in 3 until (leaderBoardModel.leaderboard?.size ?: 0)) {
                 val tempParticipantModel = LeaderBoardParticipantsModel(
-                    leaderBoardModel.leaderboard?.get(i)?._id.toString(),
+                    leaderBoardModel.leaderboard?.get(i)?.name.toString(),
                     leaderBoardModel.leaderboard?.get(i)?.rewards.toString(),
                     (i + 1).toString()
                 )
