@@ -85,5 +85,6 @@
     <string name="policy_error">Please check the checkbox in order to continue.</string>
     <string name="first">first</string>
     <string name="drawer_menu_aboutus">About us</string>
+    <string name="forceupdate_current_version">Your app\'s version number is</string>
 
 </resources>

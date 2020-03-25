@@ -73,7 +73,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Update my app"
+            android:text="Update app"
             android:textColor="@color/white"
             android:textSize="14sp"
             font:fontFace="Lato-Bold.ttf" />

@@ -5,10 +5,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import bolts.Task
 import com.gcc.smartcity.BuildConfig
-import com.gcc.smartcity.R
+import com.gcc.smartcity.forceupdate.ForceAppUpdateActivity
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.preference.SessionStorage
+import com.gcc.smartcity.utils.VersionCheckUtil
 
 class RootActivity : AppCompatActivity() {
     private val REQUEST_CODE_INTRO = 108
@@ -71,6 +72,12 @@ class RootActivity : AppCompatActivity() {
 //            val rootModel = task.result as RootModel
 //            if (rootModel.success!!) {
 //              SessionStorage.getInstance().rootModel = rootModel
+//        if (rootModel.version.min_supported_android != null && VersionCheckUtil.compareInstalledVersionNameWith(
+//                rootModel.version.min_supported_android
+//            ) == -1
+//        ) {
+//            callNextActivity(ForceAppUpdateActivity::class.java)
+//        }
 //            } else {
 //                showErrorDialog(
 //                    getString(R.string.unableToGetRootModel),
