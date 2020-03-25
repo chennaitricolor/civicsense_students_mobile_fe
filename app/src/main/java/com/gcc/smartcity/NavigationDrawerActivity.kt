@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.leaderboard.LeaderBoardActivity
+import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.navigationdrawer.NavDrawerListAdapter
 import com.gcc.smartcity.navigationdrawer.NavDrawerListItem
 import com.gcc.smartcity.navigationdrawer.NavigationController
@@ -35,6 +36,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private var userNameDrawer: FontTextView? = null
     private var gemsCountDrawer: FontTextView? = null
     private var rankCountDrawer: FontTextView? = null
+    private var leaderBoardModel: LeaderBoardModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +45,12 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         userNameDrawer = findViewById(R.id.usernameDrawer)
         gemsCountDrawer = findViewById(R.id.gemsCountDrawer)
         rankCountDrawer = findViewById(R.id.rankCountDrawer)
-        setUserID()
-        userStatsVisibilityModifier()
+        leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
+        if (leaderBoardModel != null) {
+            setUserID()
+            userStatsVisibilityModifier()
+        }
+
         setActions()
         setAdapter()
     }
@@ -59,7 +65,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     }
 
     private fun isUserNameAvailable(userId: String): Boolean {
-        val leaderBoardData = SessionStorage.getInstance().leaderBoardModel.leaderboard
+        val leaderBoardData = leaderBoardModel?.leaderboard
         if (leaderBoardData != null) {
             for (i in 0 until (leaderBoardData.size)) {
                 if (leaderBoardData[i]?._id == userId) {
@@ -80,14 +86,14 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
             userStatsHolder?.visibility = View.GONE
         } else {
             gemsCountDrawer?.text =
-                SessionStorage.getInstance().leaderBoardModel.userRewards.toString()
-            val userRank = SessionStorage.getInstance().leaderBoardModel.userRank
+                leaderBoardModel?.userRewards.toString()
+            val userRank = leaderBoardModel?.userRank
             if (userRank != null) {
                 if (userRank < 1) {
                     rankCountDrawer?.text = "-"
                 } else {
                     rankCountDrawer?.text =
-                        SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+                        leaderBoardModel?.userRank.toString()
                 }
             }
         }

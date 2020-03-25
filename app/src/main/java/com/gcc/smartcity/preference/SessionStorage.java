@@ -1,6 +1,7 @@
 package com.gcc.smartcity.preference;
 
 import com.gcc.smartcity.leaderboard.LeaderBoardModel;
+import com.gcc.smartcity.root.RootModel;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
 
@@ -101,7 +102,6 @@ public class SessionStorage {
 
     public void setLeaderBoardModel(LeaderBoardModel leaderBoardModel) {
         Preferences.INSTANCE.setLeaderBoardApiModel(getStringfromObject(leaderBoardModel));
-
     }
 
     public LeaderBoardModel getLeaderBoardModel() {
@@ -114,6 +114,14 @@ public class SessionStorage {
 
     public Boolean getLeaderBoardStatus() {
         return Preferences.INSTANCE.getLeaderBoardStatus();
+    }
+
+    public void setRootModel(RootModel rootModel) {
+        Preferences.INSTANCE.setRootModel(getStringfromObject(rootModel));
+    }
+
+    public RootModel getRootModel() {
+        return getObjectfromString(Preferences.INSTANCE.getRootModel(), RootModel.class);
     }
 
 }

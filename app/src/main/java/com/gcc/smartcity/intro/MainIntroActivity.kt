@@ -16,8 +16,8 @@ class MainIntroActivity : IntroActivity() {
 
         addSlide(
             SimpleSlide.Builder()
-                .title("Welcome")
-                .description("hi")
+                .title("WELCOME")
+                .description("Hello Agent! You have been chosen to save this city!")
                 .image(R.drawable.agent_x_logo)
                 .background(R.color.agentx_text_light)
                 .backgroundDark(R.color.agentx_text_dark)
@@ -27,8 +27,8 @@ class MainIntroActivity : IntroActivity() {
 
         addSlide(
             SimpleSlide.Builder()
-                .title("Permissions Required")
-                .description("In order to access your location you must give permissions.")
+                .title("TO CONTINUE")
+                .description("we need the above permissions")
                 .image(R.drawable.agent_x_logo)
                 .background(R.color.agentx_text_light)
                 .backgroundDark(R.color.agentx_text_dark)

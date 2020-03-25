@@ -16,6 +16,7 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
     private var leaderBoardUserName: FontTextView? = null
     private var leaderBoardUserPointsEarned: FontTextView? = null
     private var leaderBoardUserRanking: FontTextView? = null
+    private var leaderBoardModel: LeaderBoardModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,23 +29,26 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
         backArrowButton?.setOnClickListener {
             goBack()
         }
+        leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
         setUserLeaderBoardValues()
         setAdapter()
     }
 
     private fun setUserLeaderBoardValues() {
         leaderBoardUserName?.text = SessionStorage.getInstance().userId
-        leaderBoardUserPointsEarned?.text =
-            SessionStorage.getInstance().leaderBoardModel.userRewards.toString()
-        val userRank = SessionStorage.getInstance().leaderBoardModel.userRank
-        if (userRank != null) {
-            if (userRank < 1) {
-                leaderBoardUserRanking?.text = "-"
-            } else {
-                leaderBoardUserRanking?.text =
-                    SessionStorage.getInstance().leaderBoardModel.userRank.toString()
+        if (leaderBoardModel != null) {
+            leaderBoardUserPointsEarned?.text = leaderBoardModel?.userRewards.toString()
+            val userRank = leaderBoardModel?.userRank
+            if (userRank != null) {
+                if (userRank < 1) {
+                    leaderBoardUserRanking?.text = "-"
+                } else {
+                    leaderBoardUserRanking?.text = leaderBoardModel?.userRank.toString()
+                }
             }
         }
+
+
     }
 
     private fun goBack() {

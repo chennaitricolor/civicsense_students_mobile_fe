@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
+import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.preference.SessionStorage
 import kotlinx.android.synthetic.main.layout_rewards_item.view.*
 
@@ -23,8 +24,10 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val balanceStatus = view.layout_balanceStatus
     private val balanceRequired = view.layout_balanceRequired
     private val gemTarget = view.layout_gemTarget
+    private var leaderBoardModel: LeaderBoardModel? = null
 
     fun setValues(rewards: RewardsModel) {
+        leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
         progressBar.visibility = View.VISIBLE
         Glide.with(rewardImage.context)
             .load(
@@ -61,17 +64,18 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         rewardDescription.text = rewards.rewardDescription
         balanceStatus.text = rewards.balanceStatus
 
-        if (SessionStorage.getInstance().leaderBoardModel.userRewards!! > rewards.gemTarget.toInt()) {
-            balanceRequired.text = "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
-            balanceStatus.text = "SUFFICIENT BALANCE"
-        } else {
-            val rewardsBal =
-                rewards.gemTarget.toInt() - SessionStorage.getInstance().leaderBoardModel.userRewards!!
-            balanceRequired.text =
-                "COLLECT " + rewardsBal + " MORE GEMS TO UNLOCK"
-            balanceStatus.text = "INSUFFICIENT BALANCE"
+        if (leaderBoardModel!= null) {
+            if (leaderBoardModel?.userRewards!! > rewards.gemTarget.toInt()) {
+                balanceRequired.text = "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
+                balanceStatus.text = "SUFFICIENT BALANCE"
+            } else {
+                val rewardsBal =
+                    rewards.gemTarget.toInt() - leaderBoardModel?.userRewards!!
+                balanceRequired.text =
+                    "COLLECT " + rewardsBal + " MORE GEMS TO UNLOCK"
+                balanceStatus.text = "INSUFFICIENT BALANCE"
+            }
         }
-
 
         gemTarget.text = rewards.gemTarget
     }

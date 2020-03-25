@@ -28,11 +28,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="35dp"
             android:gravity="center"
             android:text="@string/dashBoardTitle"
             android:textColor="@color/agentx_txt_color"
-            android:textSize="18sp"
+            android:textSize="30sp"
             custom:fontFace="Lato-Bold.ttf" />
 
         <LinearLayout

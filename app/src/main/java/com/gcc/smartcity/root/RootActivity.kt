@@ -61,7 +61,7 @@ class RootActivity : AppCompatActivity() {
     private fun afterRootCall(task: Task<Any>): Task<Any>? {
 //        if (task.isFaulted) {
 //            showErrorDialog(
-//                getString(R.string.unableToSendOTP),
+//                getString(R.string.unableToGetRootModel),
 //                getString(R.string.tryAgainLater),
 //                getString(R.string.okButtonText)
 //            )
@@ -70,10 +70,10 @@ class RootActivity : AppCompatActivity() {
 //        } else {
 //            val rootModel = task.result as RootModel
 //            if (rootModel.success!!) {
-//
+//              SessionStorage.getInstance().rootModel = rootModel
 //            } else {
 //                showErrorDialog(
-//                    getString(R.string.unableToSendOTP),
+//                    getString(R.string.unableToGetRootModel),
 //                    getString(R.string.tryAgainLater),
 //                    getString(R.string.okButtonText)
 //                )

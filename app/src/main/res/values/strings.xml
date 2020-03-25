@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Agent X</string>
+    <string name="app_name">Corona Monitoring</string>
     <string name="title_activity_maps">Map</string>
     <string name="map_key" translatable="false">AIzaSyATCamD6FNW8UuOE6QlOvYTJ3-H2IWanuc</string>
     <string name="previewimageDescription">previewImage</string>
     <string name="photoSubmitButton">SUBMIT</string>
     <string name="photoRetakeButton">RETAKE</string>
-    <string name="dashBoardTitle">AGENT X</string>
+    <string name="dashBoardTitle">Corona Monitoring</string>
     <string name="leaderboardTitle">LEADERBOARD</string>
 
     <string name="sign_in">Sign In</string>
@@ -83,5 +83,6 @@
     <string name="policy_description">Accept it</string>
     <string name="policy_agreement_text">I agree to the Terms and Conditions as stated above</string>
     <string name="policy_error">Please check the checkbox in order to continue.</string>
+    <string name="first">first</string>
 
 </resources>
