@@ -81,7 +81,7 @@
     <!-- Policy details -->
     <string name="policy_title">Terms and Conditions</string>
     <string name="policy_description">Accept it</string>
-    <string name="policy_agreement_text">I agree</string>
+    <string name="policy_agreement_text">I agree to the Terms and Conditions as stated above</string>
     <string name="policy_error">Please check the checkbox in order to continue.</string>
 
 </resources>

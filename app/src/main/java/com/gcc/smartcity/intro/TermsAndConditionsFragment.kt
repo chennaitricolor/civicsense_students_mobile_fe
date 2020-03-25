@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.gcc.smartcity.R
-import com.github.paolorotolo.appintro.ISlidePolicy
+import com.heinrichreimersoftware.materialintro.app.SlideFragment
+import com.heinrichreimersoftware.materialintro.slide.Slide
 import kotlinx.android.synthetic.main.fragment_terms_and_conditions.*
 
-class TermsAndConditionsFragment : Fragment(), ISlidePolicy {
+class TermsAndConditionsFragment : SlideFragment(), Slide {
 
     private var checkBox: CheckBox? = null
 
@@ -27,11 +27,27 @@ class TermsAndConditionsFragment : Fragment(), ISlidePolicy {
         checkBox = terms_and_conditions_checkbox
     }
 
-    override val isPolicyRespected: Boolean
-        get() = checkBox?.isChecked ?: false
-
-
-    override fun onUserIllegallyRequestedNextPage() {
-        Toast.makeText(context, R.string.policy_error, Toast.LENGTH_SHORT).show()
+    override fun getBackground(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun getBackgroundDark(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getFragment(): Fragment {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun canGoForward(): Boolean {
+        return checkBox?.isChecked ?: false
+    }
+
+//    override val isPolicyRespected: Boolean
+//        get() = checkBox?.isChecked ?: false
+//
+//
+//    override fun onUserIllegallyRequestedNextPage() {
+//        Toast.makeText(context, R.string.policy_error, Toast.LENGTH_SHORT).show()
+//    }
 }

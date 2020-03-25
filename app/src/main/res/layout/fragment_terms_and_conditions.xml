@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/agentx_text_dark"
+    android:background="@color/agentx_text_light"
     android:orientation="vertical"
     tools:context=".intro.TermsAndConditionsFragment">
 
-    <TextView
-        style="@style/AppIntroDefaultHeading"
+    <com.gcc.smartcity.fontui.FontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/policy_title"/>
-
-    <TextView
-        style="@style/AppIntroDefaultText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:text="@string/policy_title"
+        android:textSize="30sp"
         android:layout_marginTop="16dp"
-        android:text="@string/policy_description"/>
+        custom:fontFace="Lato-Bold.ttf" />
+
+    <com.gcc.smartcity.fontui.FontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/policy_description"
+        custom:fontFace="Lato-Bold.ttf" />
 
     <CheckBox
         android:id="@+id/terms_and_conditions_checkbox"
-        style="@style/AppIntroDefaultText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:text="@string/policy_agreement_text"/>
+        android:text="@string/policy_agreement_text" />
 
 </LinearLayout>
