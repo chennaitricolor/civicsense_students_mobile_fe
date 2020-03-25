@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sv_maintenance_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/banner_grey">
+
+        <android.support.constraint.ConstraintLayout xmlns:font="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".maintenance.MaintenanceActivity">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/tv_maintenance_retry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:text="Retry"
+                android:textAllCaps="true"
+                android:textColor="@color/indigo_light"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                font:fontFace="Lato-Bold.ttf" />
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="0dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="Application Logo"
+                android:src="@drawable/agent_x_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_maintenance_retry" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/tv_maintenance_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:text="We are facing some issues"
+                android:textColor="@color/indigo_light"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_logo"
+                font:fontFace="Sentinel-Bold.otf" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/tv_maintenance_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="8dp"
+                android:text="Please try again later"
+                android:textColor="@color/davyGrey"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/tv_maintenance_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_maintenance_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_maintenance_title"
+                font:fontFace="Lato-Regular.ttf" />
+
+            <ImageView
+                android:id="@+id/iv_maintenance_construction"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="56dp"
+                android:src="@drawable/ic_faq"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_maintenance_description" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.github.rahatarmanahmed.cpv.CircularProgressView
+        android:id="@+id/cpv_loader"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        app:cpv_animAutostart="true"
+        app:cpv_color="@color/colorPrimary"
+        app:cpv_indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

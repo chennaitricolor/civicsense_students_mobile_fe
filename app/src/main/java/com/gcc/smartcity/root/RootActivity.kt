@@ -1,19 +1,30 @@
-package com.gcc.smartcity
+package com.gcc.smartcity.root
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import bolts.Task
+import com.gcc.smartcity.BuildConfig
+import com.gcc.smartcity.R
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.preference.SessionStorage
 
-open class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity() {
     private val REQUEST_CODE_INTRO = 108
+    private var mRootController: RootController? = null
+
+    init {
+        mRootController = RootController(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        doRootCall()
         checkForIntroSlidesFlag()
-//        doRootCall()
     }
+
+
 
     private fun checkForIntroSlidesFlag() {
         if (SessionStorage.getInstance().introSlidesVisibility) {
@@ -38,7 +49,38 @@ open class RootActivity : AppCompatActivity() {
     }
 
     private fun doRootCall() {
-        TODO("Not yet implemented")
+        mRootController?.doRootCall(
+            BuildConfig.HOST + java.lang.String.format(
+                "user/"
+            )
+        )?.continueWithTask { task ->
+                afterRootCall(task)
+            }
+    }
+
+    private fun afterRootCall(task: Task<Any>): Task<Any>? {
+//        if (task.isFaulted) {
+//            showErrorDialog(
+//                getString(R.string.unableToSendOTP),
+//                getString(R.string.tryAgainLater),
+//                getString(R.string.okButtonText)
+//            )
+//            task.makeVoid()
+//            showLoader(false)
+//        } else {
+//            val rootModel = task.result as RootModel
+//            if (rootModel.success!!) {
+//
+//            } else {
+//                showErrorDialog(
+//                    getString(R.string.unableToSendOTP),
+//                    getString(R.string.tryAgainLater),
+//                    getString(R.string.okButtonText)
+//                )
+//            }
+//        }
+
+        return null
     }
 
     private fun callNextActivity(activityClass: Class<*>) {
