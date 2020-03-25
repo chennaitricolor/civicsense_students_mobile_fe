@@ -12,7 +12,7 @@ import android.os.Looper
 import android.view.View
 import androidx.core.app.ActivityCompat
 import bolts.Task
-import com.gcc.smartcity.NavigationDrawerActivity
+import com.gcc.smartcity.navigationdrawer.NavigationDrawerActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.utils.NetworkError

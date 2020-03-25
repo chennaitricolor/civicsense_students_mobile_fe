@@ -84,5 +84,6 @@
     <string name="policy_agreement_text">I agree to the Terms and Conditions as stated above</string>
     <string name="policy_error">Please check the checkbox in order to continue.</string>
     <string name="first">first</string>
+    <string name="drawer_menu_aboutus">About us</string>
 
 </resources>

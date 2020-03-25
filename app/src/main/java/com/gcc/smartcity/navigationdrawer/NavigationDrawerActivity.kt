@@ -1,4 +1,4 @@
-package com.gcc.smartcity
+package com.gcc.smartcity.navigationdrawer
 
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -13,13 +13,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gcc.smartcity.R
+import com.gcc.smartcity.aboutus.AboutUs
 import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
-import com.gcc.smartcity.navigationdrawer.NavDrawerListAdapter
-import com.gcc.smartcity.navigationdrawer.NavDrawerListItem
-import com.gcc.smartcity.navigationdrawer.NavigationController
-import com.gcc.smartcity.navigationdrawer.OnRecyclerSelectedListener
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.rewards.RewardsActivity
 import com.gcc.smartcity.utils.AlertDialogBuilder
@@ -125,6 +123,11 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
             getString(R.string.drawer_menu_leaderboard) -> {
                 Logger.d("LeaderBoard")
                 val intent = Intent(this, LeaderBoardActivity::class.java)
+                startActivity(intent)
+            }
+            getString(R.string.drawer_menu_aboutus) -> {
+                Logger.d("About us")
+                val intent = Intent(this, AboutUs::class.java)
                 startActivity(intent)
             }
         }
