@@ -9,6 +9,8 @@ import com.gcc.smartcity.loginandregistration.model.*
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
+import com.gcc.smartcity.user.UserErrorModel
+import com.gcc.smartcity.user.UserModel
 import com.gcc.smartcity.utils.Logger
 import org.json.JSONArray
 import org.json.JSONObject
@@ -32,6 +34,16 @@ class LoginAndRegistrationController(private val mContext: Context) {
         leaderBoardRequest.setResponseParser(parser)
         leaderBoardRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(leaderBoardRequest)
+    }
+
+    fun doUserCall(endpoint: String): Task<Any> {
+        val parser = JsonResponseParser(UserModel::class.java)
+        val errorResponseParser = JsonResponseParser(UserErrorModel::class.java)
+        val userDetailsRequest =
+            VolleyRequest.newInstance<UserModel>(Request.Method.GET, endpoint)
+        userDetailsRequest.setResponseParser(parser)
+        userDetailsRequest.setErrorResponseParser(errorResponseParser)
+        return RequestExecutor.getInstance(mContext).makeRequestCall(userDetailsRequest)
     }
 
     fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int): Task<Any> {

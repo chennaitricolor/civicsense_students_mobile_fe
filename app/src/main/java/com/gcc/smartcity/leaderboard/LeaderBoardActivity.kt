@@ -8,6 +8,7 @@ import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.preference.SessionStorage
+import com.gcc.smartcity.user.UserModel
 
 class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
     private var leaderBoardListAdapter: LeaderboardListAdapter? = null
@@ -17,6 +18,7 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
     private var leaderBoardUserPointsEarned: FontTextView? = null
     private var leaderBoardUserRanking: FontTextView? = null
     private var leaderBoardModel: LeaderBoardModel? = null
+    private var userDetailsModel: UserModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +32,18 @@ class LeaderBoardActivity : BaseActivity(), LeaderBoardAPIListener {
             goBack()
         }
         leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
+        userDetailsModel = SessionStorage.getInstance().userModel
         setUserLeaderBoardValues()
         setAdapter()
     }
 
     private fun setUserLeaderBoardValues() {
-        leaderBoardUserName?.text = SessionStorage.getInstance().userId
+        if (userDetailsModel != null) {
+            leaderBoardUserName?.text = userDetailsModel?.name
+        } else {
+            leaderBoardUserName?.text = SessionStorage.getInstance().userId
+
+        }
         if (leaderBoardModel != null) {
             leaderBoardUserPointsEarned?.text = leaderBoardModel?.userRewards.toString()
             val userRank = leaderBoardModel?.userRank

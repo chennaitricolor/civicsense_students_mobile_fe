@@ -13,6 +13,7 @@ public enum Preferences {
     private static final String USER_NAME = "user_name";
     private static final String INTRO_SLIDES_STATUS = "intro_slides_status";
     private static final String ROOT_MODEL = "root_model";
+    private static final String USER_MODEL = "user_model";
 
     private UserPreferences mPreferenceHandle;
     private PreferenceUnclear mPreferenceUnclear;
@@ -50,6 +51,14 @@ public enum Preferences {
 
     public void setRootModel(String rootModel) {
         mPreferenceHandle.setString(ROOT_MODEL, rootModel);
+    }
+
+    public String getUserModel() {
+        return mPreferenceHandle.getString(USER_MODEL, null);
+    }
+
+    public void setUserModel(String userModel) {
+        mPreferenceHandle.setString(USER_MODEL, userModel);
     }
 
     public Boolean getIntroSlidesStatus() {

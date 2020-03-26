@@ -20,6 +20,7 @@ import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.rewards.RewardsActivity
+import com.gcc.smartcity.user.UserModel
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.OnSingleBtnDialogListener
@@ -35,6 +36,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private var gemsCountDrawer: FontTextView? = null
     private var rankCountDrawer: FontTextView? = null
     private var leaderBoardModel: LeaderBoardModel? = null
+    private var userDetailsModel: UserModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         gemsCountDrawer = findViewById(R.id.gemsCountDrawer)
         rankCountDrawer = findViewById(R.id.rankCountDrawer)
         leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
+        userDetailsModel = SessionStorage.getInstance().userModel
         if (leaderBoardModel != null) {
             setUserID()
             userStatsVisibilityModifier()
@@ -55,28 +58,11 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
 
     private fun setUserID() {
         val userId = SessionStorage.getInstance().userId
-        if (isUserNameAvailable(userId)) {
-            userNameDrawer?.text = SessionStorage.getInstance().userName
+        if (userDetailsModel != null && !userDetailsModel?.name.isNullOrEmpty()) {
+            userNameDrawer?.text = userDetailsModel?.name
         } else {
             userNameDrawer?.text = userId
         }
-    }
-
-    private fun isUserNameAvailable(userId: String): Boolean {
-        val leaderBoardData = leaderBoardModel?.leaderboard
-        if (leaderBoardData != null) {
-            for (i in 0 until (leaderBoardData.size)) {
-                if (leaderBoardData[i]?._id == userId) {
-                    if (!leaderBoardData[i]?.name.isNullOrEmpty()) {
-                        SessionStorage.getInstance().userName = leaderBoardData[i]?.name ?: "Guest"
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-            }
-        }
-        return false
     }
 
     private fun userStatsVisibilityModifier() {

@@ -2,6 +2,7 @@ package com.gcc.smartcity.preference;
 
 import com.gcc.smartcity.leaderboard.LeaderBoardModel;
 import com.gcc.smartcity.root.RootModel;
+import com.gcc.smartcity.user.UserModel;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
 
@@ -124,4 +125,11 @@ public class SessionStorage {
         return getObjectfromString(Preferences.INSTANCE.getRootModel(), RootModel.class);
     }
 
+    public void setUserModel(UserModel userModel) {
+        Preferences.INSTANCE.setUserModel(getStringfromObject(userModel));
+    }
+
+    public UserModel getUserModel() {
+        return getObjectfromString(Preferences.INSTANCE.getUserModel(), UserModel.class);
+    }
 }

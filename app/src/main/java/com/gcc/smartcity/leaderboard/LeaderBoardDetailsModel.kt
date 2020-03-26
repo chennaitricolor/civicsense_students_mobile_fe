@@ -7,7 +7,7 @@ import com.bluelinelabs.logansquare.annotation.JsonObject
 class LeaderBoardDetailsModel {
 
     @JsonField
-    var _id: String? = null
+    var _id: Long? = null
 
     @JsonField
     var name: String? = null

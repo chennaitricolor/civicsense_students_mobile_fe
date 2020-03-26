@@ -29,6 +29,7 @@ import com.gcc.smartcity.loginandregistration.model.LoginModel
 import com.gcc.smartcity.loginandregistration.model.SignUpErrorModel
 import com.gcc.smartcity.loginandregistration.model.SignUpModel
 import com.gcc.smartcity.preference.SessionStorage
+import com.gcc.smartcity.user.UserModel
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
@@ -84,13 +85,13 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
     private fun doRegistration(name: String, mobileNumber: String, otp: String) {
         mLoginAndRegistrationController?.doSignUpCall(
-                BuildConfig.HOST + "user/signup",
-                name,
-                mobileNumber,
-                otp.toInt(),
-                mLatitude,
-                mLongitude
-            )
+            BuildConfig.HOST + "user/signup",
+            name,
+            mobileNumber,
+            otp.toInt(),
+            mLatitude,
+            mLongitude
+        )
             ?.continueWithTask { task ->
                 afterRegistrationCall(mobileNumber, task)
             }
@@ -98,13 +99,13 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
     private fun doLogin(mobileNumber: String, otp: String) {
         mLoginAndRegistrationController?.doSignUpCall(
-                BuildConfig.HOST + "user/signup",
-                "Guest",
-                mobileNumber,
-                otp.toInt(),
-                mLatitude,
-                mLongitude
-            )
+            BuildConfig.HOST + "user/signup",
+            "Guest",
+            mobileNumber,
+            otp.toInt(),
+            mLatitude,
+            mLongitude
+        )
             ?.continueWithTask { task ->
                 afterRegistrationCall(mobileNumber, task)
             }
@@ -128,6 +129,7 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
             if (signUpModel.success!!) {
                 SessionStorage.getInstance().userId = mobileNumber
                 try {
+                    callUserEndpoint()
                     callLeaderBoardEndpoint()
                 } catch (ex: Exception) {
                     Logger.d(ex.toString())
@@ -143,6 +145,13 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         }
 
         return null
+    }
+
+    private fun callUserEndpoint() {
+        mLoginAndRegistrationController?.doUserCall(BuildConfig.HOST + "user")
+            ?.continueWithTask { task ->
+                postUserCall(task)
+            }
     }
 
     private fun afterLoginCall(mobileNumber: String, task: Task<Any>): Task<Any>? {
@@ -217,6 +226,21 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
                 intent.clearStack()
                 startActivity(intent)
                 finish()
+            }
+        }
+
+        return null
+    }
+
+    private fun postUserCall(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            task.makeVoid()
+        } else {
+            val userModel = task.result as UserModel
+            try {
+                SessionStorage.getInstance().userModel = userModel
+            } catch (ex: Exception) {
+                Logger.d(ex.toString())
             }
         }
 
