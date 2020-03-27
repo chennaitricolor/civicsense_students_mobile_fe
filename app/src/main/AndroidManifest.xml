@@ -26,7 +26,7 @@
         android:theme="@style/AppThemeNoTitleBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".aboutus.AboutUs"></activity>
+        <activity android:name=".aboutus.AboutUs" />
         <activity android:name=".forceupdate.ForceAppUpdateActivity" />
         <activity android:name=".maintenance.MaintenanceActivity" />
         <activity android:name=".root.RootActivity">

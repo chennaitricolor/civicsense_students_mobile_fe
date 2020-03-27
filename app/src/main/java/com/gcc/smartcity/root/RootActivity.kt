@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import bolts.Task
 import com.gcc.smartcity.BuildConfig
+import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.forceupdate.ForceAppUpdateActivity
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity

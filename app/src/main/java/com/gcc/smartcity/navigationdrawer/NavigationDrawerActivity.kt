@@ -97,8 +97,13 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                 shareApp(this)
             }
 //            getString(R.string.drawer_menu_faq) -> Logger.d("FAQ")
-//            getString(R.string.drawer_menu_help) -> Logger.d("Help")
+            getString(R.string.drawer_menu_help) -> {
+                Logger.d("Help")
+                openMailApp()
+            }
+
             getString(R.string.drawer_menu_rateus) -> {
+                Logger.d("Rate Us")
                 openAppRating(this)
             }
             getString(R.string.drawer_menu_rewards) -> {
@@ -116,6 +121,19 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                 val intent = Intent(this, AboutUs::class.java)
                 startActivity(intent)
             }
+        }
+    }
+
+    private fun openMailApp() {
+        val mailto = "mailto:gccsecretagentx@gmail.com"
+
+        val emailIntent = Intent(Intent.ACTION_SENDTO)
+        emailIntent.data = Uri.parse(mailto)
+
+        try {
+            startActivity(emailIntent)
+        } catch (e: ActivityNotFoundException) {
+            Logger.d("Unable to open mail intent chooser")
         }
     }
 

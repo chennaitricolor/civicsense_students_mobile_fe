@@ -41,6 +41,9 @@ class NavigationController(var context: Context) {
         navDrawerListItem = NavDrawerListItem(R.drawable.ic_faq, context.getString(R.string.drawer_menu_aboutus))
         drawerListData.add(navDrawerListItem)
 
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_gethelp, context.getString(R.string.drawer_menu_help))
+        drawerListData.add(navDrawerListItem)
+
         return drawerListData
     }
 

@@ -41,6 +41,7 @@
     <string name="drawer_menu_help">Get Help</string>
     <string name="drawer_menu_rateus">Rate Us</string>
     <string name="drawer_menu_leaderboard">Leaderboard</string>
+    <string name="drawer_menu_aboutus">About us</string>
     <string name="drawer_menu_rewards">Rewards</string>
     <string name="rewardstitle">REWARDS</string>
     <string name="back_arrow_button">Back Arrow Button</string>
@@ -89,7 +90,6 @@
     <string name="policy_agreement_text">I agree to the Terms and Conditions as stated above</string>
     <string name="policy_error">Please check the checkbox in order to continue.</string>
     <string name="first">first</string>
-    <string name="drawer_menu_aboutus">About us</string>
     <string name="forceupdate_current_version">Your app\'s version number is</string>
     <string name="azhagu_description">The idea was conceptualized by M.P.Azhagu Pandia Raja, Research Fellow with Ministry of Housing and Urban Affairs and Greater Chennai Corporation.</string>
     <string name="mrcooper_description">This application and infrastructure was designed and developed by volunteers from the Mr.Cooper organization.</string>
