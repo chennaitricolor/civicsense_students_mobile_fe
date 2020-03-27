@@ -92,7 +92,7 @@
     <string name="first">first</string>
     <string name="forceupdate_current_version">Your app\'s version number is</string>
     <string name="azhagu_description">The idea was conceptualized by M.P.Azhagu Pandia Raja, Research Fellow with Ministry of Housing and Urban Affairs and Greater Chennai Corporation.</string>
-    <string name="mrcooper_description">This application and infrastructure was designed and developed by volunteers from the Mr.Cooper organization.</string>
+    <string name="mrcooper_description">This application and infrastructure was designed and developed by the following volunteers from the Mr.Cooper organization.</string>
     <string name="GCC">Greater Chennai Corporation</string>
 
 </resources>
