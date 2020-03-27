@@ -149,20 +149,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="16dp"
                     android:src="@drawable/azhagu" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="16dp"
                     android:text="@string/azhagu_description" />
 
             </LinearLayout>
@@ -175,12 +174,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
                     android:text="@string/mrcooper_description" />
 
             </LinearLayout>
@@ -202,8 +201,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Narendran Sundram \nProject Lead"
                     android:textSize="20sp"
-                    android:text="Naren Sundram \nProject Lead"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -224,8 +224,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Deepag Kumar \nProject Lead"
                     android:textSize="20sp"
-                    android:text="Deepag Kumar \nProject Lead"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -246,8 +247,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Ajith Kumar K \nAndroid Developer"
                     android:textSize="20sp"
-                    android:text="Ajith Kumar K \nAndroid Developer" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -268,8 +270,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Britto Gnana Raj \nAndroid Developer"
                     android:textSize="20sp"
-                    android:text="Britto Gnana Raj \nAndroid Developer" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -290,8 +293,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Maalaiappan S \nWeb Developer"
                     android:textSize="20sp"
-                    android:text="Maalai \nWeb Developer" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -312,8 +316,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Vidhyapathy S \nQuality Assurer"
                     android:textSize="20sp"
-                    android:text="Vidhyapathi \nQuality Assurer"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -334,8 +339,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Jegan Raj \nBackend Developer"
                     android:textSize="20sp"
-                    android:text="Jegan Raj \nBackend Developer"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -356,8 +362,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Riyaz Ahamed \nBackend Developer"
                     android:textSize="20sp"
-                    android:text="Riyaz Ahamed \nBackend Developer"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -378,8 +385,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Dhileep \nDevOps"
                     android:textSize="20sp"
-                    android:text="Dhileep \nDevOps"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -393,15 +401,16 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
-                    android:src="@drawable/nandha"/>
+                    android:src="@drawable/nandha" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="16dp"
+                    android:text="Nandha Kumar S \nWeb Developer"
                     android:textSize="20sp"
-                    android:text="Nandha Kumar S \nWeb Developer"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
