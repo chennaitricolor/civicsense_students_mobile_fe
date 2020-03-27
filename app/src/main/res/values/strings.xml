@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Corona Monitoring</string>
+    <string name="app_name">GCC Corona Monitoring</string>
     <string name="title_activity_maps">Map</string>
     <string name="map_key" translatable="false">AIzaSyATCamD6FNW8UuOE6QlOvYTJ3-H2IWanuc</string>
     <string name="previewimageDescription">previewImage</string>
     <string name="photoSubmitButton">SUBMIT</string>
     <string name="photoRetakeButton">RETAKE</string>
-    <string name="dashBoardTitle">Corona Monitoring</string>
+    <string name="dashBoardTitle">GCC Corona Monitoring</string>
     <string name="leaderboardTitle">LEADERBOARD</string>
 
     <string name="sign_in">Sign In</string>
@@ -80,11 +80,19 @@
 
     <!-- Policy details -->
     <string name="policy_title">Terms and Conditions</string>
-    <string name="policy_description">Accept it</string>
+    <string name="policy_description_title1">1. This application is the property of Greater Chennai Corporation</string>
+    <string name="policy_description1">This Application is developed to handle crisis situations created due to the CORONA outbreak. The data collected through this application will not be used for any other purpose unless authorized by law. Further, the data collected will be completely deleted in 3 months.</string>
+    <string name="policy_description_title2">2. Legal and Acceptable Use</string>
+    <string name="policy_description2">You must access and use our Services only for legal, authorized, and acceptable purposes. You will not use (or assist others in using) our Services in ways that: (a) violate, misappropriate, or infringe the rights of citizens, our users, or others, including privacy, publicity, intellectual property, or other proprietary rights; (b) are illegal, obscene, defamatory, threatening, intimidating, harassing, hateful, racially, or ethnically offensive, or instigate or encourage conduct that would be illegal, or otherwise inappropriate, including promoting violent crimes; © involve publishing falsehoods, misrepresentations, or misleading statements; (d) impersonate someone; (e) involve sending illegal or impermissible communications such as bulk messaging, auto-messaging, auto-dialing, and the like; or (f) involve any non-personal use of our Services unless otherwise authorized by us.</string>
+    <string name="policy_description_title3">3. Keeping Your Account Secure.</string>
+    <string name="policy_description3">You are responsible for keeping your device and your account safe and secure, and you must notify us promptly of any unauthorized use or security breach of your account or our Services.</string>
     <string name="policy_agreement_text">I agree to the Terms and Conditions as stated above</string>
     <string name="policy_error">Please check the checkbox in order to continue.</string>
     <string name="first">first</string>
     <string name="drawer_menu_aboutus">About us</string>
     <string name="forceupdate_current_version">Your app\'s version number is</string>
+    <string name="azhagu_description">The idea was conceptualized by M.P.Azhagu Pandia Raja, Research Fellow with Ministry of Housing and Urban Affairs and Greater Chennai Corporation.</string>
+    <string name="mrcooper_description">This application and infrastructure was designed and developed by volunteers from the Mr.Cooper organization.</string>
+    <string name="GCC">Greater Chennai Corporation</string>
 
 </resources>

@@ -4,33 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/agentx_text_light"
     android:orientation="vertical"
     tools:context=".intro.TermsAndConditionsFragment">
 
-    <com.gcc.smartcity.fontui.FontTextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/policy_title"
-        android:textSize="30sp"
-        android:layout_marginTop="16dp"
-        custom:fontFace="Lato-Bold.ttf" />
+        android:layout_height="match_parent"
+        android:background="@color/agentx_text_light">
 
-    <com.gcc.smartcity.fontui.FontTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="@string/policy_description"
-        custom:fontFace="Lato-Bold.ttf" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/terms_and_conditions_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="@string/policy_agreement_text" />
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/policy_title"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/policy_description_title1"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/policy_description1"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/policy_description_title2"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/policy_description2"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/policy_description_title3"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/policy_description3"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/terms_and_conditions_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/policy_agreement_text"
+                android:layout_marginBottom="100dp"/>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

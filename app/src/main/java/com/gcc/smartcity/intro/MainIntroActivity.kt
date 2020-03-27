@@ -16,9 +16,9 @@ class MainIntroActivity : IntroActivity() {
 
         addSlide(
             SimpleSlide.Builder()
-                .title("WELCOME")
-                .description("Hello Agent! You have been chosen to save this city!")
-                .image(R.drawable.agent_x_logo)
+                .title("WELCOME!")
+                .description("Hello there! This is Greater Chennai Corporation's official CORONA MONITORING APP.")
+                .image(R.drawable.corona_logo)
                 .background(R.color.agentx_text_light)
                 .backgroundDark(R.color.agentx_text_dark)
                 .scrollable(false)
@@ -27,9 +27,9 @@ class MainIntroActivity : IntroActivity() {
 
         addSlide(
             SimpleSlide.Builder()
-                .title("TO CONTINUE")
-                .description("we need the above permissions")
-                .image(R.drawable.agent_x_logo)
+                .title("PERMISSIONS REQUIRED")
+                .description("We need a few permissions to ensure that the app is working properly. Please grant them by clicking the button below.")
+                .image(R.drawable.corona_logo)
                 .background(R.color.agentx_text_light)
                 .backgroundDark(R.color.agentx_text_dark)
                 .permissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE))
