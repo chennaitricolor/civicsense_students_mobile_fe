@@ -46,7 +46,8 @@ class DashboardController(
                                     missionListModel.tasks?.get(i)?.campaignName.toString(),
                                     missionListModel.tasks?.get(i)?.startDate.toString(),
                                     missionListModel.tasks?.get(i)?.endDate.toString(),
-                                    missionListModel.tasks?.get(i)?.rewards!!
+                                    missionListModel.tasks?.get(i)?.rewards!!,
+                                    missionListModel.tasks?.get(i)?.rules.toString()
                                 )
                                 list.add(missionModel)
                             }

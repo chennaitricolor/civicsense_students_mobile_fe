@@ -5,5 +5,6 @@ data class MissionModel(
     var campaignName: String,
     var startDate: String,
     var endDate: String,
-    var rewards: Int
+    var rewards: Int,
+    var rules: String
 )

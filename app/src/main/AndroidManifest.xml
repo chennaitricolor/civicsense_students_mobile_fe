@@ -26,9 +26,18 @@
         android:theme="@style/AppThemeNoTitleBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".aboutus.AboutUs" />
-        <activity android:name=".forceupdate.ForceAppUpdateActivity" />
-        <activity android:name=".maintenance.MaintenanceActivity" />
+        <activity
+            android:name=".dashboard.RulesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".aboutus.AboutUs"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".forceupdate.ForceAppUpdateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".maintenance.MaintenanceActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".root.RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

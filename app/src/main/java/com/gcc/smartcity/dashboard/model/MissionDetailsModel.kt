@@ -24,4 +24,7 @@ class MissionDetailsModel {
     @JsonField
     var rewards: Int? = null
 
+    @JsonField
+    var rules: String? = null
+
 }

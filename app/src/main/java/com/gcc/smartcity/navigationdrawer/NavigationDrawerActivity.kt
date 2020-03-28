@@ -91,7 +91,13 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private fun switchScreen(menuName: String) {
         when (menuName) {
             getString(R.string.drawer_menu_howtoplay) -> {
-                watchYoutubeVideo(this, "Avt-1ucQhps")
+
+                if (SessionStorage.getInstance().rootModel != null && SessionStorage.getInstance().rootModel.links != null && SessionStorage.getInstance().rootModel.links?.howToPlay != null) {
+                    watchYoutubeVideo(
+                        this,
+                        "" + SessionStorage.getInstance().rootModel.links?.howToPlay
+                    )
+                }
             }
             getString(R.string.drawer_menu_invite) -> {
                 shareApp(this)
@@ -235,18 +241,20 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         }
     }
 
-    open fun watchYoutubeVideo(context: Context, id: String) {
-        val appIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+    open fun watchYoutubeVideo(context: Context, url: String) {
+//        val appIntent =
+//            Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
         val webIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("http://www.youtube.com/watch?v=$id")
+            Uri.parse(url)
+
         )
-        try {
-            context.startActivity(appIntent)
-        } catch (ex: ActivityNotFoundException) {
-            context.startActivity(webIntent)
-        }
+        context.startActivity(webIntent)
+//        try {
+//            context.startActivity(appIntent)
+//        } catch (ex: ActivityNotFoundException) {
+//            context.startActivity(webIntent)
+//        }
     }
 
     open fun showErrorDialog(

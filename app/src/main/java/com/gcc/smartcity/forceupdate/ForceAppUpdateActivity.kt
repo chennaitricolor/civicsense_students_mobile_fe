@@ -41,14 +41,14 @@ class ForceAppUpdateActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        updateUI()
+        updateUI()
     }
 
     private fun updateUI() {
-//        version =  sessionStorage?.rootModel.version
-//        mTvInstalledVersion!!.text = StringBuilder(getString(R.string.forceupdate_current_version) + " " + BuildConfig.VERSION_NAME)
-//        mTvTitle?.text = version.header
-//        mTvBody?.text = StringBuilder(version.body.toString() + " (" + version.min_supported_android + ")")
+        version =  sessionStorage?.rootModel?.version
+        mTvInstalledVersion!!.text = StringBuilder(getString(R.string.forceupdate_current_version) + " " + BuildConfig.VERSION_NAME)
+        mTvTitle?.text = "Update Available"
+        mTvBody?.text = StringBuilder("This version of the app is outdated. Please update to the latest version"+ " (" + version + ")")
     }
 
     private fun openPlayStore(context: Context) {

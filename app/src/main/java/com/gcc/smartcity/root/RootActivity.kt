@@ -5,12 +5,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import bolts.Task
 import com.gcc.smartcity.BuildConfig
-import com.gcc.smartcity.dashboard.DashBoardActivity
+import com.gcc.smartcity.R
+import com.gcc.smartcity.dashboard.model.root.RootApiModel
 import com.gcc.smartcity.forceupdate.ForceAppUpdateActivity
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.preference.SessionStorage
-import com.gcc.smartcity.utils.VersionCheckUtil
+import com.gcc.smartcity.utils.VersionCheckUtils
 
 class RootActivity : AppCompatActivity() {
     private val REQUEST_CODE_INTRO = 108
@@ -22,15 +23,14 @@ class RootActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_root)
+        //  doUserCall()
         doRootCall()
-        checkForIntroSlidesFlag()
+
     }
-
-
 
     private fun checkForIntroSlidesFlag() {
         if (SessionStorage.getInstance().introSlidesVisibility) {
-//            callNextActivity(MainIntroActivity::class.java)
             val i = Intent(this, MainIntroActivity::class.java)
             startActivityForResult(i, REQUEST_CODE_INTRO)
         } else {
@@ -51,44 +51,36 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun doRootCall() {
-        mRootController?.doRootCall(
+        mRootController?.doRootCall()?.continueWith { it ->
+            afterRootCall(it)
+        }
+    }
+
+    private fun doUserCall() {
+        mRootController?.doUserCall(
             BuildConfig.HOST + java.lang.String.format(
                 "user/"
             )
-        )?.continueWithTask { task ->
-                afterRootCall(task)
-            }
+        )
     }
 
-    private fun afterRootCall(task: Task<Any>): Task<Any>? {
-//        if (task.isFaulted) {
-//            showErrorDialog(
-//                getString(R.string.unableToGetRootModel),
-//                getString(R.string.tryAgainLater),
-//                getString(R.string.okButtonText)
-//            )
-//            task.makeVoid()
-//            showLoader(false)
-//        } else {
-//            val rootModel = task.result as RootModel
-//            if (rootModel.success!!) {
-//              SessionStorage.getInstance().rootModel = rootModel
-//        if (rootModel.version.min_supported_android != null && VersionCheckUtil.compareInstalledVersionNameWith(
-//                rootModel.version.min_supported_android
-//            ) == -1
-//        ) {
-//            callNextActivity(ForceAppUpdateActivity::class.java)
-//        }
-//            } else {
-//                showErrorDialog(
-//                    getString(R.string.unableToGetRootModel),
-//                    getString(R.string.tryAgainLater),
-//                    getString(R.string.okButtonText)
-//                )
-//            }
-//        }
+    private fun afterRootCall(task: Task<Any>) {
+        if (!task.isFaulted) {
 
-        return null
+            val rootApiModel: RootApiModel = task.result as RootApiModel
+
+            SessionStorage.getInstance().rootModel = rootApiModel
+
+            if (rootApiModel.version != null && VersionCheckUtils.compareInstalledVersionNameWith(
+                    rootApiModel.version!!
+                ) === -1
+            ) {
+                callNextActivity(ForceAppUpdateActivity::class.java)
+            } else {
+                checkForIntroSlidesFlag()
+            }
+        }
+
     }
 
     private fun callNextActivity(activityClass: Class<*>) {

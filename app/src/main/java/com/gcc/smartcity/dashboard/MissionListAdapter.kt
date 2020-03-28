@@ -51,10 +51,11 @@ class MissionListAdapter(var context: Context, private var dataSet: ArrayList<Mi
     }
 
     private fun launchCameraForImageCapture(missionModel: MissionModel) {
-        val intent = Intent(context, ImageCaptureActivity::class.java)
+        val intent = Intent(context, RulesActivity::class.java)
         intent.putExtra("_id", missionModel._id)
         intent.putExtra("_campaignName", missionModel.campaignName)
         intent.putExtra("rewards", missionModel.rewards.toString())
+        intent.putExtra("rules", missionModel.rules.toString())
         context.startActivity(intent)
     }
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/agent_light_blue"
+    android:padding="20dp"
+    tools:context=".dashboard.RulesActivity">
+
+    <com.gcc.smartcity.fontui.FontButton
+        android:id="@+id/btnRulesNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_rounded_submit"
+        android:ems="8"
+        android:text="@string/nextButton"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        custom:fontFace="Lato-Bold.ttf" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnRulesNext"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/txt_campaignname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/txt_rules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
