@@ -71,12 +71,24 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     private val PERMISSION_ID = 42
     private var mLatitude: String? = null
     private var mLongitude: String? = null
+    private lateinit var lastLocation: Location
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+                mLatitude = lastLocation.latitude.toString()
+                mLongitude = lastLocation.longitude.toString()
+            }
+        }
 
         getLastLocation()
 
@@ -148,7 +160,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     }
 
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest()
+        mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
         mLocationRequest.fastestInterval = 0

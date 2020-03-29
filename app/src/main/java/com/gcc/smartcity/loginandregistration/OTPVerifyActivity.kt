@@ -44,9 +44,12 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     lateinit var name: String
     lateinit var userMobileNumber: String
     lateinit var fromScreen: String
-    lateinit var mLatitude: String
-    lateinit var mLongitude: String
+    private var mLatitude: String? = null
+    private var mLongitude: String? = null
     private val PERMISSION_ID = 42
+    private lateinit var lastLocation: Location
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var mLocationRequest: LocationRequest
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     init {
@@ -56,9 +59,21 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setView(R.layout.activity_otpverify)
-        otpField = findViewById(R.id.otpfield)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+                mLatitude = lastLocation.latitude.toString()
+                mLongitude = lastLocation.longitude.toString()
+            }
+        }
+
+        getLastLocation()
+
+        otpField = findViewById(R.id.otpfield)
 
         if (intent.extras != null) {
             userMobileNumber = intent.extras!!.getString("mobilenumber").toString()
@@ -80,35 +95,47 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
             }
             showLoader(true)
         }
-        getLastLocation()
     }
 
     private fun doRegistration(name: String, mobileNumber: String, otp: String) {
-        mLoginAndRegistrationController?.doSignUpCall(
-            BuildConfig.HOST + "user/signup",
-            name,
-            mobileNumber,
-            otp.toInt(),
-            mLatitude,
-            mLongitude
-        )
-            ?.continueWithTask { task ->
-                afterRegistrationCall(mobileNumber, task)
-            }
+        if (mLatitude != null && mLongitude != null) {
+            mLoginAndRegistrationController?.doSignUpCall(
+                BuildConfig.HOST + "user/signup",
+                name,
+                mobileNumber,
+                otp.toInt(),
+                mLatitude!!,
+                mLongitude!!
+            )
+                ?.continueWithTask { task ->
+                    afterRegistrationCall(mobileNumber, task)
+                }
+        } else {
+            getLastLocation()
+            Toast.makeText(this, getString(R.string.unableToGetYourLocation), Toast.LENGTH_LONG)
+                .show()
+        }
+
     }
 
     private fun doLogin(mobileNumber: String, otp: String) {
-        mLoginAndRegistrationController?.doSignUpCall(
-            BuildConfig.HOST + "user/signup",
-            "Guest",
-            mobileNumber,
-            otp.toInt(),
-            mLatitude,
-            mLongitude
-        )
-            ?.continueWithTask { task ->
-                afterRegistrationCall(mobileNumber, task)
-            }
+        if (mLatitude != null && mLongitude != null) {
+            mLoginAndRegistrationController?.doSignUpCall(
+                BuildConfig.HOST + "user/signup",
+                "Guest",
+                mobileNumber,
+                otp.toInt(),
+                mLatitude!!,
+                mLongitude!!
+            )
+                ?.continueWithTask { task ->
+                    afterRegistrationCall(mobileNumber, task)
+                }
+        } else {
+            getLastLocation()
+            Toast.makeText(this, getString(R.string.unableToGetYourLocation), Toast.LENGTH_LONG)
+                .show()
+        }
     }
 
     private fun afterRegistrationCall(mobileNumber: String, task: Task<Any>): Task<Any>? {
@@ -292,7 +319,7 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     }
 
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest()
+        mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
         mLocationRequest.fastestInterval = 0

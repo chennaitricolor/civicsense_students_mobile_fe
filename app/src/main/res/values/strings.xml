@@ -54,6 +54,7 @@
     <string name="signInErrorTitle">Sign In Error</string>
     <string name="useCorrectCredentialMessage">Please enter a valid otp</string>
     <string name="turnOnLocationMessage">Please turn on location</string>
+    <string name="unableToGetYourLocation">Unable to get your location at the moment. Please try again later.</string>
     <string name="incorrectMobileNumberMessage">Please enter the correct mobile number</string>
     <string name="unableToSignUp">Unable to sign up</string>
     <string name="successfulSignUp">Signed up successfully</string>

@@ -91,8 +91,8 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-                drawLocationAccuracyCircle(lastLocation)
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+//                drawLocationAccuracyCircle(lastLocation)
+//                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
                 if (hasMissionListPopulated) {
                     populateMissionList(
                         lastLocation.latitude.toString(),
@@ -272,8 +272,8 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
     private fun createLocationRequest() {
         locationRequest = LocationRequest()
-        locationRequest.interval = 1000
-        locationRequest.fastestInterval = 500
+        locationRequest.interval = 0
+        locationRequest.fastestInterval = 0
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         val builder = LocationSettingsRequest.Builder()

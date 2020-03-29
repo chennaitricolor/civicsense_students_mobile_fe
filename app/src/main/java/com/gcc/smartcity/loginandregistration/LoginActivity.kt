@@ -56,6 +56,11 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        getLastLocation()
+        getFirebaseRemoteConfigData()
+
         if (isValidSession()) {
             showLoader(true)
             callLeaderBoardEndpoint()
@@ -113,12 +118,6 @@ class LoginActivity : BaseActivity() {
                 startActivity(intent)
             }
         }
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        getLastLocation()
-        getFirebaseRemoteConfigData()
-
     }
 
     private fun isValidSession(): Boolean {
@@ -131,11 +130,11 @@ class LoginActivity : BaseActivity() {
     private fun sendOTP(mobileNumber: String) {
         showLoader(true)
         mLoginAndRegistrationController?.doOTPCall(
-                BuildConfig.HOST + java.lang.String.format(
-                    "user/generate-otp?phoneNumber=%s",
-                    mobileNumber
-                )
+            BuildConfig.HOST + java.lang.String.format(
+                "user/generate-otp?phoneNumber=%s",
+                mobileNumber
             )
+        )
             ?.continueWithTask { task ->
                 afterOTPSent(task, mobileNumber)
             }
