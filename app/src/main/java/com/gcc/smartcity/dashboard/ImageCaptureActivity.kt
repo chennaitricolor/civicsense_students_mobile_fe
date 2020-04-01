@@ -18,10 +18,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,7 +26,6 @@ import androidx.core.content.FileProvider
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
-import com.gcc.smartcity.SubmitActivity
 import com.gcc.smartcity.network.PersistentCookieStore
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.OnDialogListener
@@ -43,12 +39,13 @@ import java.net.CookiePolicy
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadListener {
     override fun onSuccess() {
-        val intent = Intent(this, SubmitActivity::class.java)
-        intent.putExtra("rewards", rewards)
-        startActivity(intent)
+//        val intent = Intent(this, SubmitActivity::class.java)
+//        intent.putExtra("rewards", rewards)
+//        startActivity(intent)
+        Toast.makeText(this, "Task completed successfully.", Toast.LENGTH_LONG)
+            .show()
         finish()
     }
 
@@ -63,6 +60,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     private val SETTINGS_REQUEST_CODE = 1111
     private var ivCameraPreview: ImageView? = null
     private var buttonHolder: LinearLayout? = null
+    private var imageCaptureActivity: RelativeLayout? = null
     private var mCurrentPhotoPath: String? = null
     private var reTakeButton: Button? = null
     private var submitButton: Button? = null
@@ -108,6 +106,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         buttonHolder = findViewById(R.id.buttonHolder)
         reTakeButton = findViewById(R.id.btnReTakePhoto)
         submitButton = findViewById(R.id.btnSubmitPhoto)
+        imageCaptureActivity = findViewById(R.id.imageCaptureActivity)
 
         setButtonHolderVisibility(false)
 

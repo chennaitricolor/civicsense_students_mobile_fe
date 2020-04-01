@@ -66,21 +66,23 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     }
 
     private fun userStatsVisibilityModifier() {
-        if (SessionStorage.getInstance().leaderBoardStatus == false) {
-            userStatsHolder?.visibility = View.GONE
-        } else {
-            gemsCountDrawer?.text =
-                leaderBoardModel?.userRewards.toString()
-            val userRank = leaderBoardModel?.userRank
-            if (userRank != null) {
-                if (userRank < 1) {
-                    rankCountDrawer?.text = "-"
-                } else {
-                    rankCountDrawer?.text =
-                        leaderBoardModel?.userRank.toString()
-                }
-            }
-        }
+        userStatsHolder?.visibility = View.GONE
+
+//        if (SessionStorage.getInstance().leaderBoardStatus == false) {
+//            userStatsHolder?.visibility = View.GONE
+//        } else {
+//            gemsCountDrawer?.text =
+//                leaderBoardModel?.userRewards.toString()
+//            val userRank = leaderBoardModel?.userRank
+//            if (userRank != null) {
+//                if (userRank < 1) {
+//                    rankCountDrawer?.text = "-"
+//                } else {
+//                    rankCountDrawer?.text =
+//                        leaderBoardModel?.userRank.toString()
+//                }
+//            }
+//        }
     }
 
     override fun onSelected(pos: Int) {
