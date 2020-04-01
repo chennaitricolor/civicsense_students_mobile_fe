@@ -101,7 +101,6 @@ public class RequestExecutor {
 
         mRequestQueue.add(volleyRequest);
         return task.getTask();
-
     }
 
     public Task<Object> makeRequestCallWithCustomHeaders(VolleyRequest<?> volleyRequest, Map<String, String> headers) {

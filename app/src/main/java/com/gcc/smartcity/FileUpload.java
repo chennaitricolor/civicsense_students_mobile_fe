@@ -61,6 +61,7 @@ public class FileUpload {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                mImageUploadListener.onFailure("Server down. Please try after some time.");
             }
         }) {
             @Override

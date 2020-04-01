@@ -53,7 +53,9 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     }
 
     override fun onFailure(message: String) {
-        AlertDialogBuilder.getInstance().showErrorDialog("Error", "" + message, "OK", this)
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
+            .show()
+        finish()
     }
 
     private val PERMISSION_REQUEST_CODE = 200

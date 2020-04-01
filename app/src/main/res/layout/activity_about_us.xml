@@ -33,18 +33,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:gravity="center_horizontal"
                 android:text="@string/aboutus_heading"
-                android:layout_marginTop="12dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:paddingHorizontal="16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:paddingHorizontal="16dp"
                 android:text="@string/aboutus_description" />
 
             <View
@@ -53,12 +53,13 @@
                 android:layout_marginTop="10dp"
 
                 android:background="@android:color/darker_gray" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:gravity="center_horizontal"
                 android:text="SPECIAL THANKS TO"
-                android:layout_marginTop="12dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -192,9 +193,9 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:paddingHorizontal="16dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
                     android:text="@string/azhagu_description" />
 
             </LinearLayout>
@@ -207,8 +208,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -454,6 +455,34 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="TECH FOR CITIES"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/mrcooper_description" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

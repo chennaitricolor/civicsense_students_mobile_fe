@@ -175,14 +175,14 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         val myIntent = Intent(Intent.ACTION_SEND)
         myIntent.type = "text/plain"
         val shareBody =
-            "I use AgentX and I love it. It helps in ensuring a safer city. Download it at https://play.google.com/store/apps/details?id=$appId"
-        val shareSub = "Link to install AgentX App"
+            "I use the GCC - Corona Monitoring app and I love it. It helps in ensuring a safer city. Download it at https://play.google.com/store/apps/details?id=$appId"
+        val shareSub = "Link to install GCC - Corona Monitoring App"
         myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub)
         myIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
         startActivity(
             Intent.createChooser(
                 myIntent,
-                "Share \"AgentX app\" via"
+                "Share \"GCC - Corona Monitoring app\" via"
             )
         )
     }
@@ -246,7 +246,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
 //            Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
         val webIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(url)
+            Uri.parse("https://www.youtube.com/watch?v=Avt-1ucQhps")
 
         )
         context.startActivity(webIntent)
