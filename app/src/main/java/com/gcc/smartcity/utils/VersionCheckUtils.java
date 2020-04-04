@@ -15,8 +15,8 @@ public class VersionCheckUtils {
         int maxIndex = Math.min(oldNumbers.length, newNumbers.length);
 
         for (int i = 0; i < maxIndex; i++) {
-            int oldVersionPart = Integer.valueOf(oldNumbers[i]);
-            int newVersionPart = Integer.valueOf(newNumbers[i]);
+            int oldVersionPart = Integer.parseInt(oldNumbers[i]);
+            int newVersionPart = Integer.parseInt(newNumbers[i]);
 
             if (oldVersionPart < newVersionPart) {
                 res = -1;

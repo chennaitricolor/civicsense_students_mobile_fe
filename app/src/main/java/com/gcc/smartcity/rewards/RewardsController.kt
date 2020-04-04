@@ -68,7 +68,7 @@ class RewardsController(
     private fun doRewardsListCall(url: String) {
         val volleyRequest = VolleyRequest.newInstance<RewardsAPIModel>(Request.Method.GET, url)
         val jsonResponseParser =
-            JsonResponseParser<RewardsAPIModel>(RewardsAPIModel::class.java)
+            JsonResponseParser(RewardsAPIModel::class.java)
         volleyRequest.setResponseParser(jsonResponseParser)
         RequestExecutor.getInstance(mContext).makeRequestCall(volleyRequest).continueWithTask(
             Continuation<Any, Task<Any>> {

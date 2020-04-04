@@ -7,15 +7,15 @@ import com.bluelinelabs.logansquare.annotation.JsonObject
 class RootApiModel {
 
     @JsonField
-    public var links: Links? = null
+    var links: Links? = null
 
     @JsonField
-    public var aboutus: String? = null
+    var aboutus: String? = null
 
     @JsonField
-    public var termsAndCondition: String? = null
+    var termsAndCondition: String? = null
 
     @JsonField
-    public var version: String? = null
+    var version: String? = null
 
 }

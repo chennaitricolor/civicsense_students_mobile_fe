@@ -42,15 +42,15 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
     private var otpField: FontEditText? = null
     lateinit var name: String
-    lateinit var userMobileNumber: String
-    lateinit var fromScreen: String
+    private lateinit var userMobileNumber: String
+    private lateinit var fromScreen: String
     private var mLatitude: String? = null
     private var mLongitude: String? = null
     private val PERMISSION_ID = 42
     private lateinit var lastLocation: Location
     private lateinit var locationCallback: LocationCallback
     private lateinit var mLocationRequest: LocationRequest
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     init {
         mLoginAndRegistrationController = LoginAndRegistrationController(this)

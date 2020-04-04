@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlin.math.min
 
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener, OnDialogListener, MissionAPIListener {
@@ -133,7 +134,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             lastMockLocation = location
             numGoodReadings = 0
         } else {
-            numGoodReadings = Math.min(numGoodReadings + 1, 1000000)
+            numGoodReadings = min(numGoodReadings + 1, 1000000)
         } // Prevent overflow
         // We only clear that incident record after a significant show of good behavior
         if (numGoodReadings >= 20) lastMockLocation = null

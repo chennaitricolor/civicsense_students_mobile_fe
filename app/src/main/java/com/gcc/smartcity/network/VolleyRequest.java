@@ -37,7 +37,7 @@ public class VolleyRequest<T> extends Request<T> {
      * Socket Timeout = time;
      * Request dispatched with Socket Timeout of 27 Secs
      */
-    private final int DEFAULT_TIMEOUT = (int) (60 * 1000); // 30 seconds
+    private final int DEFAULT_TIMEOUT = 60 * 1000; // 30 seconds
 
     private final int RETRY_COUNT = 1;    // To retry once within the Timeout period
 
@@ -77,7 +77,7 @@ public class VolleyRequest<T> extends Request<T> {
     }
 
     public static <T> VolleyRequest<T> newInstance(int method, String url) {
-        return new VolleyRequest<T>(method, url);
+        return new VolleyRequest<>(method, url);
     }
 
     // ----------------------------------
@@ -209,7 +209,7 @@ public class VolleyRequest<T> extends Request<T> {
 
             try {
                 Logger.i("Parser :: " + mParser);
-                response = (Response<T>) Response.success(mParser.parse(responseString), null);
+                response = Response.success(mParser.parse(responseString), null);
             } catch (ClassCastException e) {
                 Logger.exc(e);
             } catch (Exception e) {

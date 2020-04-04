@@ -29,7 +29,7 @@ class DashboardController(
 
     private fun doMissionListCall(url: String) {
         val volleyRequest = VolleyRequest.newInstance<MissionListModel>(Request.Method.GET, url)
-        val jsonResponseParser = JsonResponseParser<MissionListModel>(MissionListModel::class.java)
+        val jsonResponseParser = JsonResponseParser(MissionListModel::class.java)
         val errorResponseParser = JsonResponseParser(MissionListErrorModel::class.java)
         volleyRequest.setResponseParser(jsonResponseParser)
         volleyRequest.setErrorResponseParser(errorResponseParser)

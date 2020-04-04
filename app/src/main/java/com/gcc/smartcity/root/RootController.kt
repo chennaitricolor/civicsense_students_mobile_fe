@@ -2,7 +2,6 @@ package com.gcc.smartcity.root
 
 import android.content.Context
 import bolts.Task
-import com.android.volley.BuildConfig
 import com.android.volley.Request
 import com.gcc.smartcity.dashboard.model.root.RootApiModel
 import com.gcc.smartcity.network.JsonResponseParser

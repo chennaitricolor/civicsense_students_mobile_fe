@@ -36,12 +36,7 @@ public class AlertDialogBuilder {
         }
 
         // Generic error dialogs are used for information only. User only clicks on OK to dismiss it.
-        builder.setNegativeButton(buttonText, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton(buttonText, (dialog, which) -> dialog.dismiss());
 
         mAlertDialog = builder.create();
         mAlertDialog.show();
@@ -63,13 +58,10 @@ public class AlertDialogBuilder {
         }
 
         // Generic error dialogs are used for information only. User only clicks on OK to dismiss it.
-        builder.setNegativeButton(buttonText, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (onSingleBtnDialogListener != null)
-                    onSingleBtnDialogListener.onSingleButtonClicked();
-            }
+        builder.setNegativeButton(buttonText, (dialog, which) -> {
+            dialog.dismiss();
+            if (onSingleBtnDialogListener != null)
+                onSingleBtnDialogListener.onSingleButtonClicked();
         });
 
         mAlertDialog = builder.create();
@@ -91,20 +83,9 @@ public class AlertDialogBuilder {
         }
 
         // Generic error dialogs are used for information only. User only clicks on OK to dismiss it.
-        builder.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mDialogListener.onNegativeButtonClick(whichDialog);
-            }
-        });
+        builder.setNegativeButton(negativeButtonText, (dialog, which) -> mDialogListener.onNegativeButtonClick(whichDialog));
 
-        builder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mDialogListener.onPositiveButtonClick(whichDialog);
-
-            }
-        });
+        builder.setPositiveButton(positiveButtonText, (dialog, which) -> mDialogListener.onPositiveButtonClick(whichDialog));
 
         mAlertDialog = builder.create();
         mAlertDialog.show();

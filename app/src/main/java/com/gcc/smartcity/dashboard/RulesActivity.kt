@@ -24,8 +24,8 @@ class RulesActivity : AppCompatActivity() {
             rules = intent.extras!!.getString("rules").toString()
         }
 
-        txt_campaignname.setText(_campaignName)
-        txt_rules.setText(rules)
+        txt_campaignname.text = _campaignName
+        txt_rules.text = rules
         btnRulesNext.setOnClickListener {
             val intent = Intent(this, ImageCaptureActivity::class.java)
             intent.putExtra("_id", _id)

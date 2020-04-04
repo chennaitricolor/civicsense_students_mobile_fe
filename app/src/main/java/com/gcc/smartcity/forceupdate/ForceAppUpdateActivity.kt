@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import android.widget.TextView
 import android.widget.Toast
@@ -15,7 +14,6 @@ import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.preference.SessionStorage
 import kotlinx.android.synthetic.main.activity_force_app_update.*
-import java.lang.StringBuilder
 
 
 class ForceAppUpdateActivity : AppCompatActivity() {
@@ -48,7 +46,7 @@ class ForceAppUpdateActivity : AppCompatActivity() {
         version =  sessionStorage?.rootModel?.version
         mTvInstalledVersion!!.text = StringBuilder(getString(R.string.forceupdate_current_version) + " " + BuildConfig.VERSION_NAME)
         mTvTitle?.text = "Update Available"
-        mTvBody?.text = StringBuilder("This version of the app is outdated. Please update to the latest version"+ " (" + version + ")")
+        mTvBody?.text = StringBuilder("This version of the app is outdated. Please update to the latest version ($version)")
     }
 
     private fun openPlayStore(context: Context) {

@@ -7,6 +7,6 @@ import com.bluelinelabs.logansquare.annotation.JsonObject
 class Links {
 
     @JsonField
-    public var howToPlay: String? = null
+    var howToPlay: String? = null
 
 }

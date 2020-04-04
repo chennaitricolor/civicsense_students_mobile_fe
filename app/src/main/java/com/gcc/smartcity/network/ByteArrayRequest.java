@@ -40,7 +40,7 @@ public class ByteArrayRequest extends Request<byte[]> {
      * Socket Timeout = time;
      * Request dispatched with Socket Timeout of 27 Secs
      */
-    private final int DEFAULT_TIMEOUT = (int) (60 * 1000); // 30 seconds
+    private final int DEFAULT_TIMEOUT = 60 * 1000; // 30 seconds
 
     private final int RETRY_COUNT = 1;    // To retry once within the Timeout period
 
@@ -119,8 +119,6 @@ public class ByteArrayRequest extends Request<byte[]> {
             try {
 //                Logger.i("Parser :: "+mParser);
                 response = Response.success(networkResponse.data, null);
-            } catch (ClassCastException e) {
-                Logger.exc(e);
             } catch (Exception e) {
                 Logger.exc(e);
             }

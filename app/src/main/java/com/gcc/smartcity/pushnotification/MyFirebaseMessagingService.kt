@@ -20,7 +20,7 @@ import com.google.firebase.messaging.RemoteMessage
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
-        token?.let {
+        token.let {
             Log.d("PUSH NOTIFICATION TOKEN", "Refreshed token: $it")
         }
     }
@@ -31,12 +31,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             hashMap.putAll(message.data)
             val id = System.currentTimeMillis()
             sendNotification(
-                data?.get("title") ?: "error", data?.get("body")
+                data["title"] ?: "error", data["body"]
                     ?: "error", hashMap, id.toInt()
             )
         }
-        Log.d("PUSH NOTIFICATION MSG", "From: ${message?.from}")
-        Log.d("PUSH NOTIFICATION MSG", "From: ${message?.from}")
+        Log.d("PUSH NOTIFICATION MSG", "From: ${message.from}")
+        Log.d("PUSH NOTIFICATION MSG", "From: ${message.from}")
     }
 
     private fun sendNotification(

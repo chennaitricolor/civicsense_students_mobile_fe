@@ -2,7 +2,6 @@ package com.gcc.smartcity.preference;
 
 import com.gcc.smartcity.dashboard.model.root.RootApiModel;
 import com.gcc.smartcity.leaderboard.LeaderBoardModel;
-import com.gcc.smartcity.root.RootModel;
 import com.gcc.smartcity.user.UserModel;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
@@ -93,7 +92,7 @@ public class SessionStorage {
         if (result == null) {
             return null;
         }
-        return new ArrayList<T>(Arrays.asList(result));
+        return new ArrayList<>(Arrays.asList(result));
 
     }
 

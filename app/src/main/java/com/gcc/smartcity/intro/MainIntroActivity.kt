@@ -1,7 +1,6 @@
 package com.gcc.smartcity.intro
 
 import android.Manifest
-import android.content.Intent
 import android.os.Bundle
 import com.gcc.smartcity.R
 import com.heinrichreimersoftware.materialintro.app.IntroActivity

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gcc.smartcity.R
 
 class NavDrawerListAdapter(
-    var navDrawerListItem: ArrayList<NavDrawerListItem>,
-    var OnRecyclerSelectedListener: OnRecyclerSelectedListener
+    private var navDrawerListItem: ArrayList<NavDrawerListItem>,
+    private var OnRecyclerSelectedListener: OnRecyclerSelectedListener
 ) :
     RecyclerView.Adapter<NavDrawerListAdapter.ViewHolder>() {
 

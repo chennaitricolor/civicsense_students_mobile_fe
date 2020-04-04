@@ -47,7 +47,7 @@ class LoginActivity : BaseActivity() {
     private var isMobileNumberValid: Boolean = false
     private val PERMISSION_ID = 42
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
+    private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     init {
         mLoginAndRegistrationController = LoginAndRegistrationController(this)

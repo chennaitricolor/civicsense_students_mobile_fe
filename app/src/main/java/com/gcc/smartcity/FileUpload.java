@@ -43,26 +43,20 @@ public class FileUpload {
 
     private VolleyMultipartRequest createVolleyRequestForUpload(String url, final Bitmap bitmap, final String mimeType) {
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
-            @Override
-            public void onResponse(NetworkResponse response) {
-                String resultResponse = new String(response.data);
-                Gson gson = new Gson();
-                FileUploadResponseModel responseMode = gson.fromJson(resultResponse, FileUploadResponseModel.class);
-                Logger.d("upload successful" + responseMode.getMessage());
-                if (responseMode.getSuccess()) {
-                    mImageUploadListener.onSuccess();
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, response -> {
+            String resultResponse = new String(response.data);
+            Gson gson = new Gson();
+            FileUploadResponseModel responseMode = gson.fromJson(resultResponse, FileUploadResponseModel.class);
+            Logger.d("upload successful" + responseMode.getMessage());
+            if (responseMode.getSuccess()) {
+                mImageUploadListener.onSuccess();
 
-                } else {
-                    mImageUploadListener.onFailure(responseMode.getMessage());
-                }
+            } else {
+                mImageUploadListener.onFailure(responseMode.getMessage());
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                mImageUploadListener.onFailure("Server down. Please try after some time.");
-            }
+        }, error -> {
+            error.printStackTrace();
+            mImageUploadListener.onFailure("Server down. Please try after some time.");
         }) {
             @Override
             public Map<String, String> getHeaders() {

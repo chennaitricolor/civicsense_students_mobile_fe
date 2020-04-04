@@ -2,7 +2,6 @@ package com.gcc.smartcity.navigationdrawer
 
 import android.content.Context
 import com.gcc.smartcity.R
-import com.gcc.smartcity.preference.SessionStorage
 
 class NavigationController(var context: Context) {
 

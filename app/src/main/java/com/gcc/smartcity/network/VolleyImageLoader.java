@@ -24,7 +24,7 @@ public class VolleyImageLoader {
 
     public ImageLoader setImageLoader() {
         mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
+            private final LruCache<String, Bitmap> mCache = new LruCache<>(10);
 
             public void putBitmap(String url, Bitmap bitmap) {
                 mCache.put(url, bitmap);

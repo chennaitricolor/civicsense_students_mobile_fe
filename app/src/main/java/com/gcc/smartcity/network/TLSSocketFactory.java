@@ -55,7 +55,7 @@ public class TLSSocketFactory extends SSLSocketFactory {
      */
 
     private static Socket enableTLSOnSocket(Socket socket) {
-        if (socket != null && (socket instanceof SSLSocket)
+        if ((socket instanceof SSLSocket)
                 && isTLSServerEnabled((SSLSocket) socket)) { // skip the fix if server doesn't provide there TLS version
             ((SSLSocket) socket).setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"});
         }

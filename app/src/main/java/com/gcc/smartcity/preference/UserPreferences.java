@@ -111,7 +111,7 @@ public class UserPreferences {
 
             secretKeySpec = new SecretKeySpec(Base64.decode(encryptionKey, Base64.DEFAULT), "AES");
         } catch (Exception e) {
-            Log.e("LoadKey", "EXCEPTION OCCURRED WHILE LOADING KEY" + e.getMessage().toString());
+            Log.e("LoadKey", "EXCEPTION OCCURRED WHILE LOADING KEY" + e.getMessage());
         } finally {
             try {
                 if (bufferedReader != null) {

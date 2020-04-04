@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.location.Location
 import android.location.LocationManager
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
@@ -399,14 +399,12 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
                     ExifInterface.ORIENTATION_UNDEFINED
                 )
                 val rotatedBitmap: Bitmap?
-                when (orientation) {
-                    ExifInterface.ORIENTATION_ROTATE_90 -> rotatedBitmap = rotateImage(bitmap, 90F)
-                    ExifInterface.ORIENTATION_ROTATE_180 -> rotatedBitmap =
-                        rotateImage(bitmap, 180F)
-                    ExifInterface.ORIENTATION_ROTATE_270 -> rotatedBitmap =
-                        rotateImage(bitmap, 270F)
-                    ExifInterface.ORIENTATION_NORMAL -> rotatedBitmap = bitmap
-                    else -> rotatedBitmap = bitmap
+                rotatedBitmap = when (orientation) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90F)
+                    ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180F)
+                    ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270F)
+                    ExifInterface.ORIENTATION_NORMAL -> bitmap
+                    else -> bitmap
                 }
 
                 ivCameraPreview!!.setImageBitmap(rotatedBitmap)

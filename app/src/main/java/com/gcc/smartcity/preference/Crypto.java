@@ -102,7 +102,7 @@ public class Crypto {
         return decodedBytes;
     }
 
-    public static final String encryptWithmd5(final String s) {
+    public static String encryptWithmd5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash

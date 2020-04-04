@@ -78,7 +78,6 @@
     <color name="payment_banner_darker_green">#257A68</color>
     <color name="light_blue_ttv">#66D2E4</color>
     <color name="login_border_grey">#d6d7d8</color>
-    <color name="mtrl_textinput_default_box_stroke_color">#d6d7d8</color>
     <color name="pink_dark">#c0188c</color>
     <color name="fingerprint_color">#008577</color>
     <color name="loanmod_alert_background">#F2888B8D</color>

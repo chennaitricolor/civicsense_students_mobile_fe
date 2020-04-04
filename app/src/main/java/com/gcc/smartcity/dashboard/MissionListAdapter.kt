@@ -55,7 +55,7 @@ class MissionListAdapter(var context: Context, private var dataSet: ArrayList<Mi
         intent.putExtra("_id", missionModel._id)
         intent.putExtra("_campaignName", missionModel.campaignName)
         intent.putExtra("rewards", missionModel.rewards.toString())
-        intent.putExtra("rules", missionModel.rules.toString())
+        intent.putExtra("rules", missionModel.rules)
         context.startActivity(intent)
     }
 

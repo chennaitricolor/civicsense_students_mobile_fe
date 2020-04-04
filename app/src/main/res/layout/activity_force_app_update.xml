@@ -19,7 +19,8 @@
             android:id="@+id/logoContainer"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/forceupdateapplogo" />
 
         <com.gcc.smartcity.fontui.FontTextView
             android:id="@+id/forceAppUpdate_installed_version"
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="Update Available"
+            android:text="@string/update_available"
             android:textColor="@color/white"
             android:textSize="20sp"
             font:fontFace="Lato-Bold.ttf"/>

@@ -24,7 +24,7 @@ class TermsAndConditionsFragment : SlideFragment(), Slide {
     ): View? {
         vw=inflater.inflate(R.layout.fragment_terms_and_conditions, container, false)
         val termsTxt=vw.findViewById<TextView>(R.id.txt_termsCondition)
-        termsTxt.setText(Html.fromHtml(SessionStorage.getInstance().rootModel.termsAndCondition))
+        termsTxt.text = Html.fromHtml(SessionStorage.getInstance().rootModel.termsAndCondition)
         return vw
     }
 

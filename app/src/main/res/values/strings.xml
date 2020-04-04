@@ -66,7 +66,7 @@
     <string name="usernameUnavailable">Username unavailable</string>
     <string name="usernameUnavailableMessage">The username you entered has already been taken. Please type in a different username.</string>
     <string name="permissionsDeniedTitle">Permissions have been denied</string>
-    <string name="cancelButtonText">CANCEL</string>
+    <string name="cancelButtonText">Cancel</string>
     <string name="okButtonText">OK</string>
     <string name="permissionRequestMessage">We need access to all the permissions in order to capture the image and upload it to our servers to serve you better.</string>
     <string name="permanentPermissionDeniedMessage">It seems you have disabled the required permissions permanently. The app will not work without those permissions. If you would like to grant the permissions, click on \'OK\' and grant all permissions. If you wish not to, the app will shutdown itself.</string>
@@ -99,6 +99,10 @@
     <string name="GCC">Greater Chennai Corporation</string>
     <string name="aboutus_heading"> GCC - CORONA Monitoring App</string>
     <string name="aboutus_description">This application was developed to aid in cluster analysis and reporting of incidents related to CORONA outbreak. This application will be used by Greater Chennai Corporation for CORONA mitigation measures. Geo tagging of information is the primary purpose of the application. The information collected will not be used for any other purpose. This application can be uninstalled once the COVID-19 issue gets resolved.</string>
+    <string name="update_available">Update Available</string>
+    <string name="forceupdateapplogo">forceUpdateAppLogo</string>
+    <string name="maintenanceLogo">maintenanceLogo</string>
+    <string name="splashlogo">splashLogo</string>
 
 
 </resources>

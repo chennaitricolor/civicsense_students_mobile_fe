@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class CustomFont {
 
-    private static HashMap<String, Typeface> mTypefaces = new HashMap<String, Typeface>();
+    private static HashMap<String, Typeface> mTypefaces = new HashMap<>();
 
     public static void applyFont(Context context, TextView inputView, AttributeSet attrs) {
         if (attrs != null) {

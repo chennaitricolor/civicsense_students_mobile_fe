@@ -71,8 +71,7 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             } else {
                 val rewardsBal =
                     rewards.gemTarget.toInt() - leaderBoardModel?.userRewards!!
-                balanceRequired.text =
-                    "COLLECT " + rewardsBal + " MORE GEMS TO UNLOCK"
+                balanceRequired.text = "COLLECT $rewardsBal MORE GEMS TO UNLOCK"
                 balanceStatus.text = "INSUFFICIENT BALANCE"
             }
         }
