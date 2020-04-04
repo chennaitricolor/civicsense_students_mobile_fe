@@ -103,6 +103,8 @@
     <string name="forceupdateapplogo">forceUpdateAppLogo</string>
     <string name="maintenanceLogo">maintenanceLogo</string>
     <string name="splashlogo">splashLogo</string>
+    <string name="updateButton">Update</string>
+    <string name="unableToUpdateProfileName">Unable to update your name</string>
 
 
 </resources>

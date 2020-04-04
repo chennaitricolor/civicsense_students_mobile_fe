@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.gcc.smartcity.fontui.FontEditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_border_edittext"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+        android:padding="10dp"
+        android:singleLine="true"
+        android:inputType="text"
+        android:textCursorDrawable="@drawable/style_cursor"
+        android:maxLength="15"
+        android:textColor="@color/davyGrey" />
+
+</FrameLayout>

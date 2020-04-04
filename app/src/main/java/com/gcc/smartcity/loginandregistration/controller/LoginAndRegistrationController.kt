@@ -29,8 +29,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
     fun doLeaderBoardCall(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(LeaderBoardModel::class.java)
         val errorResponseParser = JsonResponseParser(LeaderBoardErrorModel::class.java)
-        val leaderBoardRequest =
-            VolleyRequest.newInstance<LeaderBoardModel>(Request.Method.GET, endpoint)
+        val leaderBoardRequest = VolleyRequest.newInstance<LeaderBoardModel>(Request.Method.GET, endpoint)
         leaderBoardRequest.setResponseParser(parser)
         leaderBoardRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(leaderBoardRequest)
@@ -39,8 +38,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
     fun doUserCall(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(UserModel::class.java)
         val errorResponseParser = JsonResponseParser(UserErrorModel::class.java)
-        val userDetailsRequest =
-            VolleyRequest.newInstance<UserModel>(Request.Method.GET, endpoint)
+        val userDetailsRequest = VolleyRequest.newInstance<UserModel>(Request.Method.GET, endpoint)
         userDetailsRequest.setResponseParser(parser)
         userDetailsRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(userDetailsRequest)
@@ -93,6 +91,25 @@ class LoginAndRegistrationController(private val mContext: Context) {
         loginRequest.setResponseParser(parser)
         loginRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
+    }
+
+    fun doProfileNameUpdate(endpoint: String, newProfileName: String): Task<Any> {
+        val parser = JsonResponseParser(UserUpdateModel::class.java)
+        val errorResponseParser = JsonResponseParser(UserUpdateErrorModel::class.java)
+        val userUpdateRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.PUT, endpoint)
+        val jsonObject = JSONObject()
+        val newValuesObject = JSONObject()
+        try {
+            newValuesObject.put("name", newProfileName)
+            newValuesObject.put("otp", 1234) // TODO: REMOVE
+            jsonObject.put("newValues", newValuesObject)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        userUpdateRequest.setPayload(jsonObject.toString())
+        userUpdateRequest.setResponseParser(parser)
+        userUpdateRequest.setErrorResponseParser(errorResponseParser)
+        return RequestExecutor.getInstance(mContext).makeRequestCall(userUpdateRequest)
     }
 
 }

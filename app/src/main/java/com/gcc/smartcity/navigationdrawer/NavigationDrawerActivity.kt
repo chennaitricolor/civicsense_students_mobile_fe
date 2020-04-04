@@ -1,29 +1,34 @@
 package com.gcc.smartcity.navigationdrawer
 
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import bolts.Task
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.aboutus.AboutUs
+import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.fontui.FontTextView
 import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
+import com.gcc.smartcity.loginandregistration.model.UserUpdateModel
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.rewards.RewardsActivity
 import com.gcc.smartcity.user.UserModel
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.OnSingleBtnDialogListener
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*
 
 abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelectedListener {
@@ -37,6 +42,13 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     private var rankCountDrawer: FontTextView? = null
     private var leaderBoardModel: LeaderBoardModel? = null
     private var userDetailsModel: UserModel? = null
+    private var editProfileName: CircleImageView? = null
+    private var navHeader: LinearLayout? = null
+    private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
+
+    init {
+        mLoginAndRegistrationController = LoginAndRegistrationController(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,15 +57,104 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         userNameDrawer = findViewById(R.id.usernameDrawer)
         gemsCountDrawer = findViewById(R.id.gemsCountDrawer)
         rankCountDrawer = findViewById(R.id.rankCountDrawer)
+        editProfileName = findViewById(R.id.edit_profile_name)
         leaderBoardModel = SessionStorage.getInstance().leaderBoardModel
         userDetailsModel = SessionStorage.getInstance().userModel
+        navHeader = findViewById(R.id.nav_header)
+
         if (leaderBoardModel != null) {
             setUserID()
             userStatsVisibilityModifier()
         }
 
+        editProfileName?.setOnClickListener {
+            editProfileNameWindow()
+        }
+
         setActions()
         setAdapter()
+    }
+
+    private fun editProfileNameWindow() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("Enter your name:")
+        val viewInflated: View = LayoutInflater.from(this)
+            .inflate(R.layout.edit_profile_name, findViewById(android.R.id.content), false)
+        val input = viewInflated.findViewById<View>(R.id.input) as FontEditText
+
+        builder.setView(viewInflated)
+
+        builder.setPositiveButton(
+            R.string.updateButton,
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                callUpdateProfileNameEndpoint(input.text.toString())
+            })
+
+        builder.setNegativeButton(
+            R.string.cancelButtonText,
+            DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+
+        builder.show()
+    }
+
+    private fun callUpdateProfileNameEndpoint(newProfileName: String) {
+        mLoginAndRegistrationController?.doProfileNameUpdate(
+            BuildConfig.HOST + "user/update",
+            newProfileName
+        )?.continueWithTask { task ->
+            afterProfileNameUpdateCall(task, newProfileName)
+        }
+    }
+
+    private fun afterProfileNameUpdateCall(task: Task<Any>, newProfileName: String): Task<Any>? {
+        if (task.isFaulted) {
+            showErrorDialog(
+                getString(R.string.unableToUpdateProfileName),
+                getString(R.string.tryAgainLater),
+                getString(R.string.okButtonText)
+            )
+            task.makeVoid()
+        } else {
+            val userUpdateModel = task.result as UserUpdateModel
+            if (userUpdateModel.success!!) {
+                callUserEndpoint()
+                Toast.makeText(this, "Your name has been updated successfully.", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                showErrorDialog(
+                    getString(R.string.unableToUpdateProfileName),
+                    getString(R.string.tryAgainLater),
+                    getString(R.string.okButtonText)
+                )
+            }
+        }
+
+        return null
+    }
+
+    private fun callUserEndpoint() {
+        mLoginAndRegistrationController?.doUserCall(BuildConfig.HOST + "user")
+            ?.continueWithTask { task ->
+                postUserCall(task)
+            }
+    }
+
+    private fun postUserCall(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            task.makeVoid()
+        } else {
+            val userModel = task.result as UserModel
+            try {
+                SessionStorage.getInstance().userModel = userModel
+                userDetailsModel = SessionStorage.getInstance().userModel
+                setUserID()
+            } catch (ex: Exception) {
+                Logger.d(ex.toString())
+            }
+        }
+
+        return null
     }
 
     private fun setUserID() {
