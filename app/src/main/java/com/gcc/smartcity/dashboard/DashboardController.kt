@@ -7,6 +7,8 @@ import com.android.volley.Request
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.dashboard.model.MissionListErrorModel
 import com.gcc.smartcity.dashboard.model.MissionListModel
+import com.gcc.smartcity.dashboard.model.NewMissionListErrorModel
+import com.gcc.smartcity.dashboard.model.NewMissionListModel
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest

@@ -1,5 +1,6 @@
 package com.gcc.smartcity.preference;
 
+import com.gcc.smartcity.dashboard.model.NewMissionListModel;
 import com.gcc.smartcity.dashboard.model.root.RootApiModel;
 import com.gcc.smartcity.leaderboard.LeaderBoardModel;
 import com.gcc.smartcity.user.UserModel;
@@ -131,5 +132,13 @@ public class SessionStorage {
 
     public UserModel getUserModel() {
         return getObjectfromString(Preferences.INSTANCE.getUserModel(), UserModel.class);
+    }
+
+    public void setNewMissionListModel(NewMissionListModel newMissionListModel) {
+        Preferences.INSTANCE.setNewMissionListModel(getStringfromObject(newMissionListModel));
+    }
+
+    public NewMissionListModel getNewMissionListModel() {
+        return getObjectfromString(Preferences.INSTANCE.getNewMissionListModel(), NewMissionListModel.class);
     }
 }

@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.gcc.smartcity.dashboard.ImageUploadListener;
 import com.gcc.smartcity.dashboard.model.FileUploadResponseModel;
 import com.gcc.smartcity.network.RequestExecutor;
@@ -27,17 +24,19 @@ public class FileUpload {
     private String longitude = "";
     private Context mContext;
     private ImageUploadListener mImageUploadListener;
+    private HashMap<String, String> formValues;
 
     public FileUpload(Context context, ImageUploadListener imageUploadListener) {
         mContext = context;
         mImageUploadListener = imageUploadListener;
     }
 
-    public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id, String _campaignName) {
+    public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id, String _campaignName, HashMap<String, String> hashMap) {
         campaignName = _campaignName;
         campaignId = _id;
         latitude = mLatitude;
         longitude = mLongitude;
+        formValues = hashMap;
         RequestExecutor.getInstance(mContext).addMultipartRequest(createVolleyRequestForUpload(url, bitmap, mimeType));
     }
 
@@ -71,6 +70,7 @@ public class FileUpload {
                 params.put("campaignId", campaignId);
                 params.put("locationNm", campaignName);
                 params.put("location", "{\"coordinates\": [" + longitude + "," + latitude + "]}");
+//                params.put("formData", formValues)
                 return params;
             }
 

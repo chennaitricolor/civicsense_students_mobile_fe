@@ -14,6 +14,7 @@ public enum Preferences {
     private static final String INTRO_SLIDES_STATUS = "intro_slides_status";
     private static final String ROOT_MODEL = "root_model";
     private static final String USER_MODEL = "user_model";
+    private static final String NEW_MISSION_LIST_MODEL = "new_mission_list_model";
 
     private UserPreferences mPreferenceHandle;
     private PreferenceUnclear mPreferenceUnclear;
@@ -59,6 +60,14 @@ public enum Preferences {
 
     public void setUserModel(String userModel) {
         mPreferenceHandle.setString(USER_MODEL, userModel);
+    }
+
+    public String getNewMissionListModel() {
+        return mPreferenceHandle.getString(NEW_MISSION_LIST_MODEL, null);
+    }
+
+    public void setNewMissionListModel(String newMissionListModel) {
+        mPreferenceHandle.setString(NEW_MISSION_LIST_MODEL, newMissionListModel);
     }
 
     public Boolean getIntroSlidesStatus() {

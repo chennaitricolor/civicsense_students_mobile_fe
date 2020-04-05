@@ -1,7 +1,7 @@
 package com.gcc.smartcity.dashboard.form
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -9,11 +9,15 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.gcc.smartcity.R
+import com.gcc.smartcity.dashboard.ImageCaptureActivity
 import com.gcc.smartcity.dashboard.model.DynamicFormData
 import com.gcc.smartcity.dashboard.model.DynamicFormUserInputData
+import com.gcc.smartcity.dashboard.model.NewMissionListModel
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.fontui.FontTextView
+import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.AlertDialogBuilder
+import com.gcc.smartcity.utils.AnimationUtil
 import com.gcc.smartcity.utils.ApplicationConstants
 import com.gcc.smartcity.utils.Logger
 import kotlinx.android.synthetic.main.activity_dynamic_form.*
@@ -21,54 +25,87 @@ import kotlinx.android.synthetic.main.activity_dynamic_form.*
 
 class DynamicFormActivity : AppCompatActivity() {
 
-    lateinit var dataList: ArrayList<DynamicFormData>
-    lateinit var userInputArray: ArrayList<DynamicFormUserInputData>
-    lateinit var editTextList: ArrayList<EditText>
-    lateinit var spinnerList: ArrayList<Spinner>
+    private lateinit var dataList: ArrayList<DynamicFormData>
+    private lateinit var userInputArray: ArrayList<DynamicFormUserInputData>
+    private lateinit var editTextList: ArrayList<EditText>
+    private lateinit var spinnerList: ArrayList<Spinner>
+    private var newMissionListModel: NewMissionListModel? = null
 
     var isDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dynamic_form)
+
+        newMissionListModel = SessionStorage.getInstance().newMissionListModel
+
         userInputArray = ArrayList()
         dataList = ArrayList()
         editTextList = ArrayList()
         spinnerList = ArrayList()
-        loadData()
-        loadLayout()
-        btn_basicform_Next.setOnClickListener { parseData() }
 
+        if (newMissionListModel != null) {
+            loadData(newMissionListModel!!)
+            loadLayout()
+        }
+
+        AnimationUtil.buttonEffect(btn_basicform_Next, "#d4993d")
+        AnimationUtil.buttonEffect(btn_basicform_cancel, "#7aa133")
+        btn_basicform_Next.setOnClickListener { parseData() }
         btn_basicform_cancel.setOnClickListener { finish() }
     }
 
-    private fun loadData() {
+    private fun loadData(newMissionListModel: NewMissionListModel) {
+        val formFields = newMissionListModel.task?.formFields
+        for (i in 0 until formFields?.size!!) {
+            if (formFields[i]?.type.toString() == "string") {
+                val dynamicForm = DynamicFormData(
+                    formFields[i]?.label.toString(),
+                    "String",
+                    formFields[i]?.isRequired!!,
+                    null
+                )
+                dataList.add(dynamicForm)
+            } else {
+                val spinnerArray = ArrayList<String>()
+                for (x in 0 until formFields[i]?.data?.size!!) {
+                    spinnerArray.add(formFields[i]?.data?.get(x).toString())
+                }
+                val dynamicForm4 = DynamicFormData(
+                    formFields[i]?.label.toString(),
+                    "dropdown",
+                    formFields[i]?.isRequired!!,
+                    spinnerArray
+                )
+                dataList.add(dynamicForm4)
+            }
 
-        val dynamicForm = DynamicFormData("Name", "String", true, null)
-        dataList.add(dynamicForm)
-        val dynamicForm1 = DynamicFormData("Age", "Number", false, null)
-        dataList.add(dynamicForm1)
-        val dynamicForm2 = DynamicFormData("Phone no", "Number", true, null)
-        dataList.add(dynamicForm2)
-        val dynamicForm3 = DynamicFormData("Address", "String", true, null)
-        dataList.add(dynamicForm3)
+        }
 
-        val genderArray = ArrayList<String>()
-        genderArray.add("Male")
-        genderArray.add("Female")
-        genderArray.add("Trans-gender")
-        val dynamicForm4 = DynamicFormData("Gender", "dropdown", true, genderArray)
-        dataList.add(dynamicForm4)
+//        val dynamicForm = DynamicFormData("Name", "String", true, null)
+//        dataList.add(dynamicForm)
+//        val dynamicForm1 = DynamicFormData("Age", "Number", false, null)
+//        dataList.add(dynamicForm1)
+//        val dynamicForm2 = DynamicFormData("Phone no", "Number", true, null)
+//        dataList.add(dynamicForm2)
+//        val dynamicForm3 = DynamicFormData("Address", "String", true, null)
+//        dataList.add(dynamicForm3)
 
-        val zoneArray = ArrayList<String>()
-        zoneArray.add("Alandur")
-        zoneArray.add("AnnaNagar")
-        zoneArray.add("Adayar")
-        val dynamicForm5 = DynamicFormData("Zone", "dropdown", true, zoneArray)
-        dataList.add(dynamicForm5)
+//        val genderArray = ArrayList<String>()
+//        genderArray.add("Male")
+//        genderArray.add("Female")
+//        genderArray.add("Transgender")
+//        val dynamicForm4 = DynamicFormData("Gender", "dropdown", true, genderArray)
+//        dataList.add(dynamicForm4)
+//
+//        val zoneArray = ArrayList<String>()
+//        zoneArray.add("Alandur")
+//        zoneArray.add("AnnaNagar")
+//        zoneArray.add("Adayar")
+//        val dynamicForm5 = DynamicFormData("Zone", "dropdown", true, zoneArray)
+//        dataList.add(dynamicForm5)
     }
 
-    @SuppressLint("ResourceType")
     private fun loadLayout() {
         val mContainerView = findViewById<View>(R.id.lin_basicform_dynamic) as LinearLayout
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -79,7 +116,7 @@ class DynamicFormActivity : AppCompatActivity() {
             val requiredTxt = myView.findViewById<FontTextView>(R.id.txt_basicform_mandatory)
             val dropDown = myView.findViewById<Spinner>(R.id.spn_basicform_dropdown)
 
-            labelName.setText(dataList[i].labelName)
+            labelName.text = dataList[i].labelName
 
             inflateInputField(editText, dropDown, requiredTxt, i, dataList[i], dataList[i].data)
 
@@ -88,9 +125,8 @@ class DynamicFormActivity : AppCompatActivity() {
 
     }
 
-    fun isEditText(type: String): Boolean {
+    private fun isEditText(type: String): Boolean {
         return (ApplicationConstants.INPUTTYPE_NUMBER == type || ApplicationConstants.INPUTTYPE_String == type)
-
     }
 
     private fun inflateInputField(
@@ -102,13 +138,13 @@ class DynamicFormActivity : AppCompatActivity() {
         dropdownData: ArrayList<String>?
     ) {
         if (isEditText(data.type)) {
-            setupEdittext(editText, required, dropDown, i, data)
+            setupEditText(editText, required, dropDown, i, data)
         } else {
             setupDropdown(editText, required, dropDown, i, data, dropdownData)
         }
     }
 
-    private fun setupEdittext(
+    private fun setupEditText(
         editText: EditText,
         required: TextView,
         dropDown: Spinner,
@@ -129,14 +165,14 @@ class DynamicFormActivity : AppCompatActivity() {
             DynamicFormUserInputData(
                 editTextId,
                 "" + data.labelName,
-                dataList[i].reqiured,
+                dataList[i].required,
                 true,
                 editText,
                 dropDown
             )
         )
 
-        if (data.reqiured) {
+        if (data.required) {
             required.visibility = View.VISIBLE
         } else {
             required.visibility = View.INVISIBLE
@@ -174,34 +210,54 @@ class DynamicFormActivity : AppCompatActivity() {
         }
         arrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         //Setting the ArrayAdapter data on the Spinner
-        dropDown.setAdapter(arrayAdapter)
+        dropDown.adapter = arrayAdapter
         spinnerList.add(dropDown)
     }
 
     private fun parseData() {
+        val hashMap: HashMap<String, String> = HashMap()
 
-        for (i in 0..userInputArray.size - 1) {
-            val userData = userInputArray.get(i)
-            if (userData.isEdittext) {
+        for (i in 0 until userInputArray.size) {
+            val userData = userInputArray[i]
+            if (userData.isEditText) {
                 val editText = userData.editText
-                Logger.d("Edittext---"+userData.label+"=" + editText.text.toString())
-                if (userData.reqiured) {
-                    if (editText.text.toString().trim().length == 0) {
+                Logger.d("Edittext---" + userData.label + "=" + editText.text.toString())
+                hashMap[userData.label] = editText.text.toString()
+                if (userData.required) {
+                    if (editText.text.toString().trim().isEmpty()) {
                         isDialog = true
                         break
                     }
                 }
             } else {
                 val spinner = userData.spinner
-                Logger.d("Spinner data---" +userData.label+"="+ spinner.selectedItem.toString())
+                Logger.d("Spinner data---" + userData.label + "=" + spinner.selectedItem.toString())
+                hashMap[userData.label] = spinner.selectedItem.toString()
             }
         }
 
         if (isDialog) {
             AlertDialogBuilder.getInstance()
-                .showErrorDialog("Warning!!", "Please fill *required fields", "OK", this)
+                .showErrorDialog(
+                    "Warning!",
+                    "Please fill all the required fields marked with a '*'",
+                    "OK",
+                    this
+                )
         } else {
             Toast.makeText(this, "Good to go", Toast.LENGTH_SHORT).show()
+            openImageCaptureActivity(hashMap)
         }
     }
+
+    private fun openImageCaptureActivity(hashMap: HashMap<String, String>) {
+        val intent = Intent(this, ImageCaptureActivity::class.java)
+        intent.putExtra("_id", newMissionListModel?.task?._id)
+        intent.putExtra("_campaignName", newMissionListModel?.task?.campaignName)
+        intent.putExtra("rewards", newMissionListModel?.task?.rewards)
+        intent.putExtra("formValues", hashMap)
+        startActivity(intent)
+        finish()
+    }
+
 }

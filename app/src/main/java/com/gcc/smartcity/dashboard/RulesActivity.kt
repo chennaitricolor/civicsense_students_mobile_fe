@@ -3,8 +3,12 @@ package com.gcc.smartcity.dashboard
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.se.omapi.Session
+import android.widget.Toast
 import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.form.DynamicFormActivity
+import com.gcc.smartcity.dashboard.model.NewMissionListModel
+import com.gcc.smartcity.preference.SessionStorage
 import kotlinx.android.synthetic.main.activity_rules.*
 
 class RulesActivity : AppCompatActivity() {
@@ -13,35 +17,41 @@ class RulesActivity : AppCompatActivity() {
     private var _campaignName: String? = null
     private var rewards: String? = null
     private var rules: String? = null
-    private var isBasicFormNeed: Boolean? = true
+    private var isBasicFormNeeded: Boolean? = false
+    private var newMissionListModel: NewMissionListModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rules)
+        newMissionListModel = SessionStorage.getInstance().newMissionListModel
 
-        if (intent.extras != null) {
-            _id = intent.extras!!.getString("_id").toString()
-            _campaignName = intent.extras!!.getString("_campaignName").toString()
-            rewards = intent.extras!!.getString("rewards").toString()
-            rules = intent.extras!!.getString("rules").toString()
+        if (newMissionListModel != null) {
+            txt_campaignname.text = newMissionListModel?.task?.campaignName
+            txt_rules.text = newMissionListModel?.task?.rules
+            isBasicFormNeeded = newMissionListModel?.task?.needForm
+            _id = newMissionListModel?.task?._id
+            _campaignName = newMissionListModel?.task?.campaignName
+            rewards = newMissionListModel?.task?.rewards.toString()
+            rules = newMissionListModel?.task?.rules
+            btnRulesNext.setOnClickListener {
+                val intent = Intent(this, getTargetClass())
+                intent.putExtra("_id", _id)
+                intent.putExtra("_campaignName", _campaignName)
+                intent.putExtra("rewards", rewards)
+                intent.putExtra("rules", rules)
+                startActivity(intent)
+                finish()
+            }
+        } else {
+            Toast.makeText(this, "No info to show", Toast.LENGTH_LONG)
+                .show()
         }
 
-        txt_campaignname.text = _campaignName
-        txt_rules.text = rules
-        btnRulesNext.setOnClickListener {
-            val intent = Intent(this, getTargetClass())
-            intent.putExtra("_id", _id)
-            intent.putExtra("_campaignName", _campaignName)
-            intent.putExtra("rewards", rewards.toString())
-            intent.putExtra("rules", rules.toString())
-            startActivity(intent)
-            finish()
-        }
 
     }
 
-    fun getTargetClass(): Class<*> {
-        return if (isBasicFormNeed!!) {
+    private fun getTargetClass(): Class<*> {
+        return if (isBasicFormNeeded!!) {
             DynamicFormActivity::class.java
         } else {
             ImageCaptureActivity::class.java

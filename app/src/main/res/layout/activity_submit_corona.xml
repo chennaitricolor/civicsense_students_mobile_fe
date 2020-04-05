@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/agentx_white_background"
+    tools:context=".SubmitActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/submitLayoutContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="24dp"
+                android:text="Information has been submitted successfully"
+                android:textColor="#3C6886"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/success" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="16dp"
+                android:text="Team from GCC will reach out to you. \n\nYou can protect yourself and help prevent spreading the virus to others if you"
+                android:textColor="#4F4F4F"
+                android:textSize="16sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/cough" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="24dp"
+                android:text="COVER COUGHS AND SNEEZES"
+                android:textColor="#096889"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                custom:fontFace="Lato-Bold.ttf" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/home" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="24dp"
+                android:text="STAY HOME &amp; SELF-ISOLATE YOURSELF"
+                android:textColor="#096889"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                custom:fontFace="Lato-Bold.ttf" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.gcc.smartcity.fontui.FontButton
+                android:id="@+id/infoSubmittedContinueButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_rank_blue"
+                android:ems="10"
+                android:text="@string/continue_button"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                custom:fontFace="Lato-Bold.ttf" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

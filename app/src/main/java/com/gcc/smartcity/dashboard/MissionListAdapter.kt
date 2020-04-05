@@ -8,12 +8,22 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
+import bolts.Task
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
+import com.gcc.smartcity.dashboard.model.NewMissionListModel
+import com.gcc.smartcity.preference.SessionStorage
 
 
 class MissionListAdapter(var context: Context, private var dataSet: ArrayList<MissionModel>) :
     BaseAdapter() {
 
+    private var mNewMissionDetailsController: NewMissionDetailsController? = null
+
+    init {
+        this.mNewMissionDetailsController = NewMissionDetailsController(context)
+    }
 
     private inner class MissionViewHolder(view: View) {
         internal var menuName: TextView
@@ -44,18 +54,44 @@ class MissionListAdapter(var context: Context, private var dataSet: ArrayList<Mi
         missionViewHolder.menuName.text = missionModel.campaignName
         missionViewHolder.gemCount.text = missionModel.rewards.toString()
         missionViewHolder.missionParent.setOnClickListener {
-            launchCameraForImageCapture(missionModel)
+            doIndividualMissionDetailsCall(missionModel._id)
         }
         rowView?.tag = missionViewHolder
         return rowView!!
     }
 
-    private fun launchCameraForImageCapture(missionModel: MissionModel) {
+    private fun doIndividualMissionDetailsCall(id: String) {
+        mNewMissionDetailsController?.doIndividualMissionInformationCall(
+            BuildConfig.HOST + java.lang.String.format(
+                "user/tasks/%s",
+                id
+            )
+        )?.continueWithTask { task ->
+            afterIndividualMissionDetailsCall(task)
+        }
+    }
+
+    private fun afterIndividualMissionDetailsCall(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            Toast.makeText(context, "Unable to fetch details for the task", Toast.LENGTH_LONG)
+                .show()
+            task.makeVoid()
+        } else {
+            val missionInfoModel = task.result as NewMissionListModel
+            if (missionInfoModel.success!!) {
+                SessionStorage.getInstance().newMissionListModel = missionInfoModel
+                launchRulesActivity()
+            } else {
+                Toast.makeText(context, "Unable to fetch details for the task", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+
+        return null
+    }
+
+    private fun launchRulesActivity() {
         val intent = Intent(context, RulesActivity::class.java)
-        intent.putExtra("_id", missionModel._id)
-        intent.putExtra("_campaignName", missionModel.campaignName)
-        intent.putExtra("rewards", missionModel.rewards.toString())
-        intent.putExtra("rules", missionModel.rules)
         context.startActivity(intent)
     }
 
