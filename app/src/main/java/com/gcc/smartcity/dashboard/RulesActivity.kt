@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.gcc.smartcity.R
+import com.gcc.smartcity.dashboard.form.DynamicFormActivity
 import kotlinx.android.synthetic.main.activity_rules.*
 
 class RulesActivity : AppCompatActivity() {
@@ -12,6 +13,7 @@ class RulesActivity : AppCompatActivity() {
     private var _campaignName: String? = null
     private var rewards: String? = null
     private var rules: String? = null
+    private var isBasicFormNeed: Boolean? = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +29,22 @@ class RulesActivity : AppCompatActivity() {
         txt_campaignname.text = _campaignName
         txt_rules.text = rules
         btnRulesNext.setOnClickListener {
-            val intent = Intent(this, ImageCaptureActivity::class.java)
+            val intent = Intent(this, getTargetClass())
             intent.putExtra("_id", _id)
-            intent.putExtra("_campaignName",_campaignName)
+            intent.putExtra("_campaignName", _campaignName)
             intent.putExtra("rewards", rewards.toString())
             intent.putExtra("rules", rules.toString())
             startActivity(intent)
             finish()
         }
 
+    }
+
+    fun getTargetClass(): Class<*> {
+        return if (isBasicFormNeed!!) {
+            DynamicFormActivity::class.java
+        } else {
+            ImageCaptureActivity::class.java
+        }
     }
 }

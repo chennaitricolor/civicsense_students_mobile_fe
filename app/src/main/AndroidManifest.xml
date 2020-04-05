@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".dashboard.form.DynamicFormActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".dashboard.RulesActivity"
             android:screenOrientation="portrait" />
         <activity

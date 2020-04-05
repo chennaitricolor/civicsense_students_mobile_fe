@@ -105,6 +105,8 @@
     <string name="splashlogo">splashLogo</string>
     <string name="updateButton">Update</string>
     <string name="unableToUpdateProfileName">Unable to update your name</string>
+    <string name="txt_basicform">Basic Details</string>
+    <string name="txt_basicform_mandatory">* required</string>
 
 
 </resources>

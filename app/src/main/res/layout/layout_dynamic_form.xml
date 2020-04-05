@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/txt_basicform_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="start"
+                android:text="@string/txt_basicform"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                custom:fontFace="Lato-Bold.ttf" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:id="@+id/txt_basicform_mandatory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="start"
+                android:layout_marginRight="10dp"
+                android:text="@string/txt_basicform_mandatory"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </RelativeLayout>
+
+        <com.gcc.smartcity.fontui.FontEditText
+            android:id="@+id/edt_basicform_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_border_edittext"
+            android:inputType="number"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/davyGrey"
+            android:textCursorDrawable="@drawable/style_cursor" />
+
+        <Spinner
+            android:id="@+id/spn_basicform_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_border_edittext"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
