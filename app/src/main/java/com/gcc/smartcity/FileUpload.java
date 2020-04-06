@@ -3,7 +3,6 @@ package com.gcc.smartcity;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.gcc.smartcity.dashboard.ImageUploadListener;
 import com.gcc.smartcity.dashboard.model.FileUploadResponseModel;
@@ -11,6 +10,8 @@ import com.gcc.smartcity.network.RequestExecutor;
 import com.gcc.smartcity.network.VolleyMultipartRequest;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -65,12 +66,14 @@ public class FileUpload {
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
+                JSONObject formObject = new JSONObject(formValues);
+
                 Map<String, String> params = new HashMap<>();
                 params.put("campaignId", campaignId);
                 params.put("locationNm", campaignName);
                 params.put("location", "{\"coordinates\": [" + longitude + "," + latitude + "]}");
-//                params.put("formData", formValues)
+                params.put("formData", String.valueOf(formObject));
                 return params;
             }
 

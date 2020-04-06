@@ -62,7 +62,7 @@ class DynamicFormActivity : AppCompatActivity() {
                 val dynamicForm = DynamicFormData(
                     formFields[i]?.label.toString(),
                     "String",
-                    formFields[i]?.isRequired!!,
+                    formFields[i]?.required!!,
                     null
                 )
                 dataList.add(dynamicForm)
@@ -74,7 +74,7 @@ class DynamicFormActivity : AppCompatActivity() {
                 val dynamicForm4 = DynamicFormData(
                     formFields[i]?.label.toString(),
                     "dropdown",
-                    formFields[i]?.isRequired!!,
+                    formFields[i]?.required!!,
                     spinnerArray
                 )
                 dataList.add(dynamicForm4)
@@ -227,6 +227,8 @@ class DynamicFormActivity : AppCompatActivity() {
                     if (editText.text.toString().trim().isEmpty()) {
                         isDialog = true
                         break
+                    } else  {
+                        isDialog = false
                     }
                 }
             } else {

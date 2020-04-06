@@ -12,8 +12,8 @@ class FormFieldsModel {
     @JsonField
     var type: String? = null
 
-    @JsonField
-    var isRequired: Boolean? = false
+    @JsonField(name = ["isRequired"])
+    var required: Boolean? = false
 
     @JsonField
     var data: ArrayList<String>? = null
