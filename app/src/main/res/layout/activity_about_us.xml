@@ -278,19 +278,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:rowCount="4"
-                android:columnCount="3"
                 android:alignmentMode="alignMargins"
+                android:columnCount="3"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:rowCount="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -304,6 +304,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Narendran Sundram"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -312,11 +313,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -330,6 +331,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Deepag Kumar"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -338,11 +340,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="2"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -356,6 +358,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Britto Gnana Raj"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -367,19 +370,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:rowCount="4"
-                android:columnCount="3"
                 android:alignmentMode="alignMargins"
+                android:columnCount="3"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:rowCount="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -393,6 +396,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Ajith Kumar K"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -401,11 +405,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -419,6 +423,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Vidhyapathy A"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -427,11 +432,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="2"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -445,6 +450,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Maalaiappan S"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -456,19 +462,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:rowCount="4"
-                android:columnCount="3"
                 android:alignmentMode="alignMargins"
+                android:columnCount="3"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:rowCount="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -482,6 +488,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Jegan Raj"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -490,11 +497,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -508,6 +515,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Riyaz Ahamed"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -516,11 +524,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="2"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -534,6 +542,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Nandha Kumar S"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -545,19 +554,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:rowCount="4"
-                android:columnCount="3"
                 android:alignmentMode="alignMargins"
+                android:columnCount="3"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:rowCount="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -571,6 +580,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Dhileep"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -579,11 +589,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -597,6 +607,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Sabarish Kanna"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -605,11 +616,11 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="2"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -623,6 +634,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Nitesh Singh"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -634,19 +646,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:rowCount="4"
-                android:columnCount="3"
                 android:alignmentMode="alignMargins"
+                android:columnCount="3"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:rowCount="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -660,6 +672,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:text="Meera Sayabu"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="12sp"
                         android:textStyle="bold" />
