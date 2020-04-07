@@ -3,7 +3,6 @@ package com.gcc.smartcity.dashboard
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.se.omapi.Session
 import android.widget.Toast
 import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.form.DynamicFormActivity
@@ -34,7 +33,7 @@ class RulesActivity : AppCompatActivity() {
             rewards = newMissionListModel?.task?.rewards.toString()
             rules = newMissionListModel?.task?.rules
             btnRulesNext.setOnClickListener {
-                val intent = Intent(this, getTargetClass())
+                val intent = Intent(this, getTargetClass(isBasicFormNeeded))
                 intent.putExtra("_id", _id)
                 intent.putExtra("_campaignName", _campaignName)
                 intent.putExtra("rewards", rewards)
@@ -50,8 +49,8 @@ class RulesActivity : AppCompatActivity() {
 
     }
 
-    private fun getTargetClass(): Class<*> {
-        return if (isBasicFormNeeded!!) {
+    private fun getTargetClass(basicFormNeeded: Boolean?): Class<*> {
+        return if (basicFormNeeded != null && basicFormNeeded == true) {
             DynamicFormActivity::class.java
         } else {
             ImageCaptureActivity::class.java
