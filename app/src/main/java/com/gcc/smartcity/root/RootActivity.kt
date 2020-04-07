@@ -10,6 +10,7 @@ import com.gcc.smartcity.dashboard.model.root.RootApiModel
 import com.gcc.smartcity.forceupdate.ForceAppUpdateActivity
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity
+import com.gcc.smartcity.maintenance.MaintenanceActivity
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.VersionCheckUtils
 
@@ -73,12 +74,14 @@ class RootActivity : AppCompatActivity() {
 
             if (rootApiModel.version != null && VersionCheckUtils.compareInstalledVersionNameWith(
                     rootApiModel.version!!
-                ) === -1
+                ) == -1
             ) {
                 callNextActivity(ForceAppUpdateActivity::class.java)
             } else {
                 checkForIntroSlidesFlag()
             }
+        } else {
+            callNextActivity(MaintenanceActivity::class.java)
         }
 
     }
