@@ -76,7 +76,7 @@ class DynamicFormActivity : AppCompatActivity() {
             } else {
                 val dynamicForm = DynamicFormData(
                     formFields[i]?.label.toString(),
-                    "String",
+                    formFields[i]?.type.toString(),
                     formFields[i]?.required!!,
                     null
                 )
@@ -128,7 +128,7 @@ class DynamicFormActivity : AppCompatActivity() {
     }
 
     private fun isEditText(type: String): Boolean {
-        return (ApplicationConstants.INPUTTYPE_NUMBER == type || ApplicationConstants.INPUTTYPE_String == type)
+        return (ApplicationConstants.INPUTTYPE_NUMBER.toLowerCase(Locale.getDefault()) == type || ApplicationConstants.INPUTTYPE_String.toLowerCase(Locale.getDefault()) == type || ApplicationConstants.INPUTTYPE_Integer.toLowerCase(Locale.getDefault()) == type)
     }
 
     private fun inflateInputField(
@@ -155,7 +155,7 @@ class DynamicFormActivity : AppCompatActivity() {
     ) {
         dropDown.visibility = View.GONE
         editText.visibility = View.VISIBLE
-        if (data.type == "Number") {
+        if (data.type.toLowerCase(Locale.getDefault()) == "number" || data.type.toLowerCase(Locale.getDefault()) == "integer") {
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         } else {
             editText.inputType = InputType.TYPE_CLASS_TEXT

@@ -10,6 +10,7 @@ class ApplicationConstants {
     companion object {
         val INPUTTYPE_String = "String"
         val INPUTTYPE_NUMBER = "Number"
+        val INPUTTYPE_Integer = "Integer"
         val INPUTTYPE_dropdown = "dropdown"
         var editTextId: Int = 1000
         var spinnerId: Int = 2000
