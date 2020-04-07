@@ -27,7 +27,7 @@
             android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textSize="14sp"
-            custom:fontFace="Lato-Medium.ttf" />
+            custom:fontFace="Lato-Bold.ttf" />
     </LinearLayout>
 
     <View

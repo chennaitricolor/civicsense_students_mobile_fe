@@ -21,6 +21,9 @@ import com.gcc.smartcity.utils.AnimationUtil
 import com.gcc.smartcity.utils.ApplicationConstants
 import com.gcc.smartcity.utils.Logger
 import kotlinx.android.synthetic.main.activity_dynamic_form.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class DynamicFormActivity : AppCompatActivity() {
@@ -58,15 +61,7 @@ class DynamicFormActivity : AppCompatActivity() {
     private fun loadData(newMissionListModel: NewMissionListModel) {
         val formFields = newMissionListModel.task?.formFields
         for (i in 0 until formFields?.size!!) {
-            if (formFields[i]?.type.toString() == "string") {
-                val dynamicForm = DynamicFormData(
-                    formFields[i]?.label.toString(),
-                    "String",
-                    formFields[i]?.required!!,
-                    null
-                )
-                dataList.add(dynamicForm)
-            } else {
+            if (formFields[i]?.type.toString().toLowerCase(Locale.getDefault()) == "dropdown") {
                 val spinnerArray = ArrayList<String>()
                 for (x in 0 until formFields[i]?.data?.size!!) {
                     spinnerArray.add(formFields[i]?.data?.get(x).toString())
@@ -78,8 +73,15 @@ class DynamicFormActivity : AppCompatActivity() {
                     spinnerArray
                 )
                 dataList.add(dynamicForm4)
+            } else {
+                val dynamicForm = DynamicFormData(
+                    formFields[i]?.label.toString(),
+                    "String",
+                    formFields[i]?.required!!,
+                    null
+                )
+                dataList.add(dynamicForm)
             }
-
         }
 
 //        val dynamicForm = DynamicFormData("Name", "String", true, null)
@@ -227,7 +229,7 @@ class DynamicFormActivity : AppCompatActivity() {
                     if (editText.text.toString().trim().isEmpty()) {
                         isDialog = true
                         break
-                    } else  {
+                    } else {
                         isDialog = false
                     }
                 }
@@ -247,7 +249,6 @@ class DynamicFormActivity : AppCompatActivity() {
                     this
                 )
         } else {
-            Toast.makeText(this, "Good to go", Toast.LENGTH_SHORT).show()
             openImageCaptureActivity(hashMap)
         }
     }
