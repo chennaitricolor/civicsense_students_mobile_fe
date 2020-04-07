@@ -57,9 +57,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val channelId = "10000"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val icon = BitmapFactory.decodeResource(this.resources, R.drawable.img_avatar)
+        val icon = BitmapFactory.decodeResource(this.resources, R.drawable.corona_avatar)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.img_avatar)
+            .setSmallIcon(R.drawable.corona_avatar)
             .setColor(resources.getColor(R.color.colorPrimary))
             .setContentTitle(messageTitle)
             .setContentText(messageBody)
