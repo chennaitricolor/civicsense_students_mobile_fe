@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <com.gcc.smartcity.fontui.FontTextView
-            android:id="@+id/appName"
+            android:id="@+id/errorHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -34,7 +34,7 @@
             font:layout_constraintBottom_toTopOf="@+id/errorTitle"
             font:layout_constraintEnd_toEndOf="parent"
             font:layout_constraintStart_toStartOf="parent"
-            font:layout_constraintTop_toBottomOf="@+id/appName" />
+            font:layout_constraintTop_toBottomOf="@+id/errorHeader" />
 
         <com.gcc.smartcity.fontui.FontTextView
             android:id="@+id/errorTitle"
@@ -68,7 +68,7 @@
             font:layout_constraintTop_toBottomOf="@+id/errorTitle" />
 
         <com.gcc.smartcity.fontui.FontButton
-            android:id="@+id/retryButton"
+            android:id="@+id/errorButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="100dp"

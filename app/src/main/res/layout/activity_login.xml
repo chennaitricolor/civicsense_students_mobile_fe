@@ -143,16 +143,17 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/loader_layout"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:gravity="center"-->
-    <!--        android:orientation="vertical"-->
-    <!--        android:visibility="gone">-->
+    <LinearLayout
+        android:id="@+id/login_loader_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/agentx_white_background"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <!--        <include layout="@layout/layout_loading" />-->
+        <include layout="@layout/layout_loading" />
 
-    <!--    </LinearLayout>-->
+    </LinearLayout>
 
 </RelativeLayout>

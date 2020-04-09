@@ -20,9 +20,14 @@ class MaintenanceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maintenance)
-
-        retryButton.setOnClickListener {
-            retryButton.visibility = View.GONE
+        if (intent.extras != null) {
+            if (intent.extras!!.getString("reason") == "userLocationInvalid") {
+                errorHeader.text = intent.extras!!.getString("header")
+                errorTitle.text = intent.extras!!.getString("userLocationValidationErrorMessage")
+            }
+        }
+        errorButton.setOnClickListener {
+            errorButton.visibility = View.GONE
             progressView.visibility = View.VISIBLE
             doRootCall()
         }
@@ -38,7 +43,7 @@ class MaintenanceActivity : AppCompatActivity() {
         if (!task.isFaulted) {
             callNextActivity(RootActivity::class.java)
         } else {
-            retryButton.visibility = View.VISIBLE
+            errorButton.visibility = View.VISIBLE
             progressView.visibility = View.GONE
         }
 

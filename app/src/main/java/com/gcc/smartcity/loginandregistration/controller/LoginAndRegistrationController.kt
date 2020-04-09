@@ -5,6 +5,8 @@ import bolts.Task
 import com.android.volley.Request
 import com.gcc.smartcity.leaderboard.LeaderBoardErrorModel
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.location.LocationErrorModel
+import com.gcc.smartcity.location.LocationModel
 import com.gcc.smartcity.loginandregistration.model.*
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
@@ -42,6 +44,15 @@ class LoginAndRegistrationController(private val mContext: Context) {
         userDetailsRequest.setResponseParser(parser)
         userDetailsRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(userDetailsRequest)
+    }
+
+    fun doUserLocationValidationCall(endpoint: String): Task<Any> {
+        val parser = JsonResponseParser(LocationModel::class.java)
+        val errorResponseParser = JsonResponseParser(LocationErrorModel::class.java)
+        val userLocationValidationRequest = VolleyRequest.newInstance<LocationModel>(Request.Method.GET, endpoint)
+        userLocationValidationRequest.setResponseParser(parser)
+        userLocationValidationRequest.setErrorResponseParser(errorResponseParser)
+        return RequestExecutor.getInstance(mContext).makeRequestCall(userLocationValidationRequest)
     }
 
     fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int): Task<Any> {

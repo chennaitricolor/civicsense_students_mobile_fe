@@ -41,33 +41,53 @@
         <activity
             android:name=".maintenance.MaintenanceActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".root.RootActivity">
+        <activity
+            android:name=".rewards.RewardsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SubmitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".navigationdrawer.NavigationDrawerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".leaderboard.LeaderBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dashboard.DashBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dashboard.ImageCaptureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".loginandregistration.OTPVerifyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".loginandregistration.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".loginandregistration.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".intro.MainIntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Intro" />
+        <activity
+            android:name=".root.RootActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".intro.MainIntroActivity"
-            android:theme="@style/Theme.Intro" />
-        <activity android:name=".leaderboard.LeaderBoardActivity" />
-        <activity android:name=".rewards.RewardsActivity" />
-        <activity android:name=".SubmitActivity" />
-        <activity android:name=".dashboard.ImageCaptureActivity" />
-        <activity
-            android:name=".loginandregistration.OTPVerifyActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".loginandregistration.SignUpActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".loginandregistration.LoginActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".BaseActivity" />
-        <activity
-            android:name=".navigationdrawer.NavigationDrawerActivity"
-            android:screenOrientation="portrait" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -76,13 +96,16 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".dashboard.DashBoardActivity"
-            android:screenOrientation="portrait" />
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="true" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="true" />
 
         <service
             android:name=".pushnotification.MyFirebaseMessagingService"
@@ -91,13 +114,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <meta-data
-            android:name="firebase_messaging_auto_init_enabled"
-            android:value="true" />
-        <meta-data
-            android:name="firebase_analytics_collection_enabled"
-            android:value="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -109,5 +125,4 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
-
 </manifest>

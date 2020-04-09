@@ -27,8 +27,11 @@ import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.DashBoardActivity
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
+import com.gcc.smartcity.location.LocationErrorModel
+import com.gcc.smartcity.location.LocationModel
 import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
 import com.gcc.smartcity.loginandregistration.model.OTPModel
+import com.gcc.smartcity.maintenance.MaintenanceActivity
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
@@ -41,11 +44,18 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity() {
 
     private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
-    private var loader: LinearLayout? = null
+    private var loginLoader: LinearLayout? = null
     private var loginScreen: RelativeLayout? = null
     private var mobileNumber: FontEditText? = null
     private var isMobileNumberValid: Boolean = false
+    private var mLatitude: String? = null
+    private var mLongitude: String? = null
     private val PERMISSION_ID = 42
+    private var isValidLocation: Boolean = false
+    private var gotLocation: Boolean = false
+    private lateinit var lastLocation: Location
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
@@ -56,68 +66,146 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+                mLatitude = lastLocation.latitude.toString()
+                mLongitude = lastLocation.longitude.toString()
+            }
+        }
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         getLastLocation()
         getFirebaseRemoteConfigData()
 
-        if (isValidSession()) {
-            showLoader(true)
-            callLeaderBoardEndpoint()
-        } else {
-            setView(R.layout.activity_login)
+        setView(R.layout.activity_login)
 
-            loader = findViewById(R.id.loader_layout)
-            loginScreen = findViewById(R.id.login_screen)
-            mobileNumber = findViewById(R.id.mobileNumber)
+        loginLoader = findViewById(R.id.login_loader_layout)
+        loginScreen = findViewById(R.id.login_screen)
+        mobileNumber = findViewById(R.id.mobileNumber)
 
-            buttonEffect(getOTP)
+        buttonEffect(getOTP)
 
-            val mobileNumberPattern =
-                "^[6-9]\\d{9}\$"
+        val mobileNumberPattern =
+            "^[6-9]\\d{9}\$"
 
-            mobileNumber?.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {
-                    if (s.matches((mobileNumberPattern).toRegex()) && s.isNotEmpty()) {
-                        Log.d("success", "valid")
-                        isMobileNumberValid = true
-                        mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext)
-                    } else {
-                        Log.d("failure", "FAIL")
-                        isMobileNumberValid = false
-                        mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
-                    }
-                }
-
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            })
-
-            getOTP.setOnClickListener {
-                hideSoftKeyBoard()
-                if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
-                    sendOTP(mobileNumber?.text.toString())
+        mobileNumber?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.matches((mobileNumberPattern).toRegex()) && s.isNotEmpty()) {
+                    Log.d("success", "valid")
+                    isMobileNumberValid = true
+                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext)
                 } else {
-                    showErrorDialog(
-                        getString(R.string.insufficientDetails),
-                        getString(R.string.incorrectSignUpDetails),
-                        getString(R.string.okButtonText)
-                    )
+                    Log.d("failure", "FAIL")
+                    isMobileNumberValid = false
+                    mobileNumber?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
                 }
             }
 
-            SignupBtnLogin.setOnClickListener {
-                val intent = Intent(this, SignUpActivity::class.java)
-                startActivity(intent)
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+        })
+
+        getOTP.setOnClickListener {
+            hideSoftKeyBoard()
+            if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
+                sendOTP(mobileNumber?.text.toString())
+            } else {
+                showErrorDialog(
+                    getString(R.string.insufficientDetails),
+                    getString(R.string.incorrectSignUpDetails),
+                    getString(R.string.okButtonText)
+                )
             }
         }
+
+        SignupBtnLogin.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
+
+        loginLoader?.visibility = View.VISIBLE
+
+    }
+
+    private fun userSessionValidation() {
+        if (isValidSession()) {
+            callLeaderBoardEndpoint()
+        } else {
+            loginLoader?.visibility = View.GONE
+        }
+    }
+
+    private fun userLocationValidation() {
+        if (mLatitude != null && mLongitude != null) {
+            mLoginAndRegistrationController?.doUserLocationValidationCall(
+                BuildConfig.HOST + java.lang.String.format(
+                    "user/valid?coordinates=%s&coordinates=%s",
+                    mLongitude, mLatitude
+                )
+            )?.continueWithTask { task ->
+                afterUserLocationValidationCall(task)
+            }
+        } else {
+            loginLoader?.visibility = View.GONE
+            callMaintenanceActivity()
+        }
+    }
+
+    private fun callMaintenanceActivity(userLocationValidationErrorMessage: String? = "We do not support your location yet") {
+        val intent = Intent(this, MaintenanceActivity::class.java)
+        if (!userLocationValidationErrorMessage.isNullOrBlank()) {
+            intent.putExtra(
+                "userLocationValidationErrorMessage",
+                userLocationValidationErrorMessage
+            )
+            intent.putExtra(
+                "reason",
+                "userLocationInvalid"
+            )
+            intent.putExtra(
+                "header",
+                "Unsupported Location"
+            )
+        }
+        intent.clearStack()
+        startActivity(intent)
+        finish()
+    }
+
+    private fun afterUserLocationValidationCall(task: Task<Any>): Task<Any>? {
+        if (task.isFaulted) {
+            val userLocationValidationErrorMessage =
+                ((task.error as NetworkError).errorResponse as LocationErrorModel).message
+            loginLoader?.visibility = View.GONE
+            callMaintenanceActivity(userLocationValidationErrorMessage)
+            task.makeVoid()
+        } else {
+            val locationModel = task.result as LocationModel
+            isValidLocation = locationModel.success!!
+            if (isValidLocation) {
+                userSessionValidation()
+            } else {
+                callMaintenanceActivity()
+            }
+        }
+
+        return null
     }
 
     private fun isValidSession(): Boolean {
@@ -128,7 +216,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun sendOTP(mobileNumber: String) {
-        showLoader(true)
+        loginLoader?.visibility = View.VISIBLE
         mLoginAndRegistrationController?.doOTPCall(
             BuildConfig.HOST + java.lang.String.format(
                 "user/generate-otp?phoneNumber=%s",
@@ -148,7 +236,7 @@ class LoginActivity : BaseActivity() {
                 getString(R.string.okButtonText)
             )
             task.makeVoid()
-            showLoader(false)
+            loginLoader?.visibility = View.GONE
         } else {
             val otpModel = task.result as OTPModel
             if (otpModel.success!!) {
@@ -234,7 +322,7 @@ class LoginActivity : BaseActivity() {
                 finish()
             }
         }
-        showLoader(false)
+        loginLoader?.visibility = View.GONE
         return null
     }
 
@@ -267,6 +355,9 @@ class LoginActivity : BaseActivity() {
                     } else {
                         Log.d("Old Latitude", location.latitude.toString())
                         Log.d("Old Longitude", location.longitude.toString())
+                        mLatitude = location.latitude.toString()
+                        mLongitude = location.longitude.toString()
+                        userLocationValidation()
                     }
                 }
             } else {
@@ -281,7 +372,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest()
+        mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
         mLocationRequest.fastestInterval = 0
@@ -299,6 +390,9 @@ class LoginActivity : BaseActivity() {
             val mLastLocation: Location = locationResult.lastLocation
             Log.d("New Latitude", mLastLocation.latitude.toString())
             Log.d("New Longitude", mLastLocation.longitude.toString())
+            mLatitude = mLastLocation.latitude.toString()
+            mLongitude = mLastLocation.longitude.toString()
+            userLocationValidation()
         }
     }
 
@@ -346,10 +440,5 @@ class LoginActivity : BaseActivity() {
                 getLastLocation()
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showLoader(false)
     }
 }

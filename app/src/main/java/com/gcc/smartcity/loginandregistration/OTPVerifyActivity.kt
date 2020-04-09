@@ -11,6 +11,8 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -41,6 +43,7 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
     private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
     private var otpField: FontEditText? = null
+    private var isOTPValid: Boolean = false
     lateinit var name: String
     private lateinit var userMobileNumber: String
     private lateinit var fromScreen: String
@@ -85,15 +88,51 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
         buttonEffect(VerifyBTN)
 
+        val otpPattern =
+            "^[0-9]\\d{3}\$"
+
+        otpField?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.matches((otpPattern).toRegex()) && s.isNotEmpty()) {
+                    Log.d("success", "valid")
+                    isOTPValid = true
+                    otpField?.setBackgroundResource(R.drawable.bg_border_edittext)
+                } else {
+                    Log.d("failure", "FAIL")
+                    isOTPValid = false
+                    otpField?.setBackgroundResource(R.drawable.bg_border_edittext_wrong)
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+        })
+
         VerifyBTN.setOnClickListener {
-            if (otpField?.text.toString().isNotEmpty()) {
+            if (otpField?.text.toString().isNotEmpty() && isOTPValid) {
                 if (fromScreen == "signUpScreen") {
                     doRegistration(name, userMobileNumber, otpField?.text.toString())
                 } else {
                     doLogin(userMobileNumber, otpField?.text.toString())
                 }
+                showLoader(true)
+            } else {
+                Toast.makeText(this, "Please enter the OTP to proceed", Toast.LENGTH_LONG)
+                    .show()
             }
-            showLoader(true)
         }
     }
 
