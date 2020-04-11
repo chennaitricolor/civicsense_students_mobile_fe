@@ -37,7 +37,7 @@ class RulesActivity : AppCompatActivity() {
                 intent.putExtra("_id", _id)
                 intent.putExtra("_campaignName", _campaignName)
                 intent.putExtra("rewards", rewards)
-                intent.putExtra("rules", rules)
+                intent.putExtra("fromScreen", "rulesActivity")
                 startActivity(intent)
                 finish()
             }

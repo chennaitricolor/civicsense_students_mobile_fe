@@ -259,6 +259,7 @@ class DynamicFormActivity : AppCompatActivity() {
         intent.putExtra("_campaignName", newMissionListModel?.task?.campaignName)
         intent.putExtra("rewards", newMissionListModel?.task?.rewards)
         intent.putExtra("formValues", hashMap)
+        intent.putExtra("fromScreen", "dynamicFormActivity")
         startActivity(intent)
         finish()
     }

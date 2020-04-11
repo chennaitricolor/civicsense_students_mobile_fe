@@ -42,7 +42,9 @@ public class FileUpload {
         campaignId = _id;
         latitude = mLatitude;
         longitude = mLongitude;
-        formValues = hashMap;
+        if (hashMap != null) {
+            formValues = hashMap;
+        }
         RequestExecutor.getInstance(mContext).addMultipartRequest(createVolleyRequestForUpload(url, bitmap, mimeType));
     }
 
@@ -72,13 +74,15 @@ public class FileUpload {
 
             @Override
             protected Map<String, String> getParams() {
-                JSONObject formObject = new JSONObject(formValues);
 
                 Map<String, String> params = new HashMap<>();
                 params.put("campaignId", campaignId);
                 params.put("locationNm", campaignName);
                 params.put("location", "{\"coordinates\": [" + longitude + "," + latitude + "]}");
-                params.put("formData", String.valueOf(formObject));
+                if (formValues != null) {
+                    JSONObject formObject = new JSONObject(formValues);
+                    params.put("formData", String.valueOf(formObject));
+                }
                 return params;
             }
 

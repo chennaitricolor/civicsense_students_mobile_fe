@@ -69,7 +69,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     private var _id: String? = null
     private var _campaignName: String? = null
     private var rewards: String? = null
-    private var hashMap: HashMap<String, String> = HashMap()
+    private var hashMap: HashMap<String, String>? = null
     private val PERMISSION_ID = 42
     private var mLatitude: String? = null
     private var mLongitude: String? = null
@@ -98,7 +98,9 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
             _id = intent.extras!!.getString("_id").toString()
             _campaignName = intent.extras!!.getString("_campaignName").toString()
             rewards = intent.extras!!.getString("rewards").toString()
-            hashMap = intent.getSerializableExtra("formValues") as HashMap<String, String>
+            if(intent.extras!!.getString("fromScreen").toString() == "dynamicFormActivity") {
+                hashMap = intent.getSerializableExtra("formValues") as? HashMap<String, String>
+            }
         }
 
         initiateImageGrab()
