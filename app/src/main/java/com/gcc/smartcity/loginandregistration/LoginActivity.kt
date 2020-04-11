@@ -1,6 +1,7 @@
 package com.gcc.smartcity.loginandregistration
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -35,6 +36,7 @@ import com.gcc.smartcity.maintenance.MaintenanceActivity
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
+import com.gcc.smartcity.webview.WebViewActivity
 import com.google.android.gms.location.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -63,6 +65,10 @@ class LoginActivity : BaseActivity() {
         mLoginAndRegistrationController = LoginAndRegistrationController(this)
     }
 
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -86,10 +92,17 @@ class LoginActivity : BaseActivity() {
         loginScreen = findViewById(R.id.login_screen)
         mobileNumber = findViewById(R.id.mobileNumber)
 
-        buttonEffect(getOTP)
+        buttonEffect(getOTP, "#d4993d")
+        buttonEffect(containmentZoneBanner,"#F06935")
 
         val mobileNumberPattern =
             "^[6-9]\\d{9}\$"
+
+        containmentZoneBanner?.setOnClickListener {
+            Logger.d("Containment Zones")
+            val intent = WebViewActivity.newIntent(this, "https://coviddev.gccservice.in/hotzones")
+            startActivity(intent)
+        }
 
         mobileNumber?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -322,16 +335,16 @@ class LoginActivity : BaseActivity() {
                 finish()
             }
         }
-        loginLoader?.visibility = View.GONE
+//        loginLoader?.visibility = View.GONE
         return null
     }
 
-    private fun buttonEffect(button: View) {
+    private fun buttonEffect(button: View, color: String) {
         button.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     v.background.setColorFilter(
-                        Color.parseColor("#d4993d"),
+                        Color.parseColor(color),
                         PorterDuff.Mode.SRC_ATOP
                     )
                     v.invalidate()
@@ -364,7 +377,7 @@ class LoginActivity : BaseActivity() {
                 Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
                     .show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
+                startActivityForResult(intent, LOCATION_PERMISSION_REQUEST_CODE)
             }
         } else {
             requestPermissions()
@@ -438,6 +451,20 @@ class LoginActivity : BaseActivity() {
         if (requestCode == PERMISSION_ID) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 getLastLocation()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (isLocationEnabled()) {
+                requestNewLocationData()
+            } else  {
+                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
+                    .show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivityForResult(intent, LOCATION_PERMISSION_REQUEST_CODE)
             }
         }
     }

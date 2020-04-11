@@ -2,12 +2,16 @@ package com.gcc.smartcity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.se.omapi.Session;
 
 import com.android.volley.Request;
 import com.gcc.smartcity.dashboard.ImageUploadListener;
 import com.gcc.smartcity.dashboard.model.FileUploadResponseModel;
+import com.gcc.smartcity.leaderboard.LeaderBoardModel;
+import com.gcc.smartcity.location.LocationModel;
 import com.gcc.smartcity.network.RequestExecutor;
 import com.gcc.smartcity.network.VolleyMultipartRequest;
+import com.gcc.smartcity.preference.SessionStorage;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
 
@@ -17,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class FileUpload {
     private String campaignId = "";

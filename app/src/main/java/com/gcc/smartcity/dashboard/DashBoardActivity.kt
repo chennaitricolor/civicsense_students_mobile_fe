@@ -5,18 +5,22 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
 import bolts.Task
 import com.gcc.smartcity.navigationdrawer.NavigationDrawerActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.loginandregistration.LoginActivity
+import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.gcc.smartcity.utils.OnDialogListener
+import com.gcc.smartcity.webview.WebViewActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,6 +29,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.activity_dashboard.containmentZoneBanner
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.math.min
 
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
@@ -88,6 +94,15 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mSettingsClient = LocationServices.getSettingsClient(this)
+
+        buttonEffect(containmentZoneBanner)
+
+        containmentZoneBanner?.setOnClickListener {
+            Logger.d("Containment Zones")
+            val intent = WebViewActivity.newIntent(this, "https://coviddev.gccservice.in/hotzones")
+            startActivity(intent)
+        }
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
@@ -367,5 +382,24 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
     override fun onNegativeButtonClick(whichDialog: String?) {
         this.finishAffinity()
+    }
+
+    private fun buttonEffect(button: View) {
+        button.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    v.background.setColorFilter(
+                        Color.parseColor("#F06935"),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
+                    v.invalidate()
+                }
+                MotionEvent.ACTION_UP -> {
+                    v.background.clearColorFilter()
+                    v.invalidate()
+                }
+            }
+            false
+        }
     }
 }

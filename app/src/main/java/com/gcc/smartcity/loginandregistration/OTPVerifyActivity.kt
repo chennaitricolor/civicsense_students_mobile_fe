@@ -433,4 +433,12 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         startActivity(intent)
         finish()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.clearStack()
+        startActivity(intent)
+        finish()
+    }
 }

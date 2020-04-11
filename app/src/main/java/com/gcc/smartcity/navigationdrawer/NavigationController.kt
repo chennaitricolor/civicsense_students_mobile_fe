@@ -14,7 +14,10 @@ class NavigationController(var context: Context) {
 //        )
 //        drawerListData.add(navDrawerListItem)
 
-        var navDrawerListItem = NavDrawerListItem(R.drawable.ic_invite, context.getString(R.string.drawer_menu_invite))
+        var navDrawerListItem = NavDrawerListItem(R.drawable.containment_logo, context.getString(R.string.drawer_menu_containment_zones))
+        drawerListData.add(navDrawerListItem)
+
+        navDrawerListItem = NavDrawerListItem(R.drawable.ic_invite, context.getString(R.string.drawer_menu_invite))
         drawerListData.add(navDrawerListItem)
 
 //        navDrawerListItem = NavDrawerListItem(R.drawable.ic_faq, context.getString(R.string.drawer_menu_faq))

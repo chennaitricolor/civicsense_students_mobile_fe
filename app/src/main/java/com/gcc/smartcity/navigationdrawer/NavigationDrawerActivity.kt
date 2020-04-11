@@ -28,6 +28,7 @@ import com.gcc.smartcity.user.UserModel
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.OnSingleBtnDialogListener
+import com.gcc.smartcity.webview.WebViewActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*
 
@@ -193,8 +194,12 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
 
     private fun switchScreen(menuName: String) {
         when (menuName) {
+            getString(R.string.drawer_menu_containment_zones) -> {
+                Logger.d("Containment Zones")
+                val intent = WebViewActivity.newIntent(this, "https://coviddev.gccservice.in/hotzones")
+                startActivity(intent)
+            }
             getString(R.string.drawer_menu_howtoplay) -> {
-
                 if (SessionStorage.getInstance().rootModel != null && SessionStorage.getInstance().rootModel.links != null && SessionStorage.getInstance().rootModel.links?.howToPlay != null) {
                     watchYoutubeVideo(
                         this,
