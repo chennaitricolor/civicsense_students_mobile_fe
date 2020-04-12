@@ -26,7 +26,9 @@
         android:theme="@style/AppThemeNoTitleBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".webview.WebViewActivity"></activity>
+        <activity
+            android:name=".webview.WebViewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".dashboard.form.DynamicFormActivity"
             android:screenOrientation="portrait" />
