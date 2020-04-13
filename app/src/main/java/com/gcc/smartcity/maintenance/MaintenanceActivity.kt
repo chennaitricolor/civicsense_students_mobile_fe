@@ -24,6 +24,7 @@ class MaintenanceActivity : AppCompatActivity() {
             if (intent.extras!!.getString("reason") == "userLocationInvalid") {
                 errorHeader.text = intent.extras!!.getString("header")
                 errorTitle.text = intent.extras!!.getString("userLocationValidationErrorMessage")
+                maintenanceImage.setImageResource(R.drawable.unsupported_location)
             }
         }
         errorButton.setOnClickListener {

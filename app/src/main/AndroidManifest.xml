@@ -78,7 +78,6 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".intro.MainIntroActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Intro" />
         <activity
             android:name=".root.RootActivity"
