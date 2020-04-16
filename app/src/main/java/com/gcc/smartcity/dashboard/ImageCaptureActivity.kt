@@ -2,6 +2,7 @@ package com.gcc.smartcity.dashboard
 
 import android.Manifest.permission.*
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -23,13 +24,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
+import com.androidboilerplate.AlertDialogBuilder
+import com.androidboilerplate.interfaces.OnDialogListner
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
 import com.gcc.smartcity.SubmitActivity
 import com.gcc.smartcity.network.PersistentCookieStore
-import com.gcc.smartcity.utils.AlertDialogBuilder
-import com.gcc.smartcity.utils.OnDialogListener
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_image_capture.*
 import java.io.File
@@ -40,7 +41,7 @@ import java.net.CookiePolicy
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadListener {
+class ImageCaptureActivity : AppCompatActivity(), ImageUploadListener, OnDialogListner {
     override fun onSuccess() {
         val intent = Intent(this, SubmitActivity::class.java)
 //        intent.putExtra("rewards", rewards)
@@ -98,7 +99,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
             _id = intent.extras!!.getString("_id").toString()
             _campaignName = intent.extras!!.getString("_campaignName").toString()
             rewards = intent.extras!!.getString("rewards").toString()
-            if(intent.extras!!.getString("fromScreen").toString() == "dynamicFormActivity") {
+            if (intent.extras!!.getString("fromScreen").toString() == "dynamicFormActivity") {
                 hashMap = intent.getSerializableExtra("formValues") as? HashMap<String, String>
             }
         }
@@ -447,7 +448,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         return image
     }
 
-    override fun onPositiveButtonClick(whichDialog: String?) {
+    override fun onPositiveButtonClick(whichDialog: String?, dialog: DialogInterface) {
         if (whichDialog == "rationalePermissionRequest") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(
@@ -467,7 +468,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         }
     }
 
-    override fun onNegativeButtonClick(whichDialog: String?) {
+    override fun onNegativeButtonClick(whichDialog: String?, dialog: DialogInterface) {
         if (whichDialog == "rationalePermissionRequest") {
             finish()
         } else if (whichDialog == "forcePermissionRequest") {

@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import bolts.Task
+import com.androidboilerplate.AlertDialogBuilder
+import com.androidboilerplate.interfaces.OnSingleBtnDialogListener
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.aboutus.AboutUs
@@ -25,9 +27,7 @@ import com.gcc.smartcity.loginandregistration.model.UserUpdateModel
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.rewards.RewardsActivity
 import com.gcc.smartcity.user.UserModel
-import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
-import com.gcc.smartcity.utils.OnSingleBtnDialogListener
 import com.gcc.smartcity.webview.WebViewActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_navigation_drawer.*

@@ -1,6 +1,7 @@
 package com.gcc.smartcity.dashboard
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -14,12 +15,12 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
 import bolts.Task
+import com.androidboilerplate.interfaces.OnDialogListner
 import com.gcc.smartcity.navigationdrawer.NavigationDrawerActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
-import com.gcc.smartcity.utils.OnDialogListener
 import com.gcc.smartcity.webview.WebViewActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -30,11 +31,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.activity_dashboard.containmentZoneBanner
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlin.math.min
 
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener, OnDialogListener, MissionAPIListener {
+    GoogleMap.OnMarkerClickListener, MissionAPIListener, OnDialogListner {
 
     override fun onFail(message: String, task: Task<Any>) {
         val error = task.error as NetworkError
@@ -373,14 +373,14 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         }
     }
 
-    override fun onPositiveButtonClick(whichDialog: String?) {
+    override fun onPositiveButtonClick(whichDialog: String?, dialog: DialogInterface) {
         startActivityForResult(
             Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS),
             DEVELOPER_OPTIONS_REQUEST_CODE
         )
     }
 
-    override fun onNegativeButtonClick(whichDialog: String?) {
+    override fun onNegativeButtonClick(whichDialog: String?, dialog: DialogInterface) {
         this.finishAffinity()
     }
 

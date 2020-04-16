@@ -19,6 +19,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import bolts.Task
+import com.androidboilerplate.AlertDialogBuilder
+import com.androidboilerplate.interfaces.OnSingleBtnDialogListener
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
@@ -32,10 +34,8 @@ import com.gcc.smartcity.loginandregistration.model.SignUpErrorModel
 import com.gcc.smartcity.loginandregistration.model.SignUpModel
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.user.UserModel
-import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
-import com.gcc.smartcity.utils.OnSingleBtnDialogListener
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_otpverify.*
 

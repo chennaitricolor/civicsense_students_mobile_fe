@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import com.gcc.smartcity.utils.AlertDialogBuilder
+import com.androidboilerplate.AlertDialogBuilder
+import com.androidboilerplate.interfaces.OnSingleBtnDialogListener
 import com.gcc.smartcity.utils.Logger
-import com.gcc.smartcity.utils.OnSingleBtnDialogListener
 import kotlinx.android.synthetic.main.activity_base_map.*
 
 open class BaseActivity : AppCompatActivity() {
