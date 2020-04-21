@@ -3,6 +3,7 @@ package com.gcc.smartcity.navigationdrawer
 import android.content.*
 import android.content.pm.ResolveInfo
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -196,7 +197,7 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         when (menuName) {
             getString(R.string.drawer_menu_containment_zones) -> {
                 Logger.d("Containment Zones")
-                val intent = WebViewActivity.newIntent(this, "https://coviddev.gccservice.in/hotzones")
+                val intent = WebViewActivity.newIntent(this, BuildConfig.WEBVIEWHOST + "hotzones")
                 startActivity(intent)
             }
             getString(R.string.drawer_menu_howtoplay) -> {

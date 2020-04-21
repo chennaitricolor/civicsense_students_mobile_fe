@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
 import bolts.Task
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.navigationdrawer.NavigationDrawerActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.loginandregistration.LoginActivity
@@ -99,7 +100,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
         containmentZoneBanner?.setOnClickListener {
             Logger.d("Containment Zones")
-            val intent = WebViewActivity.newIntent(this, "https://coviddev.gccservice.in/hotzones")
+            val intent = WebViewActivity.newIntent(this, BuildConfig.WEBVIEWHOST + "hotzones")
             startActivity(intent)
         }
 

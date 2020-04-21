@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity() {
 
         containmentZoneBanner?.setOnClickListener {
             Logger.d("Containment Zones")
-            val intent = WebViewActivity.newIntent(this, "https://coviddev.gccservice.in/hotzones")
+            val intent = WebViewActivity.newIntent(this, BuildConfig.WEBVIEWHOST + "hotzones")
             startActivity(intent)
         }
 
