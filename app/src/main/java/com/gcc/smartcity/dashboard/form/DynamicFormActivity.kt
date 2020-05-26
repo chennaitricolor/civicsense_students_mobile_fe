@@ -156,7 +156,7 @@ class DynamicFormActivity : AppCompatActivity() {
         dropDown.visibility = View.GONE
         editText.visibility = View.VISIBLE
         if (data.type.toLowerCase(Locale.getDefault()) == "number" || data.type.toLowerCase(Locale.getDefault()) == "integer") {
-            editText.inputType = InputType.TYPE_CLASS_NUMBER
+            editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
         } else {
             editText.inputType = InputType.TYPE_CLASS_TEXT
         }
