@@ -1,6 +1,7 @@
 package com.gcc.smartcity.navigationdrawer
 
 import android.content.Context
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 
 class NavigationController(var context: Context) {
@@ -14,10 +15,15 @@ class NavigationController(var context: Context) {
 //        )
 //        drawerListData.add(navDrawerListItem)
 
-        var navDrawerListItem = NavDrawerListItem(R.drawable.containment_logo, context.getString(R.string.drawer_menu_containment_zones))
-        drawerListData.add(navDrawerListItem)
+        var navDrawerListItem = NavDrawerListItem(
+            R.drawable.containment_logo,
+            context.getString(R.string.drawer_menu_containment_zones)
+        )
+        if (!BuildConfig.TNHEALTH)
+            drawerListData.add(navDrawerListItem)
 
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_invite, context.getString(R.string.drawer_menu_invite))
+        navDrawerListItem =
+            NavDrawerListItem(R.drawable.ic_invite, context.getString(R.string.drawer_menu_invite))
         drawerListData.add(navDrawerListItem)
 
 //        navDrawerListItem = NavDrawerListItem(R.drawable.ic_faq, context.getString(R.string.drawer_menu_faq))
@@ -26,7 +32,8 @@ class NavigationController(var context: Context) {
 //        navDrawerListItem = NavDrawerListItem(R.drawable.ic_gethelp, context.getString(R.string.drawer_menu_help))
 //        drawerListData.add(navDrawerListItem)
 
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_rateus, context.getString(R.string.drawer_menu_rateus))
+        navDrawerListItem =
+            NavDrawerListItem(R.drawable.ic_rateus, context.getString(R.string.drawer_menu_rateus))
         drawerListData.add(navDrawerListItem)
 
 //        if (SessionStorage.getInstance().leaderBoardStatus) {
@@ -40,10 +47,12 @@ class NavigationController(var context: Context) {
 //        navDrawerListItem = NavDrawerListItem(R.drawable.ic_rewards, context.getString(R.string.drawer_menu_rewards))
 //        drawerListData.add(navDrawerListItem)
 
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_faq, context.getString(R.string.drawer_menu_aboutus))
+        navDrawerListItem =
+            NavDrawerListItem(R.drawable.ic_faq, context.getString(R.string.drawer_menu_aboutus))
         drawerListData.add(navDrawerListItem)
 
-        navDrawerListItem = NavDrawerListItem(R.drawable.ic_gethelp, context.getString(R.string.drawer_menu_help))
+        navDrawerListItem =
+            NavDrawerListItem(R.drawable.ic_gethelp, context.getString(R.string.drawer_menu_help))
         drawerListData.add(navDrawerListItem)
 
         return drawerListData

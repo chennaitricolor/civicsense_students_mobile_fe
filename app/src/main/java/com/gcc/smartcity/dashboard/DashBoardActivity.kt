@@ -104,6 +104,12 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             startActivity(intent)
         }
 
+        if (BuildConfig.TNHEALTH) {
+            containmentZoneBanner.visibility = View.GONE
+        } else {
+            containmentZoneBanner.visibility = View.VISIBLE
+        }
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
