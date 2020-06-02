@@ -93,8 +93,12 @@ class LoginActivity : BaseActivity() {
         mobileNumber = findViewById(R.id.mobileNumber)
 
         buttonEffect(getOTP, "#d4993d")
-        buttonEffect(containmentZoneBanner,"#F06935")
-
+        buttonEffect(containmentZoneBanner, "#F06935")
+        if (BuildConfig.TNHEALTH) {
+            containmentZoneBanner.visibility = View.GONE
+        } else {
+            containmentZoneBanner.visibility = View.VISIBLE
+        }
         val mobileNumberPattern =
             "^[6-9]\\d{9}\$"
 
@@ -460,7 +464,7 @@ class LoginActivity : BaseActivity() {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (isLocationEnabled()) {
                 requestNewLocationData()
-            } else  {
+            } else {
                 Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
                     .show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
