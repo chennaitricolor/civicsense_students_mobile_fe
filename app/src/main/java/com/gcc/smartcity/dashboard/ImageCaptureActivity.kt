@@ -374,7 +374,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         if (photoFile != null) {
             val photoURI: Uri = FileProvider.getUriForFile(
                 this,
-                "com.gcc.smartcity",
+                BuildConfig.APPLICATION_ID+ ".provider",
                 photoFile
             )
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)

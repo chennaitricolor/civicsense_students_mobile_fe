@@ -22,7 +22,7 @@ android {
 
         tnHealth {
             applicationId "com.gcc.tnhealth"
-            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "TNHEALTH", "true"
