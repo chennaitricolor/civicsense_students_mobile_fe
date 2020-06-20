@@ -94,7 +94,7 @@ class LoginActivity : BaseActivity() {
 
         buttonEffect(getOTP, "#d4993d")
         buttonEffect(containmentZoneBanner, "#F06935")
-        if (BuildConfig.TNHEALTH) {
+        if (!BuildConfig.CONTAINMENTZONE) {
             containmentZoneBanner.visibility = View.GONE
         } else {
             containmentZoneBanner.visibility = View.VISIBLE

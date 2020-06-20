@@ -3,6 +3,7 @@ package com.gcc.smartcity.navigationdrawer
 import android.content.Context
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
+import com.gcc.smartcity.preference.SessionStorage
 
 class NavigationController(var context: Context) {
 
@@ -19,7 +20,7 @@ class NavigationController(var context: Context) {
             R.drawable.containment_logo,
             context.getString(R.string.drawer_menu_containment_zones)
         )
-        if (!BuildConfig.TNHEALTH)
+        if (BuildConfig.CONTAINMENTZONE)
             drawerListData.add(navDrawerListItem)
 
         navDrawerListItem =
@@ -36,13 +37,13 @@ class NavigationController(var context: Context) {
             NavDrawerListItem(R.drawable.ic_rateus, context.getString(R.string.drawer_menu_rateus))
         drawerListData.add(navDrawerListItem)
 
-//        if (SessionStorage.getInstance().leaderBoardStatus) {
-//            navDrawerListItem = NavDrawerListItem(
-//                R.drawable.ic_leadership,
-//                context.getString(R.string.drawer_menu_leaderboard)
-//            )
-//            drawerListData.add(navDrawerListItem)
-//        }
+        if (BuildConfig.LEADERBOARD && SessionStorage.getInstance().leaderBoardStatus) {
+            navDrawerListItem = NavDrawerListItem(
+                R.drawable.ic_leadership,
+                context.getString(R.string.drawer_menu_leaderboard)
+            )
+            drawerListData.add(navDrawerListItem)
+        }
 
 //        navDrawerListItem = NavDrawerListItem(R.drawable.ic_rewards, context.getString(R.string.drawer_menu_rewards))
 //        drawerListData.add(navDrawerListItem)

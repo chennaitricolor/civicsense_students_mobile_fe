@@ -104,7 +104,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             startActivity(intent)
         }
 
-        if (BuildConfig.TNHEALTH) {
+        if (!BuildConfig.CONTAINMENTZONE) {
             containmentZoneBanner.visibility = View.GONE
         } else {
             containmentZoneBanner.visibility = View.VISIBLE

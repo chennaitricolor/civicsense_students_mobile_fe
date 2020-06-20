@@ -9,7 +9,8 @@ android {
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
-            buildConfigField 'boolean', "TNHEALTH", "false"
+            buildConfigField 'boolean', "CONTAINMENTZONE", "true"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
         }
 
         csrdev {
@@ -17,7 +18,8 @@ android {
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
-            buildConfigField 'boolean', "TNHEALTH", "false"
+            buildConfigField 'boolean', "CONTAINMENTZONE", "true"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
         }
 
         tnHealth {
@@ -25,7 +27,8 @@ android {
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
-            buildConfigField 'boolean', "TNHEALTH", "true"
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
         }
 
         tnHealthdev {
@@ -33,7 +36,26 @@ android {
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
-            buildConfigField 'boolean', "TNHEALTH", "true"
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+        }
+
+        secretAgent {
+            applicationId "com.gcc.agentx"
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "true"
+        }
+
+        secretAgentdev {
+            applicationId "com.gcc.agentx.dev"
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "true"
         }
     }
 }
