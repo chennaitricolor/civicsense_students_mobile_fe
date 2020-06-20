@@ -2,7 +2,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    flavorDimensions "csr"
+    flavorDimensions "app"
     productFlavors {
         csr {
             applicationId "com.gcc.smartcity"
@@ -13,7 +13,7 @@ android {
             buildConfigField 'boolean', "LEADERBOARD", "false"
         }
 
-        csrdev {
+        csrDev {
             applicationId "com.gcc.smartcity.dev"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
@@ -25,13 +25,13 @@ android {
         tnHealth {
             applicationId "com.gcc.tnhealth"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
-            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "false"
         }
 
-        tnHealthdev {
+        tnHealthDev {
             applicationId "com.gcc.tnhealth.dev"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
@@ -40,16 +40,16 @@ android {
             buildConfigField 'boolean', "LEADERBOARD", "false"
         }
 
-        secretAgent {
+        agentx {
             applicationId "com.gcc.agentx"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
-            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
         }
 
-        secretAgentdev {
+        agentxDev {
             applicationId "com.gcc.agentx.dev"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
