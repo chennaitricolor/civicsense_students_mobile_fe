@@ -2,6 +2,7 @@ package com.gcc.smartcity.intro
 
 import android.Manifest
 import android.os.Bundle
+import android.widget.Toast
 import com.gcc.smartcity.R
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide

@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Agent X</string>
+    <string name="app_name">GCC Cavasam</string>
     <string name="title_activity_maps">Map</string>
     <string name="map_key" translatable="false">AIzaSyATCamD6FNW8UuOE6QlOvYTJ3-H2IWanuc</string>
     <string name="previewimageDescription">previewImage</string>
     <string name="photoSubmitButton">SUBMIT</string>
     <string name="nextButton">Next</string>
     <string name="photoRetakeButton">RETAKE</string>
-    <string name="dashBoardTitle">TN Health Monitoring App</string>
+    <string name="dashBoardTitle">GCC Cavasam App</string>
     <string name="leaderboardTitle">LEADERBOARD</string>
 
     <string name="sign_in">Sign In</string>
@@ -98,7 +98,7 @@
     <string name="mrcooper_description">This application and infrastructure were designed and developed by a team of engineers at Mr. Cooper, Chennai. Mr. Cooper is an industry-leading mortgage services provider serving customers through servicing, originations, and digital real estate solutions. They are headquartered in Dallas, TX, with major outposts in Irvine, Chandler, Longview, Highlands Ranch, Chennai, and Bengaluru.</string>
     <string name="techforcities_description">Tech for Cities is an effort under the Chennai Tricolor Initiative Trust - a non-profit, volunteer run organization. Tech for Cities works with Governments and Non-profits to build collaborative opensource solutions that help maximise impact. More details about Chennai Tricolor Initiative at www.chennaitricolor.in</string>
     <string name="GCC">Greater Chennai Corporation</string>
-    <string name="aboutus_heading"> GCC - Agent X App</string>
+    <string name="aboutus_heading"> GCC - Cavasam App</string>
     <string name="aboutus_description">This application was developed to aid in cluster analysis and reporting of incidents related to CORONA outbreak. This application will be used by Greater Chennai Corporation for CORONA mitigation measures. Geo tagging of information is the primary purpose of the application. The information collected will not be used for any other purpose. This application can be uninstalled once the COVID-19 issue gets resolved.</string>
     <string name="update_available">Update Available</string>
     <string name="forceupdateapplogo">forceUpdateAppLogo</string>

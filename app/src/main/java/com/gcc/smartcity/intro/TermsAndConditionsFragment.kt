@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.gcc.smartcity.R
 import com.gcc.smartcity.preference.SessionStorage
@@ -46,7 +47,12 @@ class TermsAndConditionsFragment : SlideFragment(), Slide {
     }
 
     override fun canGoForward(): Boolean {
-        return checkBox?.isChecked ?: false
+        return if (checkBox?.isChecked == true) {
+            true
+        } else {
+            Toast.makeText(context, "Please swipe up to read through the agreement.", Toast.LENGTH_SHORT).show()
+            false
+        }
     }
 
 //    override val isPolicyRespected: Boolean
