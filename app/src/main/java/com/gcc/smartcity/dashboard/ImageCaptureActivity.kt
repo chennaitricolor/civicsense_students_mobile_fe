@@ -26,8 +26,9 @@ import androidx.exifinterface.media.ExifInterface
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
-import com.gcc.smartcity.SubmitActivity
 import com.gcc.smartcity.network.PersistentCookieStore
+import com.gcc.smartcity.submit.SubmitActivityAgentX
+import com.gcc.smartcity.submit.SubmitActivityCorona
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.OnDialogListener
 import com.google.android.gms.location.*
@@ -42,12 +43,16 @@ import java.util.*
 
 class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadListener {
     override fun onSuccess() {
-        val intent = Intent(this, SubmitActivity::class.java)
-//        intent.putExtra("rewards", rewards)
-        startActivity(intent)
-//        Toast.makeText(this, "Task completed successfully.", Toast.LENGTH_LONG)
-//            .show()
-        finish()
+        if (BuildConfig.APPNAME == "AGENTX") {
+            val intent = Intent(this, SubmitActivityAgentX::class.java)
+            intent.putExtra("rewards", rewards)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, SubmitActivityCorona::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onFailure(message: String) {
@@ -98,7 +103,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
             _id = intent.extras!!.getString("_id").toString()
             _campaignName = intent.extras!!.getString("_campaignName").toString()
             rewards = intent.extras!!.getString("rewards").toString()
-            if(intent.extras!!.getString("fromScreen").toString() == "dynamicFormActivity") {
+            if (intent.extras!!.getString("fromScreen").toString() == "dynamicFormActivity") {
                 hashMap = intent.getSerializableExtra("formValues") as? HashMap<String, String>
             }
         }
@@ -374,7 +379,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         if (photoFile != null) {
             val photoURI: Uri = FileProvider.getUriForFile(
                 this,
-                BuildConfig.APPLICATION_ID+ ".provider",
+                BuildConfig.APPLICATION_ID + ".provider",
                 photoFile
             )
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)

@@ -47,7 +47,7 @@
             android:name=".rewards.RewardsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SubmitActivity"
+            android:name=".submit.SubmitActivityCorona"
             android:screenOrientation="portrait" />
         <activity
             android:name=".BaseActivity"

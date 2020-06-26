@@ -1,4 +1,4 @@
-package com.gcc.smartcity
+package com.gcc.smartcity.submit
 
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.gcc.smartcity.R
 import kotlinx.android.synthetic.main.activity_submit_corona.*
 
-class SubmitActivity : AppCompatActivity() {
+class SubmitActivityCorona : AppCompatActivity() {
 
 //    private var rewards: String? = null
 //    private var gemCounter: FontTextView? = null
