@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">GCC Cavasam</string>
+    <string name="app_name">CGL Corona Monitoring</string>
     <string name="title_activity_maps">Map</string>
     <string name="map_key" translatable="false">AIzaSyATCamD6FNW8UuOE6QlOvYTJ3-H2IWanuc</string>
     <string name="previewimageDescription">previewImage</string>
     <string name="photoSubmitButton">SUBMIT</string>
     <string name="nextButton">Next</string>
     <string name="photoRetakeButton">RETAKE</string>
-    <string name="dashBoardTitle">GCC Cavasam App</string>
+    <string name="dashBoardTitle">CGL Corona Monitoring App</string>
     <string name="leaderboardTitle">LEADERBOARD</string>
-    <string name="intro_desc">Hello there! This is Greater Chennai Corporation\'s official CORONA MONITORING APP</string>
+    <string name="intro_desc">Hello there! This is Chengalpattu Corporation\'s official CORONA MONITORING APP</string>
 
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
@@ -85,7 +85,7 @@
 
     <!-- Policy details -->
     <string name="policy_title">Terms and Conditions</string>
-    <string name="policy_description_title1">1. This application is the property of Greater Chennai Corporation</string>
+    <string name="policy_description_title1">1. This application is the property of Chengalpattu Corporation</string>
     <string name="policy_description1">This Application is developed to handle crisis situations created due to the CORONA outbreak. The data collected through this application will not be used for any other purpose unless authorized by law. Further, the data collected will be completely deleted in 3 months.</string>
     <string name="policy_description_title2">2. Legal and Acceptable Use</string>
     <string name="policy_description2">You must access and use our Services only for legal, authorized, and acceptable purposes. You will not use (or assist others in using) our Services in ways that: (a) violate, misappropriate, or infringe the rights of citizens, our users, or others, including privacy, publicity, intellectual property, or other proprietary rights; (b) are illegal, obscene, defamatory, threatening, intimidating, harassing, hateful, racially, or ethnically offensive, or instigate or encourage conduct that would be illegal, or otherwise inappropriate, including promoting violent crimes; © involve publishing falsehoods, misrepresentations, or misleading statements; (d) impersonate someone; (e) involve sending illegal or impermissible communications such as bulk messaging, auto-messaging, auto-dialing, and the like; or (f) involve any non-personal use of our Services unless otherwise authorized by us.</string>
@@ -95,12 +95,12 @@
     <string name="policy_error">Please check the checkbox in order to continue.</string>
     <string name="first">first</string>
     <string name="forceupdate_current_version">Your app\'s version number is</string>
-    <string name="azhagu_description">The idea was conceptualized by M.P. Azhagu Pandia Raja, Research Fellow with Ministry of Housing and Urban Affairs and Greater Chennai Corporation.</string>
+    <string name="azhagu_description">The idea was conceptualized by M.P. Azhagu Pandia Raja, Research Fellow with Ministry of Housing and Urban Affairs and Chengalpattu Corporation.</string>
     <string name="mrcooper_description">This application and infrastructure were designed and developed by a team of engineers at Mr. Cooper, Chennai. Mr. Cooper is an industry-leading mortgage services provider serving customers through servicing, originations, and digital real estate solutions. They are headquartered in Dallas, TX, with major outposts in Irvine, Chandler, Longview, Highlands Ranch, Chennai, and Bengaluru.</string>
     <string name="techforcities_description">Tech for Cities is an effort under the Chennai Tricolor Initiative Trust - a non-profit, volunteer run organization. Tech for Cities works with Governments and Non-profits to build collaborative opensource solutions that help maximise impact. More details about Chennai Tricolor Initiative at www.chennaitricolor.in</string>
-    <string name="GCC">Greater Chennai Corporation</string>
-    <string name="aboutus_heading"> GCC - Cavasam App</string>
-    <string name="aboutus_description">This application was developed to aid in cluster analysis and reporting of incidents related to CORONA outbreak. This application will be used by Greater Chennai Corporation for CORONA mitigation measures. Geo tagging of information is the primary purpose of the application. The information collected will not be used for any other purpose. This application can be uninstalled once the COVID-19 issue gets resolved.</string>
+    <string name="GCC">Chengalpattu Corporation</string>
+    <string name="aboutus_heading"> CGL - CORONA Monitoring App</string>
+    <string name="aboutus_description">This application was developed to aid in cluster analysis and reporting of incidents related to CORONA outbreak. This application will be used by Chengalpattu Corporation for CORONA mitigation measures. Geo tagging of information is the primary purpose of the application. The information collected will not be used for any other purpose. This application can be uninstalled once the COVID-19 issue gets resolved.</string>
     <string name="update_available">Update Available</string>
     <string name="forceupdateapplogo">forceUpdateAppLogo</string>
     <string name="maintenanceLogo">maintenanceLogo</string>

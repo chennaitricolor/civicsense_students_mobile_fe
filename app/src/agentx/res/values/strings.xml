@@ -8,6 +8,7 @@
     <string name="photoRetakeButton">RETAKE</string>
     <string name="dashBoardTitle">GCC Cavasam App</string>
     <string name="leaderboardTitle">LEADERBOARD</string>
+    <string name="intro_desc">Hello there! This is Greater Chennai Corporation\'s official CORONA MONITORING APP</string>
 
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>

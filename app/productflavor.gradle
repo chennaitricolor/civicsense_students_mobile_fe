@@ -14,6 +14,26 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
         }
 
+        chengalpattuCovid {
+            applicationId "com.chengalpattu.covid"
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "true"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+            buildConfigField 'String', "APPNAME", '"CSR"'
+        }
+
+        maduraiCovid {
+            applicationId "com.madurai.covid"
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "true"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+            buildConfigField 'String', "APPNAME", '"CSR"'
+        }
+
         csrDev {
             applicationId "com.gcc.smartcity.dev"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'

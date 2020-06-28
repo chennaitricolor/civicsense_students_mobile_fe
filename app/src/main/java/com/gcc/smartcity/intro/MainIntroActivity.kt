@@ -17,7 +17,7 @@ class MainIntroActivity : IntroActivity() {
         addSlide(
             SimpleSlide.Builder()
                 .title("WELCOME!")
-                .description("Hello there! This is Greater Chennai Corporation's official CORONA MONITORING APP.")
+                .description(getString(R.string.intro_desc))
                 .image(R.drawable.app_logo)
                 .background(R.color.agentx_text_light)
                 .backgroundDark(R.color.agentx_text_dark)
