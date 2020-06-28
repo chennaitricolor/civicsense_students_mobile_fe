@@ -1,7 +1,6 @@
 package com.gcc.smartcity.loginandregistration
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -283,8 +282,6 @@ class LoginActivity : BaseActivity() {
         }.addOnFailureListener {
             Logger.d(it.toString())
         }
-
-
     }
 
     private fun callLeaderBoardEndpoint() {
