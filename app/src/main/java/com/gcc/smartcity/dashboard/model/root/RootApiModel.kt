@@ -18,4 +18,7 @@ class RootApiModel {
     @JsonField
     var version: String? = null
 
+    @JsonField
+    var region:JsonObject?=null
+
 }

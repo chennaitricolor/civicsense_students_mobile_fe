@@ -12,26 +12,32 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"GCC"'
+            buildConfigField 'boolean', "PERSONA", "false"
         }
 
         chengalpattuCovid {
             applicationId "com.chengalpattu.covid"
-            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"CGL"'
+            buildConfigField 'boolean', "PERSONA", "true"
         }
 
         maduraiCovid {
             applicationId "com.madurai.covid"
-            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"MDU"'
+            buildConfigField 'boolean', "PERSONA", "true"
         }
 
         csrDev {
