@@ -14,6 +14,7 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"GCC"'
             buildConfigField 'boolean', "PERSONA", "false"
+            buildConfigField 'boolean', "AUTHORIZATION", "false"
         }
 
         chengalpattuCovid {
@@ -26,6 +27,7 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"CGL"'
             buildConfigField 'boolean', "PERSONA", "true"
+            buildConfigField 'boolean', "AUTHORIZATION", "true"
         }
 
         maduraiCovid {
@@ -38,6 +40,7 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"MDU"'
             buildConfigField 'boolean', "PERSONA", "true"
+            buildConfigField 'boolean', "AUTHORIZATION", "true"
         }
 
         csrDev {
