@@ -22,8 +22,11 @@ class RootController(private val mContext: Context) {
     fun doRootCall(): Task<Any> {
         val parser = JsonResponseParser(RootApiModel::class.java)
         val errorResponseParser = JsonResponseParser(RootErrorModel::class.java)
-        val rootRequest = VolleyRequest.newInstance<RootModel>(Request.Method.GET, com.gcc.smartcity.BuildConfig.HOST)
-        rootRequest.setResponseParser(parser)
+        val rootRequest = VolleyRequest.newInstance<String>(
+            Request.Method.GET,
+            "https://api.dev.gccservice.in/api/v2/csr/"
+        )
+//        rootRequest.setResponseParser(parser)
         rootRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(rootRequest)
     }

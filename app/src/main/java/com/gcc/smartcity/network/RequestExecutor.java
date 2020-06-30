@@ -90,7 +90,7 @@ public class RequestExecutor {
         volleyRequest.setOnServiceListener(new OnServiceListener() {
             @Override
             public void onSuccess(int serviceIdentifier, final Object response) {
-                Logger.d("Task is successfully completed");
+                Logger.d("Task is successfully completed" + response.toString());
                 task.setResult(response);
             }
 
@@ -158,7 +158,6 @@ public class RequestExecutor {
         if(BuildConfig.AUTHORIZATION) {
             authHeaders.put("Authorization", "Basic dXNlcjpwYXNzd29yZA=");
         }
-
 
         volleyRequest.setHeaders(authHeaders);
 

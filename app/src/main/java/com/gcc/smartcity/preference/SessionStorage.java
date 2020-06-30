@@ -44,6 +44,14 @@ public class SessionStorage {
         return Preferences.INSTANCE.getIntroSlidesStatus();
     }
 
+    public void setRootString(String rootString) {
+        Preferences.INSTANCE.setRootString(rootString);
+    }
+
+    public String getRootString() {
+        return Preferences.INSTANCE.getRootString();
+    }
+
     public void setUserId(String userId) {
         Preferences.INSTANCE.setUserId(userId);
     }

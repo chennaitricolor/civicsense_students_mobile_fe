@@ -43,7 +43,7 @@ class ForceAppUpdateActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        version =  sessionStorage?.rootModel?.version
+        version = sessionStorage?.rootModel?.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion
         mTvInstalledVersion!!.text = StringBuilder(getString(R.string.forceupdate_current_version) + " " + BuildConfig.VERSION_NAME)
         mTvTitle?.text = "Update Available"
         mTvBody?.text = StringBuilder("This version of the app is outdated. Please update to the latest version ($version)")

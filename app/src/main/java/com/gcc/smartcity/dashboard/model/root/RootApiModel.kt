@@ -1,24 +1,28 @@
 package com.gcc.smartcity.dashboard.model.root
 
-import com.bluelinelabs.logansquare.annotation.JsonField
-import com.bluelinelabs.logansquare.annotation.JsonObject
+data class RegionModel(
+    var termsAndConditions: String? = null,
+    var minimumAndroidVersion: String? = null,
+    var persona: ArrayList<String>? = null
+)
 
-@JsonObject
+data class Regions(var regionsMap: HashMap<String, RegionModel>? = null)
+
+data class ContactUs(var email: String? = null, var phone: Int? = null)
+
+data class Contributors(
+    var name: String? = null,
+    var email: String? = null,
+    var meta: String? = null
+)
+
 class RootApiModel {
-
-    @JsonField
     var links: Links? = null
-
-    @JsonField
+    var contactUs: ContactUs? = null
     var aboutus: String? = null
-
-    @JsonField
-    var termsAndCondition: String? = null
-
-    @JsonField
-    var version: String? = null
-
-    @JsonField
-    var region:JsonObject?=null
-
+    var termsAndConditions: String? = null
+    var contributors: List<Contributors>? = null
+    var meta: String? = null
+    var default: String? = null
+    var region: Regions? = null
 }

@@ -36,8 +36,8 @@
             custom:fontFace="Lato-Bold.ttf" />
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/containmentZoneBanner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/login_container"
             android:layout_marginBottom="10dp"
@@ -47,19 +47,19 @@
 
             <ImageView
                 android:layout_width="50dp"
-                android:layout_gravity="center"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:src="@drawable/containment_people" />
 
             <com.gcc.smartcity.fontui.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/black"
                 android:layout_gravity="center"
-                android:textSize="14sp"
                 android:layout_margin="10dp"
-                android:text="Click here to see the Containment Zones in Greater Chennai Corporation" />
+                android:gravity="center"
+                android:text="Click here to see the Containment Zones in Greater Chennai Corporation"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,6 +130,42 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 custom:fontFace="Lato-Bold.ttf" />
+
+            <LinearLayout
+                android:id="@+id/personaContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <com.gcc.smartcity.fontui.FontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="Role"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    custom:fontFace="Lato-Bold.ttf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_border_edittext"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <Spinner
+                        android:id="@+id/persona_dropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <com.gcc.smartcity.fontui.FontButton
                 android:id="@+id/getOTP"

@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import bolts.Task
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
-import com.gcc.smartcity.dashboard.model.root.RootApiModel
+import com.gcc.smartcity.dashboard.model.root.*
 import com.gcc.smartcity.forceupdate.ForceAppUpdateActivity
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.maintenance.MaintenanceActivity
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.VersionCheckUtils
+import org.json.JSONArray
+import org.json.JSONObject
 
 class RootActivity : AppCompatActivity() {
     private val REQUEST_CODE_INTRO = 108
@@ -67,23 +69,26 @@ class RootActivity : AppCompatActivity() {
 
     private fun afterRootCall(task: Task<Any>) {
         if (!task.isFaulted) {
+            val rootString: String = (task.result).toString()
+            if(!rootString.equals("null",true)) {
+                val rootApiModel: RootApiModel = getObject(rootString)
 
-            val rootApiModel: RootApiModel = task.result as RootApiModel
+                SessionStorage.getInstance().rootModel = rootApiModel
 
-            SessionStorage.getInstance().rootModel = rootApiModel
-
-            if (rootApiModel.version != null && VersionCheckUtils.compareInstalledVersionNameWith(
-                    rootApiModel.version!!
-                ) == -1
-            ) {
-                callNextActivity(ForceAppUpdateActivity::class.java)
+                if (rootApiModel.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion != null && VersionCheckUtils.compareInstalledVersionNameWith(
+                        rootApiModel.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion
+                    ) == -1
+                ) {
+                    callNextActivity(ForceAppUpdateActivity::class.java)
+                } else {
+                    checkForIntroSlidesFlag()
+                }
             } else {
-                checkForIntroSlidesFlag()
+                callNextActivity(MaintenanceActivity::class.java)
             }
         } else {
             callNextActivity(MaintenanceActivity::class.java)
         }
-
     }
 
     private fun callNextActivity(activityClass: Class<*>) {
@@ -95,5 +100,61 @@ class RootActivity : AppCompatActivity() {
 
     private fun Intent.clearStack() {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+
+    private fun getObject(json: String): RootApiModel {
+        val rootApiModel = RootApiModel()
+        val jsonObject = JSONObject(json)
+        val linkObj = jsonObject.optJSONObject("links")
+        val links = Links()
+        links.howToPlay = linkObj?.optString("howToPlay")
+        rootApiModel.links = links
+        val contactUsObj = jsonObject.optJSONObject("contactus")
+        val email = contactUsObj?.optString("email")
+        val phone = contactUsObj?.optInt("phone")
+        val contactUs = ContactUs(email, phone)
+        rootApiModel.contactUs = contactUs
+        val aboutus = jsonObject.optString("aboutus")
+        rootApiModel.aboutus = aboutus
+        val termsAndConditionObj = jsonObject.optString("termsAndCondition")
+        rootApiModel.termsAndConditions = termsAndConditionObj
+        val contributorsList = ArrayList<Contributors>()
+        val contributorsArr = jsonObject.optJSONArray("contributors")
+        contributorsArr.let {
+            for (i in 0 until it?.length()!!) {
+                val obj = it.get(i) as JSONObject
+                val name = obj.optString("name")
+                val contributorsEmail = obj.optString("email")
+                val meta = obj.optString("meta")
+                val contributors = Contributors(name, contributorsEmail, meta)
+                contributorsList.add(contributors)
+            }
+        }
+        rootApiModel.contributors = contributorsList
+        val meta: String = jsonObject.optString("meta")
+        val default: String = jsonObject.optString("default")
+        rootApiModel.meta = meta
+        rootApiModel.default = default
+        val regionsMap = HashMap<String, RegionModel>()
+        val regionsObj = jsonObject.optJSONObject("region")
+        regionsObj.let {
+            val iterator = it?.keys()
+            while (iterator?.hasNext()!!) {
+                val key = iterator.next()
+                val cityObj = it.optJSONObject(key)
+                val termsAndConditionString = cityObj?.optString("termsAndCondition")
+                val minAndroidVersionString = cityObj?.optString("minimumAndroidVersion")
+                val arr: JSONArray? = cityObj?.optJSONArray("userPersona")
+                val personaList = ArrayList<String>()
+                for (i in 0 until arr?.length()!!) {
+                    personaList.add(arr.optString(i))
+                }
+                val regionModel = RegionModel(termsAndConditionString,minAndroidVersionString, personaList)
+                regionsMap[key] = regionModel
+            }
+        }
+        val regions = Regions(regionsMap)
+        rootApiModel.region = regions
+        return rootApiModel
     }
 }

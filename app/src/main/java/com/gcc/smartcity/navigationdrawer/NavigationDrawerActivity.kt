@@ -201,10 +201,11 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                 startActivity(intent)
             }
             getString(R.string.drawer_menu_howtoplay) -> {
-                if (SessionStorage.getInstance().rootModel != null && SessionStorage.getInstance().rootModel.links != null && SessionStorage.getInstance().rootModel.links?.howToPlay != null) {
+                val rootModel = SessionStorage.getInstance().rootModel
+                if (rootModel?.links != null && rootModel.links?.howToPlay != null) {
                     watchYoutubeVideo(
                         this,
-                        "" + SessionStorage.getInstance().rootModel.links?.howToPlay
+                        "" + rootModel.links!!.howToPlay
                     )
                 }
             }

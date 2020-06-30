@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.preference.SessionStorage
 import com.heinrichreimersoftware.materialintro.app.SlideFragment
@@ -24,16 +25,22 @@ class TermsAndConditionsFragment : SlideFragment(), Slide {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vw=inflater.inflate(R.layout.fragment_terms_and_conditions, container, false)
-        val termsTxt=vw.findViewById<TextView>(R.id.txt_termsCondition)
-        termsTxt.text = Html.fromHtml(SessionStorage.getInstance().rootModel.termsAndCondition)
+        vw = inflater.inflate(R.layout.fragment_terms_and_conditions, container, false)
+        val termsTxtContainer = vw.findViewById<TextView>(R.id.txt_termsCondition)
+        val termsTxt =
+            SessionStorage.getInstance().rootModel.region?.regionsMap?.get(BuildConfig.CITY)?.termsAndConditions
+        termsTxtContainer.text = Html.fromHtml(termsTxt)
         return vw
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkBox = terms_and_conditions_checkbox
-        mToast = Toast.makeText(context, "Please swipe up to read through the agreement.", Toast.LENGTH_LONG)
+        mToast = Toast.makeText(
+            context,
+            "Please swipe up to read through the agreement.",
+            Toast.LENGTH_LONG
+        )
     }
 
     override fun getBackground(): Int {

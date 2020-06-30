@@ -16,9 +16,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import bolts.Task
 import com.gcc.smartcity.BaseActivity
@@ -54,6 +52,8 @@ class LoginActivity : BaseActivity() {
     private val PERMISSION_ID = 42
     private var isValidLocation: Boolean = false
     private var gotLocation: Boolean = false
+    private var map: MutableMap<Any, Any>? = null
+    private lateinit var spinnerList: ArrayList<Spinner>
     private lateinit var lastLocation: Location
     private lateinit var locationCallback: LocationCallback
     private lateinit var mLocationRequest: LocationRequest
@@ -90,6 +90,19 @@ class LoginActivity : BaseActivity() {
         loginLoader = findViewById(R.id.login_loader_layout)
         loginScreen = findViewById(R.id.login_screen)
         mobileNumber = findViewById(R.id.mobileNumber)
+        spinnerList = ArrayList()
+
+        if (BuildConfig.PERSONA) {
+            val persona =
+                SessionStorage.getInstance().rootModel.region?.regionsMap?.get(BuildConfig.CITY)?.persona
+            if (!persona.isNullOrEmpty()) {
+                setupDropDown(persona)
+                personaContainer.visibility = View.VISIBLE
+            }
+        } else {
+            personaContainer.visibility = View.GONE
+        }
+
 
         buttonEffect(getOTP, "#d4993d")
         buttonEffect(containmentZoneBanner, "#F06935")
@@ -139,14 +152,19 @@ class LoginActivity : BaseActivity() {
 
         getOTP.setOnClickListener {
             hideSoftKeyBoard()
-            if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
-                sendOTP(mobileNumber?.text.toString())
+            if (persona_dropdown.selectedItem == "Please select role") {
+                Toast.makeText(this, "Please select your role", Toast.LENGTH_LONG)
+                    .show()
             } else {
-                showErrorDialog(
-                    getString(R.string.insufficientDetails),
-                    getString(R.string.incorrectSignUpDetails),
-                    getString(R.string.okButtonText)
-                )
+                if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
+                    sendOTP(mobileNumber?.text.toString(), persona_dropdown.selectedItem.toString())
+                } else {
+                    showErrorDialog(
+                        getString(R.string.insufficientDetails),
+                        getString(R.string.incorrectSignUpDetails),
+                        getString(R.string.okButtonText)
+                    )
+                }
             }
         }
 
@@ -157,6 +175,19 @@ class LoginActivity : BaseActivity() {
 
         loginLoader?.visibility = View.VISIBLE
 
+    }
+
+    private fun setupDropDown(dropdownData: ArrayList<String>?) {
+        val dropDown = findViewById<Spinner>(R.id.persona_dropdown)
+        dropdownData?.add(0, "Please select role")
+        val arrayAdapter = dropdownData?.toArray()?.let {
+            ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, it
+            )
+        }
+        arrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        dropDown.adapter = arrayAdapter
+        spinnerList.add(dropDown)
     }
 
     private fun userSessionValidation() {
@@ -231,7 +262,7 @@ class LoginActivity : BaseActivity() {
                 && SessionStorage.getInstance().sessionCookies != "")
     }
 
-    private fun sendOTP(mobileNumber: String) {
+    private fun sendOTP(mobileNumber: String, userPersona: String) {
         loginLoader?.visibility = View.VISIBLE
         mLoginAndRegistrationController?.doOTPCall(
             BuildConfig.HOST + java.lang.String.format(
@@ -240,11 +271,15 @@ class LoginActivity : BaseActivity() {
             )
         )
             ?.continueWithTask { task ->
-                afterOTPSent(task, mobileNumber)
+                afterOTPSent(task, mobileNumber, userPersona)
             }
     }
 
-    private fun afterOTPSent(task: Task<Any>, mobileNumber: String): Task<Any>? {
+    private fun afterOTPSent(
+        task: Task<Any>,
+        mobileNumber: String,
+        userPersona: String
+    ): Task<Any>? {
         if (task.isFaulted) {
             showErrorDialog(
                 getString(R.string.unableToSendOTP),
@@ -258,6 +293,7 @@ class LoginActivity : BaseActivity() {
             if (otpModel.success!!) {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("mobilenumber", mobileNumber)
+                intent.putExtra("userPersona", userPersona)
                 intent.putExtra("fromScreen", "loginScreen")
                 startActivity(intent)
             } else {

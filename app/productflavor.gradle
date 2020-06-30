@@ -6,7 +6,7 @@ android {
     productFlavors {
         csr {
             applicationId "com.gcc.smartcity"
-            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
@@ -45,7 +45,7 @@ android {
 
         csrDev {
             applicationId "com.gcc.smartcity.dev"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
@@ -55,7 +55,7 @@ android {
 
         tnHealth {
             applicationId "com.gcc.tnhealth"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
@@ -65,7 +65,7 @@ android {
 
         tnHealthDev {
             applicationId "com.gcc.tnhealth.dev"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
@@ -75,7 +75,7 @@ android {
 
         agentx {
             applicationId "com.gcc.agentx"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
@@ -85,7 +85,7 @@ android {
 
         agentxDev {
             applicationId "com.gcc.agentx.dev"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"

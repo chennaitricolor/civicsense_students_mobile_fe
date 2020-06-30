@@ -204,14 +204,12 @@ class DynamicFormActivity : AppCompatActivity() {
             )
         )
 
-        //Creating the ArrayAdapter instance having the country list
         val arrayAdapter = dropdownData?.toArray()?.let {
             ArrayAdapter(
                 this, android.R.layout.simple_spinner_item, it
             )
         }
         arrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        //Setting the ArrayAdapter data on the Spinner
         dropDown.adapter = arrayAdapter
         spinnerList.add(dropDown)
     }

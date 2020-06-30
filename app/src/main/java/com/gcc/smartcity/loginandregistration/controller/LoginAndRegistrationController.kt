@@ -55,7 +55,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
         return RequestExecutor.getInstance(mContext).makeRequestCall(userLocationValidationRequest)
     }
 
-    fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int): Task<Any> {
+    fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int, userPersona: String): Task<Any> {
         val parser = JsonResponseParser(LoginModel::class.java)
         val errorResponseParser = JsonResponseParser(LoginErrorModel::class.java)
         val loginRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.POST, endpoint)
@@ -63,6 +63,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
         try {
             jsonObject.put("userId", mobileNumber)
             jsonObject.put("otp", OTP)
+            jsonObject.put("persona", userPersona)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
@@ -75,6 +76,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
     fun doSignUpCall(
         endpoint: String,
         name: String,
+        userPersona: String,
         phoneNumber: String,
         OTP: Int,
         latitude: String,
@@ -91,6 +93,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
             coordinatesArray.put(latitude)
             addressObject.put("coordinates", coordinatesArray)
             jsonObject.put("name", name)
+            jsonObject.put("persona", userPersona)
             jsonObject.put("userId", phoneNumber)
             jsonObject.put("otp", OTP)
             jsonObject.put("currentLocation", addressObject)
@@ -112,7 +115,6 @@ class LoginAndRegistrationController(private val mContext: Context) {
         val newValuesObject = JSONObject()
         try {
             newValuesObject.put("name", newProfileName)
-            newValuesObject.put("otp", 1234) // TODO: REMOVE
             jsonObject.put("newValues", newValuesObject)
         } catch (ex: Exception) {
             ex.printStackTrace()

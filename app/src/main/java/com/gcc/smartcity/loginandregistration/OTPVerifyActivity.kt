@@ -46,6 +46,7 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     private var isOTPValid: Boolean = false
     lateinit var name: String
     private lateinit var userMobileNumber: String
+    private lateinit var userPersona: String
     private lateinit var fromScreen: String
     private var mLatitude: String? = null
     private var mLongitude: String? = null
@@ -80,6 +81,7 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
         if (intent.extras != null) {
             userMobileNumber = intent.extras!!.getString("mobilenumber").toString()
+            userPersona = intent.extras!!.getString("userPersona").toString()
             fromScreen = intent.extras!!.getString("fromScreen").toString()
             if (fromScreen == "signUpScreen") {
                 name = intent.extras!!.getString("name").toString()
@@ -124,9 +126,9 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         VerifyBTN.setOnClickListener {
             if (otpField?.text.toString().isNotEmpty() && isOTPValid) {
                 if (fromScreen == "signUpScreen") {
-                    doRegistration(name, userMobileNumber, otpField?.text.toString())
+                    doRegistration(name, userMobileNumber, userPersona, otpField?.text.toString())
                 } else {
-                    doLogin(userMobileNumber, otpField?.text.toString())
+                    doLogin(userMobileNumber, userPersona, otpField?.text.toString())
                 }
                 showLoader(true)
             } else {
@@ -136,11 +138,17 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         }
     }
 
-    private fun doRegistration(name: String, mobileNumber: String, otp: String) {
+    private fun doRegistration(
+        name: String,
+        mobileNumber: String,
+        userPersona: String,
+        otp: String
+    ) {
         if (mLatitude != null && mLongitude != null) {
             mLoginAndRegistrationController?.doSignUpCall(
                 BuildConfig.HOST + "user/signup",
                 name,
+                userPersona,
                 mobileNumber,
                 otp.toInt(),
                 mLatitude!!,
@@ -157,18 +165,16 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
     }
 
-    private fun doLogin(mobileNumber: String, otp: String) {
+    private fun doLogin(mobileNumber: String, userPersona: String, otp: String) {
         if (mLatitude != null && mLongitude != null) {
-            mLoginAndRegistrationController?.doSignUpCall(
-                BuildConfig.HOST + "user/signup",
-                "Guest",
+            mLoginAndRegistrationController?.doLoginCall(
+                BuildConfig.HOST + "user/login",
                 mobileNumber,
                 otp.toInt(),
-                mLatitude!!,
-                mLongitude!!
+                userPersona
             )
                 ?.continueWithTask { task ->
-                    afterRegistrationCall(mobileNumber, task)
+                    afterLoginCall(mobileNumber, task)
                 }
         } else {
             getLastLocation()
@@ -229,14 +235,14 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
                 loginErrorMessage,
                 getString(R.string.okButtonText)
             )
-            showLoader(false)
             task.makeVoid()
+            showLoader(false)
         } else {
             val loginModel = task.result as LoginModel
-            Logger.d("HERE IN POST LOGIN")
             if (loginModel.success!!) {
                 SessionStorage.getInstance().userId = mobileNumber
                 try {
+                    callUserEndpoint()
                     callLeaderBoardEndpoint()
                 } catch (ex: Exception) {
                     Logger.d(ex.toString())
@@ -309,7 +315,6 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
                 Logger.d(ex.toString())
             }
         }
-
         return null
     }
 
