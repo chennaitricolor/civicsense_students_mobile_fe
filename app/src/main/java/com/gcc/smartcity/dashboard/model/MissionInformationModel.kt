@@ -32,5 +32,8 @@ class MissionInformationModel {
     var needForm: Boolean? = null
 
     @JsonField
+    var needMedia: Boolean? = null
+
+    @JsonField
     var formFields: ArrayList<FormFieldsModel?>? = null
 }

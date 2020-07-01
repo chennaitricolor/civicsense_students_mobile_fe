@@ -6,91 +6,114 @@ android {
     productFlavors {
         csr {
             applicationId "com.gcc.smartcity"
+            versionNameSuffix "-CSR"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"GCC"'
-            buildConfigField 'boolean', "PERSONA", "false"
-            buildConfigField 'boolean', "AUTHORIZATION", "false"
-        }
-
-        chengalpattuCovid {
-            applicationId "com.chengalpattu.covid"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
-            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
-            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
-            buildConfigField 'boolean', "CONTAINMENTZONE", "true"
-            buildConfigField 'boolean', "LEADERBOARD", "false"
-            buildConfigField 'String', "APPNAME", '"CSR"'
-            buildConfigField 'String', "CITY", '"CGL"'
             buildConfigField 'boolean', "PERSONA", "true"
-            buildConfigField 'boolean', "AUTHORIZATION", "true"
-        }
-
-        maduraiCovid {
-            applicationId "com.madurai.covid"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
-            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
-            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
-            buildConfigField 'boolean', "CONTAINMENTZONE", "true"
-            buildConfigField 'boolean', "LEADERBOARD", "false"
-            buildConfigField 'String', "APPNAME", '"CSR"'
-            buildConfigField 'String', "CITY", '"MDU"'
-            buildConfigField 'boolean', "PERSONA", "true"
-            buildConfigField 'boolean', "AUTHORIZATION", "true"
+            buildConfigField 'boolean', "HQIMSLOGIN", "true"
         }
 
         csrDev {
             applicationId "com.gcc.smartcity.dev"
+            versionNameSuffix "-CSRDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "true"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"GCC"'
+            buildConfigField 'boolean', "PERSONA", "true"
+            buildConfigField 'boolean', "HQIMSLOGIN", "true"
+        }
+
+        chengalpattuCovid {
+            applicationId "com.chengalpattu.covid"
+            versionNameSuffix "-CGL"
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+            buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"CGL"'
+            buildConfigField 'boolean', "PERSONA", "true"
+            buildConfigField 'boolean', "HQIMSLOGIN", "false"
+        }
+
+        maduraiCovid {
+            applicationId "com.madurai.covid"
+            versionNameSuffix "-MDU"
+            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+            buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"MDU"'
+            buildConfigField 'boolean', "PERSONA", "true"
+            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         tnHealth {
             applicationId "com.gcc.tnhealth"
+            versionNameSuffix "-TNHEALTH"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"TNHEALTH"'
+            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         tnHealthDev {
             applicationId "com.gcc.tnhealth.dev"
+            versionNameSuffix "-TNHEALTHDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"TNHEALTH"'
+            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         agentx {
             applicationId "com.gcc.agentx"
+            versionNameSuffix "-AGENTX"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
             buildConfigField 'String', "APPNAME", '"AGENTX"'
+            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         agentxDev {
             applicationId "com.gcc.agentx.dev"
+            versionNameSuffix "-AGENTXDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
             buildConfigField 'String', "APPNAME", '"AGENTX"'
+            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
     }
 }

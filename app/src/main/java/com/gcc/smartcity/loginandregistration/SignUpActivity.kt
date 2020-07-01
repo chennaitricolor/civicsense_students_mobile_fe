@@ -68,7 +68,7 @@ class SignUpActivity : BaseActivity() {
         continueBtn.setOnClickListener {
             hideSoftKeyBoard()
             if (persona_dropdown.selectedItem == "Please select role") {
-                Toast.makeText(this, "Please select your role", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Please select your role", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 if (name?.text.toString().isNotEmpty() && mobileNumber?.text.toString()

@@ -14,26 +14,52 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/csrxbackgroundimage"
         android:scaleType="centerCrop"
-        android:src="@mipmap/csrx_background" />
+        android:src="@mipmap/app_background" />
 
     <RelativeLayout
         android:id="@+id/login_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="20dp"
-        android:paddingTop="20dp"
         android:paddingRight="20dp">
 
         <com.gcc.smartcity.fontui.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/dashBoardTitle"
             android:textColor="@color/agentx_txt_color"
             android:textSize="30sp"
             custom:fontFace="Lato-Bold.ttf" />
+
+        <LinearLayout
+            android:id="@+id/hqimsBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/containmentZoneBanner"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_rounded_banner"
+            android:visibility="visible"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/hqims_logo" />
+
+            <com.gcc.smartcity.fontui.FontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="For HQIMS login, tap this banner"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/containmentZoneBanner"
@@ -43,11 +69,11 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_rounded_banner"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingHorizontal="10dp">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:src="@drawable/containment_people" />
 
@@ -57,7 +83,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Click here to see the Containment Zones in Greater Chennai Corporation"
+                android:text="Click here to see the Containment Zones"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -161,7 +187,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:padding="10dp"
                         android:spinnerMode="dropdown" />
                 </LinearLayout>
 

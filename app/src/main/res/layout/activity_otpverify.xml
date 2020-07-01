@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/csrx_background"
+        android:src="@mipmap/app_background"
         android:scaleType="centerCrop"
         android:contentDescription="@string/csrxbackgroundimage" />
 

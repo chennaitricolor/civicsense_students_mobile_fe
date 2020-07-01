@@ -2,16 +2,12 @@ package com.gcc.smartcity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.se.omapi.Session;
 
 import com.android.volley.Request;
 import com.gcc.smartcity.dashboard.ImageUploadListener;
 import com.gcc.smartcity.dashboard.model.FileUploadResponseModel;
-import com.gcc.smartcity.leaderboard.LeaderBoardModel;
-import com.gcc.smartcity.location.LocationModel;
 import com.gcc.smartcity.network.RequestExecutor;
 import com.gcc.smartcity.network.VolleyMultipartRequest;
-import com.gcc.smartcity.preference.SessionStorage;
 import com.gcc.smartcity.utils.Logger;
 import com.google.gson.Gson;
 
@@ -21,13 +17,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class FileUpload {
     private String campaignId = "";
     private String campaignName = "";
     private String latitude = "";
     private String longitude = "";
+    private Boolean isMediaNeeded;
     private Context mContext;
     private ImageUploadListener mImageUploadListener;
     private HashMap<String, String> formValues;
@@ -37,7 +33,8 @@ public class FileUpload {
         mImageUploadListener = imageUploadListener;
     }
 
-    public void uploadScreenshotCall(String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id, String _campaignName, HashMap<String, String> hashMap) {
+    public void uploadScreenshotCall(Boolean mediaNeeded, String mLatitude, String mLongitude, String url, Bitmap bitmap, String mimeType, String _id, String _campaignName, HashMap<String, String> hashMap) {
+        isMediaNeeded = mediaNeeded;
         campaignName = _campaignName;
         campaignId = _id;
         latitude = mLatitude;
@@ -88,12 +85,14 @@ public class FileUpload {
 
             @Override
             protected Map<String, DataPart> getByteData() {
-                Map<String, DataPart> params = new HashMap<>();
-                DataPart dataPart = new VolleyMultipartRequest.DataPart();
-                dataPart.setContent(getBytFromBitmap(bitmap, 15));
-                dataPart.setType(mimeType);
-                params.put("file", new DataPart(generateUniqueFileName() + ".jpg", getBytFromBitmap(bitmap, 15), "image/*"));
-
+                Map<String, DataPart> params = null;
+                if (isMediaNeeded) {
+                    params = new HashMap<>();
+                    DataPart dataPart = new VolleyMultipartRequest.DataPart();
+                    dataPart.setContent(getBytFromBitmap(bitmap, 15));
+                    dataPart.setType(mimeType);
+                    params.put("file", new DataPart(generateUniqueFileName() + ".jpg", getBytFromBitmap(bitmap, 15), "image/*"));
+                }
                 return params;
             }
         };

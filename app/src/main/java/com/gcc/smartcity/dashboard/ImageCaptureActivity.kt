@@ -234,6 +234,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
 
         Thread(Runnable {
             FileUpload(this, this).uploadScreenshotCall(
+                true,
                 mLatitude,
                 mLongitude,
                 BuildConfig.HOST + "user/task",

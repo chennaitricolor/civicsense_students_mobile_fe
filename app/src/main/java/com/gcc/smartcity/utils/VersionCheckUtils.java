@@ -8,7 +8,8 @@ public class VersionCheckUtils {
     public static int compareInstalledVersionNameWith(String newVersionName) {
         int res = 0;
 
-        String[] oldNumbers = BuildConfig.VERSION_NAME.split("\\.");
+        String[] versionNameWithoutSuffix = BuildConfig.VERSION_NAME.split("-");
+        String[] oldNumbers = versionNameWithoutSuffix[0].split("\\.");
         String[] newNumbers = newVersionName.split("\\.");
 
         // To avoid IndexOutOfBounds

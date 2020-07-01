@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_terms_and_conditions.*
 class TermsAndConditionsFragment : SlideFragment(), Slide {
 
     private var checkBox: CheckBox? = null
-    private var mToast: Toast? = null
     private lateinit var vw: View
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +35,6 @@ class TermsAndConditionsFragment : SlideFragment(), Slide {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkBox = terms_and_conditions_checkbox
-        mToast = Toast.makeText(
-            context,
-            "Please swipe up to read through the agreement.",
-            Toast.LENGTH_LONG
-        )
     }
 
     override fun getBackground(): Int {
@@ -56,24 +50,6 @@ class TermsAndConditionsFragment : SlideFragment(), Slide {
     }
 
     override fun canGoForward(): Boolean {
-        return if (checkBox?.isChecked == true) {
-            true
-        } else {
-            mToast?.show()
-            false
-        }
+        return checkBox?.isChecked == true
     }
-
-    override fun onPause() {
-        super.onPause()
-        mToast?.cancel()
-    }
-
-//    override val isPolicyRespected: Boolean
-//        get() = checkBox?.isChecked ?: false
-//
-//
-//    override fun onUserIllegallyRequestedNextPage() {
-//        Toast.makeText(context, R.string.policy_error, Toast.LENGTH_SHORT).show()
-//    }
 }

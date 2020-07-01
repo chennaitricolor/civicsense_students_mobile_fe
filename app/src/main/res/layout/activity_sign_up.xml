@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/csrxbackgroundimage"
         android:scaleType="centerCrop"
-        android:src="@mipmap/csrx_background" />
+        android:src="@mipmap/app_background" />
 
     <RelativeLayout
         android:id="@+id/signUpScreen"

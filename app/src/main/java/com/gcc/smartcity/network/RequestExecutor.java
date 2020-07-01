@@ -2,7 +2,6 @@ package com.gcc.smartcity.network;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Base64;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpStack;
@@ -155,9 +154,8 @@ public class RequestExecutor {
     private VolleyRequest<?> addAuthHeaders(VolleyRequest<?> volleyRequest) {
         Map<String, String> authHeaders = new HashMap<>();
         authHeaders.put("Accept", "application/json");
-        if(BuildConfig.AUTHORIZATION) {
-            authHeaders.put("Authorization", "Basic dXNlcjpwYXNzd29yZA=");
-        }
+        authHeaders.put("Authorization", "Basic dXNlcjpwYXNzd29yZA=");
+        authHeaders.put("region", BuildConfig.CITY);
 
         volleyRequest.setHeaders(authHeaders);
 

@@ -8,6 +8,8 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -18,6 +20,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import bolts.Task
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
@@ -106,6 +109,13 @@ class LoginActivity : BaseActivity() {
 
         buttonEffect(getOTP, "#d4993d")
         buttonEffect(containmentZoneBanner, "#F06935")
+
+        if (!BuildConfig.HQIMSLOGIN) {
+            hqimsBanner.visibility = View.GONE
+        } else {
+            hqimsBanner.visibility = View.VISIBLE
+        }
+
         if (!BuildConfig.CONTAINMENTZONE) {
             containmentZoneBanner.visibility = View.GONE
         } else {
@@ -114,8 +124,12 @@ class LoginActivity : BaseActivity() {
         val mobileNumberPattern =
             "^[6-9]\\d{9}\$"
 
+        hqimsBanner?.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.HQIMSHOST))
+            ContextCompat.startActivity(this, browserIntent, null)
+        }
+
         containmentZoneBanner?.setOnClickListener {
-            Logger.d("Containment Zones")
             val intent = WebViewActivity.newIntent(this, BuildConfig.WEBVIEWHOST + "hotzones")
             startActivity(intent)
         }
@@ -153,7 +167,7 @@ class LoginActivity : BaseActivity() {
         getOTP.setOnClickListener {
             hideSoftKeyBoard()
             if (persona_dropdown.selectedItem == "Please select role") {
-                Toast.makeText(this, "Please select your role", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Please select your role", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {

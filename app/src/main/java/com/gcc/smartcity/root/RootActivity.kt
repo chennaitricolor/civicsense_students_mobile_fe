@@ -75,14 +75,14 @@ class RootActivity : AppCompatActivity() {
 
                 SessionStorage.getInstance().rootModel = rootApiModel
 
-                if (rootApiModel.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion != null && VersionCheckUtils.compareInstalledVersionNameWith(
-                        rootApiModel.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion
-                    ) == -1
-                ) {
-                    callNextActivity(ForceAppUpdateActivity::class.java)
-                } else {
+//                if (rootApiModel.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion != null && VersionCheckUtils.compareInstalledVersionNameWith(
+//                        rootApiModel.region?.regionsMap?.get(BuildConfig.CITY)?.minimumAndroidVersion
+//                    ) == -1
+//                ) {
+//                    callNextActivity(ForceAppUpdateActivity::class.java)
+//                } else {
                     checkForIntroSlidesFlag()
-                }
+//                }
             } else {
                 callNextActivity(MaintenanceActivity::class.java)
             }
