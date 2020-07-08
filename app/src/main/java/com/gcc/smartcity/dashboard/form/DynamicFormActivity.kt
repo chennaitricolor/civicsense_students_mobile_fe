@@ -1,22 +1,14 @@
 package com.gcc.smartcity.dashboard.form
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.birjuvachhani.locus.Locus
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
@@ -32,10 +24,8 @@ import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.submit.SubmitActivityAgentX
 import com.gcc.smartcity.submit.SubmitActivityCorona
 import com.gcc.smartcity.utils.AlertDialogBuilder
-import com.gcc.smartcity.utils.AnimationUtil
 import com.gcc.smartcity.utils.ApplicationConstants
 import com.gcc.smartcity.utils.Logger
-import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_dynamic_form.*
 import java.net.CookieHandler
 import java.net.CookieManager
@@ -43,7 +33,6 @@ import java.net.CookiePolicy
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-
 
 class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
 
@@ -58,30 +47,13 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
     private var newMissionListModel: NewMissionListModel? = null
     private var mLatitude: String? = null
     private var mLongitude: String? = null
-    private lateinit var lastLocation: Location
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private val PERMISSION_ID = 42
-    private val PERMISSION_REQUEST_CODE = 200
 
     var isDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                mLatitude = lastLocation.latitude.toString()
-                mLongitude = lastLocation.longitude.toString()
-            }
-        }
-
-        getLastLocation()
+        getLocation()
 
         setContentView(R.layout.activity_dynamic_form)
 
@@ -104,10 +76,23 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
             _campaignName = intent.extras!!.getString("_campaignName").toString()
         }
 
-        AnimationUtil.buttonEffect(btn_basicform_Next, "#d4993d")
-        AnimationUtil.buttonEffect(btn_basicform_cancel, "#7aa133")
-        btn_basicform_Next.setOnClickListener { parseData() }
+        btn_basicform_Next.setOnClickListener {
+            if (mLatitude != null && mLongitude != null) {
+                parseData()
+            } else {
+                getLocation()
+            }
+        }
         btn_basicform_cancel.setOnClickListener { finish() }
+    }
+
+    private fun getLocation() {
+        Locus.getCurrentLocation(this) { result ->
+            result.location?.let {
+                mLatitude = it.latitude.toString()
+                mLongitude = it.longitude.toString()
+            }
+        }
     }
 
     private fun loadData(newMissionListModel: NewMissionListModel) {
@@ -294,8 +279,7 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
         }
 
         if (isDialog) {
-            AlertDialogBuilder.getInstance()
-                .showErrorDialog(
+            AlertDialogBuilder.getInstance().showErrorDialog(
                     "Warning!",
                     "Please fill all the required fields marked with a '*'",
                     "OK",
@@ -305,19 +289,8 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
             if (isMediaNeeded) {
                 openImageCaptureActivity(hashMap)
             } else {
-                if (checkPermission()) {
-                    if (isLocationEnabled()) {
-                        uploadResponseToServer(hashMap)
-                    } else {
-                        Toast.makeText(
-                            applicationContext,
-                            getString(R.string.turnOnLocationMessage),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                } else {
-                    requestPermission()
-                }
+                formUploadLoader.visibility = View.VISIBLE
+                uploadResponseToServer(hashMap)
             }
         }
     }
@@ -331,17 +304,16 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
         Thread(Runnable {
             FileUpload(this, this).uploadScreenshotCall(
                 false,
-                mLatitude,
-                mLongitude,
+                mLatitude!!,
+                mLongitude!!,
                 BuildConfig.HOST + "user/task",
                 null,
                 "image/jpeg",
-                _id,
-                _campaignName,
+                _id!!,
+                _campaignName!!,
                 hashMap
             )
         }).start()
-
     }
 
     private fun openImageCaptureActivity(hashMap: HashMap<String, String>) {
@@ -356,6 +328,7 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
     }
 
     override fun onSuccess() {
+        formUploadLoader.visibility = View.GONE
         if (BuildConfig.APPNAME == "AGENTX") {
             val intent = Intent(this, SubmitActivityAgentX::class.java)
             intent.putExtra("rewards", rewards)
@@ -369,118 +342,9 @@ class DynamicFormActivity : AppCompatActivity(), ImageUploadListener {
     }
 
     override fun onFailure(message: String) {
+        formUploadLoader.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_LONG)
             .show()
         finish()
     }
-
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabledPermissionCheck()) {
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    val location: Location? = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        Log.d("Old Latitude", location.latitude.toString())
-                        Log.d("Old Longitude", location.longitude.toString())
-                        mLatitude = location.latitude.toString()
-                        mLongitude = location.longitude.toString()
-                    }
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
-                    .show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
-            }
-        } else {
-            requestPermissions()
-        }
-    }
-
-    private fun requestNewLocationData() {
-        mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            Log.d("New Latitude", locationResult.lastLocation.latitude.toString())
-            Log.d("New Longitude", locationResult.lastLocation.longitude.toString())
-            mLatitude = locationResult.lastLocation.latitude.toString()
-            mLongitude = locationResult.lastLocation.longitude.toString()
-        }
-    }
-
-    private fun isLocationEnabledPermissionCheck(): Boolean {
-        val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_ID
-        )
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val isGpsEnabled: Boolean
-        val isNetworkEnabled: Boolean
-
-        val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-        Log.i("LocationStatus", "Location is: $isGpsEnabled")
-
-        return isGpsEnabled && isNetworkEnabled
-    }
-
-    private fun checkPermission(): Boolean {
-        return (ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED)
-    }
-
-    private fun requestPermission() {
-        val perms = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        ActivityCompat.requestPermissions(this, perms, PERMISSION_REQUEST_CODE)
-    }
-
 }

@@ -1,45 +1,54 @@
 package com.gcc.smartcity.dashboard
 
-import android.app.Activity
 import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
-import android.view.MotionEvent
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import bolts.Task
+import com.birjuvachhani.locus.Locus
 import com.gcc.smartcity.BuildConfig
-import com.gcc.smartcity.navigationdrawer.NavigationDrawerActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.loginandregistration.LoginActivity
+import com.gcc.smartcity.navigationdrawer.NavigationDrawerActivity
 import com.gcc.smartcity.utils.Logger
-import com.gcc.smartcity.utils.NetworkError
-import com.gcc.smartcity.utils.OnDialogListener
 import com.gcc.smartcity.webview.WebViewActivity
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.activity_dashboard.containmentZoneBanner
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlin.math.min
 
 class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener, OnDialogListener, MissionAPIListener {
+    GoogleMap.OnMarkerClickListener, MissionAPIListener {
 
-    override fun onFail(message: String, task: Task<Any>) {
-        val error = task.error as NetworkError
-        if (error.errorCode == 401) {
+    private val TAG = this::class.java.simpleName
+
+    private lateinit var map: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var mSettingsClient: SettingsClient
+    private var currentLocationMarker: Marker? = null
+    private var locationAccuracyCircle: Circle? = null
+    private var initialMissionCall: Boolean = true
+    private var mLatitude: String? = null
+    private var mLongitude: String? = null
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    override fun onFail(message: String, shouldLogOut: Boolean) {
+        dashboardMissionList.visibility = View.GONE
+        if (shouldLogOut) {
             val intent = Intent(this, LoginActivity::class.java)
             intent.clearStack()
             startActivity(intent)
@@ -55,6 +64,7 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
     }
 
     override fun onSuccess(missionModel: ArrayList<MissionModel>) {
+        dashboardMissionList.visibility = View.VISIBLE
         showLoader(false)
         configureMissionList(missionModel)
     }
@@ -67,41 +77,35 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private lateinit var map: GoogleMap
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var mSettingsClient: SettingsClient
-    private lateinit var lastLocation: Location
-    private var lastMockLocation: Location? = null
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var locationRequest: LocationRequest
-    private var locationUpdateState = false
-    private var currentLocationMarker: Marker? = null
-    private var numGoodReadings: Int = 0
-    private val DEVELOPER_OPTIONS_REQUEST_CODE = 1010
-    private var locationAccuracyCircle: Circle? = null
-    private var hasMissionListPopulated: Boolean = true
-
-
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
-        private const val REQUEST_CHECK_SETTINGS = 2
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setMainContentView(R.layout.activity_dashboard)
+
+        Toast.makeText(this, "Fetching tasks in your location", Toast.LENGTH_SHORT)
+            .show()
+
+        val request = LocationRequest.create()
+        Intent(this, DashBoardActivity::class.java).apply {
+            putExtra("request", request)
+        }
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mSettingsClient = LocationServices.getSettingsClient(this)
 
-        buttonEffect(containmentZoneBanner)
-
-        containmentZoneBanner?.setOnClickListener {
+        containmentZoneBanner.setOnClickListener {
             Logger.d("Containment Zones")
             val intent = WebViewActivity.newIntent(this, BuildConfig.WEBVIEWHOST + "hotzones")
             startActivity(intent)
+        }
+
+        reloadButton.setOnClickListener {
+            Toast.makeText(this, "Fetching tasks in your location", Toast.LENGTH_SHORT)
+                .show()
+            getInstantLocation()
         }
 
         if (!BuildConfig.CONTAINMENTZONE) {
@@ -110,26 +114,21 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             containmentZoneBanner.visibility = View.VISIBLE
         }
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-//                drawLocationAccuracyCircle(lastLocation)
-//                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
-                if (hasMissionListPopulated) {
-                    populateMissionList(
-                        lastLocation.latitude.toString(),
-                        lastLocation.longitude.toString()
-                    )
-                    showLoader(true)
-                }
+    }
+
+    private fun getInstantLocation() {
+        Locus.getCurrentLocation(this) { result ->
+            result.location?.let {
+                populateMissionList(it.latitude.toString(), it.longitude.toString())
+                showLoader(true)
+            } ?: run {
+                Toast.makeText(this, "Unable to fetch your location", Toast.LENGTH_LONG)
+                    .show()
             }
         }
-        createLocationRequest()
     }
 
     private fun populateMissionList(latitude: String, longitude: String) {
-        hasMissionListPopulated = false
         DashboardController(this, this).getMissionData(latitude, longitude)
     }
 
@@ -139,32 +138,10 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
     private fun showLoader(status: Boolean) {
         if (status) {
-            loader_layout.visibility = View.VISIBLE
-            mapLayout.visibility = View.GONE
-            rlList.visibility = View.GONE
+            loaderContainer.visibility = View.VISIBLE
         } else {
-            loader_layout.visibility = View.GONE
-            mapLayout.visibility = View.VISIBLE
-            rlList.visibility = View.VISIBLE
+            loaderContainer.visibility = View.GONE
         }
-    }
-
-    private fun isLocationPlausible(location: Location?): Boolean {
-        if (location == null) return false
-        val isMock = location.isFromMockProvider
-        if (isMock) {
-            lastMockLocation = location
-            numGoodReadings = 0
-        } else {
-            numGoodReadings = min(numGoodReadings + 1, 1000000)
-        } // Prevent overflow
-        // We only clear that incident record after a significant show of good behavior
-        if (numGoodReadings >= 20) lastMockLocation = null
-        // If there's nothing to compare against, we have to trust it
-        if (lastMockLocation == null) return true
-        // And finally, if it's more than 1km away from the last known mock, we'll trust it
-        val d = location.distanceTo(lastMockLocation).toDouble()
-        return d > 1000
     }
 
     private fun configureMissionList(list: ArrayList<MissionModel>) {
@@ -204,7 +181,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         return true
     }
 
-
     private fun setMapStyle() {
         map.setMapStyle(
             MapStyleOptions.loadRawResourceStyle(
@@ -240,19 +216,46 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
 
         map.setPadding(20, 200, 0, 15)
 
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                drawLocationAccuracyCircle(location)
-                placeMarkerOnMap(currentLatLng)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                if (hasMissionListPopulated) {
-                    populateMissionList(location.latitude.toString(), location.longitude.toString())
-                }
+        startLocationUpdates()
+    }
+
+
+    private fun startLocationUpdates() {
+        Locus.configure {
+            shouldResolveRequest = true
+            request {
+                fastestInterval = 100
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                interval = 100
+                maxWaitTime = 100
             }
         }
+        Locus.startLocationUpdates(this) { result ->
+            result.location?.let(::onLocationUpdate)
+            result.error?.let(::onLocationError)
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        Locus.stopLocationUpdates()
+    }
+
+    private fun onLocationUpdate(location: Location) {
+        mLatitude = location.latitude.toString()
+        mLongitude = location.longitude.toString()
+        val currentLatLng = LatLng(location.latitude, location.longitude)
+        drawLocationAccuracyCircle(location)
+        placeMarkerOnMap(currentLatLng)
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+        if (initialMissionCall) {
+            initialMissionCall = false
+            populateMissionList(mLatitude!!, mLongitude!!)
+            showLoader(true)
+        }
+    }
+
+    private fun onLocationError(error: Throwable?) {
+        Log.e(TAG, "Error: ${error?.message}")
     }
 
     private fun placeMarkerOnMap(location: LatLng) {
@@ -266,65 +269,6 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
             .position(location)
         currentLocationMarker = map.addMarker(markerOptions)
 //        updateCameraPosition()
-    }
-
-    private fun updateCameraPosition() {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationMarker!!.position, 15f))
-    }
-
-    private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-            return
-        }
-
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private fun createLocationRequest() {
-        locationRequest = LocationRequest()
-        locationRequest.interval = 0
-        locationRequest.fastestInterval = 0
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-
-        val client = LocationServices.getSettingsClient(this)
-        val task = client.checkLocationSettings(builder.build())
-
-        task.addOnSuccessListener {
-            locationUpdateState = true
-            startLocationUpdates()
-        }
-        task.addOnFailureListener { e ->
-            if (e is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
-                try {
-                    // Show the dialog by calling startResolutionForResult(),
-                    // and check the result in onActivityResult().
-                    e.startResolutionForResult(
-                        this@DashBoardActivity,
-                        REQUEST_CHECK_SETTINGS
-                    )
-                } catch (sendEx: IntentSender.SendIntentException) {
-                    // Ignore the error.
-                }
-            }
-        }
     }
 
     private fun drawLocationAccuracyCircle(location: Location) {
@@ -348,14 +292,8 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            if (resultCode == Activity.RESULT_OK) {
-                locationUpdateState = true
-                startLocationUpdates()
-            }
-        }
+    private fun updateCameraPosition() {
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationMarker!!.position, 15f))
     }
 
     override fun onPause() {
@@ -363,50 +301,8 @@ class DashBoardActivity : NavigationDrawerActivity(), OnMapReadyCallback,
         stopLocationUpdates()
     }
 
-    private fun stopLocationUpdates() {
-        if (!locationUpdateState) {
-            return
-        }
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-            .addOnCompleteListener(this) {
-                locationUpdateState = false
-            }
-    }
-
     public override fun onResume() {
         super.onResume()
-        if (!locationUpdateState) {
-            startLocationUpdates()
-        }
-    }
-
-    override fun onPositiveButtonClick(whichDialog: String?) {
-        startActivityForResult(
-            Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS),
-            DEVELOPER_OPTIONS_REQUEST_CODE
-        )
-    }
-
-    override fun onNegativeButtonClick(whichDialog: String?) {
-        this.finishAffinity()
-    }
-
-    private fun buttonEffect(button: View) {
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(
-                        Color.parseColor("#F06935"),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
+        startLocationUpdates()
     }
 }

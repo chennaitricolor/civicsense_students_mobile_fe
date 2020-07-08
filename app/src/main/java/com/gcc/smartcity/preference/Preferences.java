@@ -31,12 +31,12 @@ public enum Preferences {
         }
     }
 
-    public void setCookieModel(String rootApiModel) {
-        mPreferenceHandle.setString(COOKIE, rootApiModel);
-    }
-
     public String getCookieModel() {
         return mPreferenceHandle.getString(COOKIE, null);
+    }
+
+    public void setCookieModel(String rootApiModel) {
+        mPreferenceHandle.setString(COOKIE, rootApiModel);
     }
 
     public String getLeaderBoardApiModel() {
@@ -103,11 +103,11 @@ public enum Preferences {
         mPreferenceHandle.setString(USER_NAME, userName);
     }
 
-    public void setLeaderBoardStatus(Boolean leaderBoardStatus) {
-        mPreferenceHandle.setBoolean(LEADERBOARD_STATUS, leaderBoardStatus);
-    }
-
     public Boolean getLeaderBoardStatus() {
         return mPreferenceHandle.getBoolean(LEADERBOARD_STATUS, false);
+    }
+
+    public void setLeaderBoardStatus(Boolean leaderBoardStatus) {
+        mPreferenceHandle.setBoolean(LEADERBOARD_STATUS, leaderBoardStatus);
     }
 }

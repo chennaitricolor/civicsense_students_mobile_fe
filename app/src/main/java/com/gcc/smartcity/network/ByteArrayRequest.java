@@ -16,14 +16,8 @@ import java.util.Map;
 
 public class ByteArrayRequest extends Request<byte[]> {
 
-    private String mUrl;
     private static final String TAG = ByteArrayRequest.class.getSimpleName();
-    private Map<String, String> mHeaders;
-    private OnServiceListener mOnServiceListener;
-    private int mServiceIdentifier;
-    private ResponseParser mErrorParser;
-    private ResponseParser mParser;
-
+    private static final String NETWORK_AUTHENTICATION_ISSUE_STRING = "java.io.IOException: No authentication challenges found";
     /**
      * For volley library, to set timeout, we need to use RetryPolicy that is provided.
      * The Retry policy behaves as,
@@ -41,12 +35,14 @@ public class ByteArrayRequest extends Request<byte[]> {
      * Request dispatched with Socket Timeout of 27 Secs
      */
     private final int DEFAULT_TIMEOUT = 60 * 1000; // 30 seconds
-
     private final int RETRY_COUNT = 1;    // To retry once within the Timeout period
-
     private final float BACKOFF_MULTIPLIER = 1.0f;    // Volley requires this. Not sure what this is for exactly.
-
-    private static final String NETWORK_AUTHENTICATION_ISSUE_STRING = "java.io.IOException: No authentication challenges found";
+    private String mUrl;
+    private Map<String, String> mHeaders;
+    private OnServiceListener mOnServiceListener;
+    private int mServiceIdentifier;
+    private ResponseParser mErrorParser;
+    private ResponseParser mParser;
 
     public ByteArrayRequest(int method, String url) {
         super(method, url, null);
@@ -62,16 +58,6 @@ public class ByteArrayRequest extends Request<byte[]> {
 
     public void setOnServiceListener(OnServiceListener listener) {
         mOnServiceListener = listener;
-    }
-
-    public ByteArrayRequest setHeaders(Map<String, String> headers) {
-        mHeaders = headers;
-        return this;
-    }
-
-    public ByteArrayRequest setUrl(String url) {
-        mUrl = url;
-        return this;
     }
 
     public ByteArrayRequest setServiceIdentifier(int serviceIdentifier) {
@@ -103,12 +89,21 @@ public class ByteArrayRequest extends Request<byte[]> {
         return super.getHeaders();
     }
 
+    public ByteArrayRequest setHeaders(Map<String, String> headers) {
+        mHeaders = headers;
+        return this;
+    }
+
     @Override
     public String getUrl() {
         Logger.d(TAG, "Url:" + mUrl);
         return mUrl;
     }
 
+    public ByteArrayRequest setUrl(String url) {
+        mUrl = url;
+        return this;
+    }
 
     @Override
     protected Response<byte[]> parseNetworkResponse(NetworkResponse networkResponse) {

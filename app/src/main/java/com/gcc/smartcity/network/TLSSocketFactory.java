@@ -15,6 +15,23 @@ public class TLSSocketFactory extends SSLSocketFactory {
         internalSSLSocketFactory = delegate;
     }
 
+    private static Socket enableTLSOnSocket(Socket socket) {
+        if ((socket instanceof SSLSocket)
+                && isTLSServerEnabled((SSLSocket) socket)) { // skip the fix if server doesn't provide there TLS version
+            ((SSLSocket) socket).setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"});
+        }
+        return socket;
+    }
+
+    private static boolean isTLSServerEnabled(SSLSocket sslSocket) {
+        for (String protocol : sslSocket.getSupportedProtocols()) {
+            if (protocol.equals("TLSv1.1") || protocol.equals("TLSv1.2")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String[] getDefaultCipherSuites() {
         return internalSSLSocketFactory.getDefaultCipherSuites();
@@ -40,6 +57,10 @@ public class TLSSocketFactory extends SSLSocketFactory {
         return enableTLSOnSocket(internalSSLSocketFactory.createSocket(host, port, localHost, localPort));
     }
 
+    /*
+     * Utility methods
+     */
+
     @Override
     public Socket createSocket(InetAddress host, int port) throws IOException {
         return enableTLSOnSocket(internalSSLSocketFactory.createSocket(host, port));
@@ -48,26 +69,5 @@ public class TLSSocketFactory extends SSLSocketFactory {
     @Override
     public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
         return enableTLSOnSocket(internalSSLSocketFactory.createSocket(address, port, localAddress, localPort));
-    }
-
-    /*
-     * Utility methods
-     */
-
-    private static Socket enableTLSOnSocket(Socket socket) {
-        if ((socket instanceof SSLSocket)
-                && isTLSServerEnabled((SSLSocket) socket)) { // skip the fix if server doesn't provide there TLS version
-            ((SSLSocket) socket).setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"});
-        }
-        return socket;
-    }
-
-    private static boolean isTLSServerEnabled(SSLSocket sslSocket) {
-        for (String protocol : sslSocket.getSupportedProtocols()) {
-            if (protocol.equals("TLSv1.1") || protocol.equals("TLSv1.2")) {
-                return true;
-            }
-        }
-        return false;
     }
 }

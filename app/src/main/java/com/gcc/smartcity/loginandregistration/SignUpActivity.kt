@@ -1,31 +1,18 @@
 package com.gcc.smartcity.loginandregistration
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import bolts.Task
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.fontui.FontEditText
 import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
 import com.gcc.smartcity.loginandregistration.model.OTPModel
-import com.gcc.smartcity.preference.SessionStorage
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import kotlinx.android.synthetic.main.activity_sign_up.personaContainer
-import kotlinx.android.synthetic.main.activity_sign_up.persona_dropdown
 
 class SignUpActivity : BaseActivity() {
 
@@ -33,7 +20,6 @@ class SignUpActivity : BaseActivity() {
     private var name: FontEditText? = null
     private var mobileNumber: FontEditText? = null
     private var isMobileNumberValid: Boolean = false
-    private lateinit var spinnerList: ArrayList<Spinner>
 
     init {
         mLoginAndRegistrationController = LoginAndRegistrationController(this)
@@ -49,43 +35,22 @@ class SignUpActivity : BaseActivity() {
 
         val mobileNumberPattern =
             "^[6-9]\\d{9}\$"
-        spinnerList = ArrayList()
-
-
-        if (BuildConfig.PERSONA) {
-            val persona = SessionStorage.getInstance().rootModel.region?.regionsMap?.get(BuildConfig.CITY)?.persona
-            if (!persona.isNullOrEmpty()) {
-                setupDropDown(persona)
-                personaContainer.visibility = View.VISIBLE
-            }
-        } else {
-            personaContainer.visibility = View.GONE
-        }
-
-
-        buttonEffect(continueBtn)
 
         continueBtn.setOnClickListener {
             hideSoftKeyBoard()
-            if (persona_dropdown.selectedItem == "Please select role") {
-                Toast.makeText(this, "Please select your role", Toast.LENGTH_SHORT)
-                    .show()
+            if (name?.text.toString().isNotEmpty() && mobileNumber?.text.toString()
+                    .isNotEmpty() && isMobileNumberValid
+            ) {
+                sendOTP(
+                    name?.text.toString(),
+                    mobileNumber?.text.toString()
+                )
             } else {
-                if (name?.text.toString().isNotEmpty() && mobileNumber?.text.toString()
-                        .isNotEmpty() && isMobileNumberValid
-                ) {
-                    sendOTP(
-                        name?.text.toString(),
-                        mobileNumber?.text.toString(),
-                        persona_dropdown.selectedItem.toString()
-                    )
-                } else {
-                    showErrorDialog(
-                        getString(R.string.insufficientDetails),
-                        getString(R.string.incorrectSignUpDetails),
-                        getString(R.string.okButtonText)
-                    )
-                }
+                showErrorDialog(
+                    getString(R.string.insufficientDetails),
+                    getString(R.string.incorrectSignUpDetails),
+                    getString(R.string.okButtonText)
+                )
             }
         }
 
@@ -108,7 +73,7 @@ class SignUpActivity : BaseActivity() {
         })
     }
 
-    private fun sendOTP(name: String, mobileNumber: String, userPersona: String) {
+    private fun sendOTP(name: String, mobileNumber: String) {
         showLoader(true)
         mLoginAndRegistrationController?.doOTPCall(
             BuildConfig.HOST + java.lang.String.format(
@@ -117,15 +82,14 @@ class SignUpActivity : BaseActivity() {
             )
         )
             ?.continueWithTask { task ->
-                afterOTPSent(task, name, mobileNumber, userPersona)
+                afterOTPSent(task, name, mobileNumber)
             }
     }
 
     private fun afterOTPSent(
         task: Task<Any>,
         name: String,
-        mobileNumber: String,
-        userPersona: String
+        mobileNumber: String
     ): Task<Any>? {
         if (task.isFaulted) {
             showErrorDialog(
@@ -141,7 +105,6 @@ class SignUpActivity : BaseActivity() {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("name", name)
                 intent.putExtra("mobilenumber", mobileNumber)
-                intent.putExtra("userPersona", userPersona)
                 intent.putExtra("fromScreen", "signUpScreen")
                 startActivity(intent)
             } else {
@@ -154,38 +117,6 @@ class SignUpActivity : BaseActivity() {
         }
 
         return null
-    }
-
-    private fun buttonEffect(button: View) {
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(
-                        Color.parseColor("#7aa133"),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
-    }
-
-    private fun setupDropDown(dropdownData: ArrayList<String>?) {
-        val dropDown = findViewById<Spinner>(R.id.persona_dropdown)
-        dropdownData?.add(0, "Please select role")
-        val arrayAdapter = dropdownData?.toArray()?.let {
-            ArrayAdapter(
-                this, android.R.layout.simple_spinner_item, it
-            )
-        }
-        arrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        dropDown.adapter = arrayAdapter
-        spinnerList.add(dropDown)
     }
 
     override fun onResume() {

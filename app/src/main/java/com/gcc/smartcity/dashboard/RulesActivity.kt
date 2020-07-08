@@ -2,8 +2,10 @@ package com.gcc.smartcity.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.form.DynamicFormActivity
 import com.gcc.smartcity.dashboard.model.NewMissionListModel
@@ -26,8 +28,16 @@ class RulesActivity : AppCompatActivity() {
         newMissionListModel = SessionStorage.getInstance().newMissionListModel
 
         if (newMissionListModel != null) {
-            txt_campaignname.text = newMissionListModel?.task?.campaignName
-            txt_rules.text = newMissionListModel?.task?.rules
+            campaignName.text = newMissionListModel?.task?.campaignName
+            descriptionText.text = newMissionListModel?.task?.description
+            if (SessionStorage.getInstance().rootModel?.region?.regionsMap?.get(BuildConfig.CITY)?.rules!!) {
+                rulesTitle.visibility = View.VISIBLE
+                rulesText.text = newMissionListModel?.task?.rules
+                rulesText.visibility = View.VISIBLE
+            } else {
+                rulesTitle.visibility = View.GONE
+                rulesText.visibility = View.GONE
+            }
             isBasicFormNeeded = newMissionListModel?.task?.needForm
             isMediaNeeded = newMissionListModel?.task?.needMedia
             _id = newMissionListModel?.task?._id
@@ -35,8 +45,8 @@ class RulesActivity : AppCompatActivity() {
             rewards = newMissionListModel?.task?.rewards.toString()
             rules = newMissionListModel?.task?.rules
             btnRulesNext.setOnClickListener {
-                val intent : Intent
-                if (isBasicFormNeeded != null && isBasicFormNeeded== true) {
+                val intent: Intent
+                if (isBasicFormNeeded != null && isBasicFormNeeded == true) {
                     intent = Intent(this, DynamicFormActivity::class.java)
                     if (isMediaNeeded != null && isMediaNeeded == true) {
                         intent.putExtra("mediaNeeded", true)
@@ -51,7 +61,6 @@ class RulesActivity : AppCompatActivity() {
                 intent.putExtra("_campaignName", _campaignName)
                 intent.putExtra("rewards", rewards)
                 intent.putExtra("fromScreen", "rulesActivity")
-                if (isBasicFormNeeded == true)
                 startActivity(intent)
                 finish()
             }

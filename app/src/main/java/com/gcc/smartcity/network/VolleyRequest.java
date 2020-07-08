@@ -20,7 +20,9 @@ public class VolleyRequest<T> extends Request<T> {
 
     private static final String TAG = VolleyRequest.class.getSimpleName();
     private static final boolean LOG_ENABLE = true;
-
+    //Below two lines are probably the work around for the 'No Authentication challenges found'
+    private static final String NETWORK_AUTHENTICATION_ISSUE_STRING = "java.io.IOException: No authentication challenges found";
+    private static final String NETWORK_AUTHENTICATION_FAILURE_STRING_RESPONSE = "{\"status\": {\"code\": 1002, \"message\": \"User token invalid or Session timed out.\"}\" +\"}";
     /**
      * For volley library, to set timeout, we need to use RetryPolicy that is provided.
      * The Retry policy behaves as,
@@ -38,34 +40,18 @@ public class VolleyRequest<T> extends Request<T> {
      * Request dispatched with Socket Timeout of 27 Secs
      */
     private final int DEFAULT_TIMEOUT = 60 * 1000; // 30 seconds
-
     private final int RETRY_COUNT = 1;    // To retry once within the Timeout period
-
     private final float BACKOFF_MULTIPLIER = 1.0f;    // Volley requires this. Not sure what this is for exactly.
-
     private Map<String, String> mHeaders = null;
-
     private LinkedHashMap<String, String> mQueryParams = null;
-
     private String mPayload = null;
-
     private boolean mIsPositional;
-
     private ResponseParser mParser;
-
     private ResponseParser mErrorParser;
-
     private String mContentType;
-
     private int mServiceIdentifier;
-
     private String mUrl;
-
     private OnServiceListener mOnServiceListener;
-
-    //Below two lines are probably the work around for the 'No Authentication challenges found'
-    private static final String NETWORK_AUTHENTICATION_ISSUE_STRING = "java.io.IOException: No authentication challenges found";
-    private static final String NETWORK_AUTHENTICATION_FAILURE_STRING_RESPONSE = "{\"status\": {\"code\": 1002, \"message\": \"User token invalid or Session timed out.\"}\" +\"}";
 
 
     public VolleyRequest(int method, String url) {
@@ -89,16 +75,6 @@ public class VolleyRequest<T> extends Request<T> {
         return this;
     }
 
-    public VolleyRequest<T> setHeaders(Map<String, String> headers) {
-        mHeaders = headers;
-        return this;
-    }
-
-    public VolleyRequest<T> setUrl(String url) {
-        mUrl = url;
-        return this;
-    }
-
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
 
@@ -111,6 +87,11 @@ public class VolleyRequest<T> extends Request<T> {
         }
 
         return super.getHeaders();
+    }
+
+    public VolleyRequest<T> setHeaders(Map<String, String> headers) {
+        mHeaders = headers;
+        return this;
     }
 
     public VolleyRequest<T> setQueryParams(boolean isPositional, LinkedHashMap<String, String> queryParams) {
@@ -146,6 +127,11 @@ public class VolleyRequest<T> extends Request<T> {
         return mUrl;
     }
 
+    public VolleyRequest<T> setUrl(String url) {
+        mUrl = url;
+        return this;
+    }
+
     public VolleyRequest<T> setPayload(String payload) {
         mPayload = payload;
         return this;
@@ -160,17 +146,17 @@ public class VolleyRequest<T> extends Request<T> {
         return super.getBody();
     }
 
-    public VolleyRequest<T> setBodyContentType(String contentType) {
-        mContentType = contentType;
-        return this;
-    }
-
     @Override
     public String getBodyContentType() {
         if (mContentType != null && mContentType.length() > 0) {
             return mContentType;
         }
         return super.getBodyContentType();
+    }
+
+    public VolleyRequest<T> setBodyContentType(String contentType) {
+        mContentType = contentType;
+        return this;
     }
 
     public VolleyRequest<T> setResponseParser(ResponseParser parser) {

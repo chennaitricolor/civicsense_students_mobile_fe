@@ -2,7 +2,6 @@ package com.gcc.smartcity.webview
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.http.SslError
 import android.os.Bundle

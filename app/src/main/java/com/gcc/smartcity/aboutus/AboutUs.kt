@@ -1,7 +1,7 @@
 package com.gcc.smartcity.aboutus
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.gcc.smartcity.R
 
 class AboutUs : AppCompatActivity() {

@@ -17,6 +17,10 @@ public class SessionStorage {
 
     private static volatile SessionStorage sInstance;
 
+    private SessionStorage() {
+
+    }
+
     public static synchronized SessionStorage getInstance() {
         if (sInstance == null) {
             sInstance = new SessionStorage();
@@ -24,8 +28,9 @@ public class SessionStorage {
         return sInstance;
     }
 
-    private SessionStorage() {
-
+    public static <T> List<T> stringToArray(String s, Class<T> clazz) {
+        T arr = new Gson().fromJson(s, clazz);
+        return Arrays.asList(arr); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
     }
 
     public String getSessionCookies() {
@@ -36,36 +41,36 @@ public class SessionStorage {
         Preferences.INSTANCE.setCookieModel(sessionCookies);
     }
 
-    public void setIntroSlidesVisibility(Boolean status) {
-        Preferences.INSTANCE.setIntroSlidesStatus(status);
-    }
-
     public Boolean getIntroSlidesVisibility() {
         return Preferences.INSTANCE.getIntroSlidesStatus();
     }
 
-    public void setRootString(String rootString) {
-        Preferences.INSTANCE.setRootString(rootString);
+    public void setIntroSlidesVisibility(Boolean status) {
+        Preferences.INSTANCE.setIntroSlidesStatus(status);
     }
 
     public String getRootString() {
         return Preferences.INSTANCE.getRootString();
     }
 
-    public void setUserId(String userId) {
-        Preferences.INSTANCE.setUserId(userId);
+    public void setRootString(String rootString) {
+        Preferences.INSTANCE.setRootString(rootString);
     }
 
     public String getUserId() {
         return Preferences.INSTANCE.getUserId();
     }
 
-    public void setUserName(String userName) {
-        Preferences.INSTANCE.setUserName(userName);
+    public void setUserId(String userId) {
+        Preferences.INSTANCE.setUserId(userId);
     }
 
     public String getUserName() {
         return Preferences.INSTANCE.getUserName();
+    }
+
+    public void setUserName(String userName) {
+        Preferences.INSTANCE.setUserName(userName);
     }
 
     public String getStringfromObject(Object object) {
@@ -105,48 +110,43 @@ public class SessionStorage {
 
     }
 
-    public static <T> List<T> stringToArray(String s, Class<T> clazz) {
-        T arr = new Gson().fromJson(s, clazz);
-        return Arrays.asList(arr); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
+    public LeaderBoardModel getLeaderBoardModel() {
+        return getObjectfromString(Preferences.INSTANCE.getLeaderBoardApiModel(), LeaderBoardModel.class);
     }
 
     public void setLeaderBoardModel(LeaderBoardModel leaderBoardModel) {
         Preferences.INSTANCE.setLeaderBoardApiModel(getStringfromObject(leaderBoardModel));
     }
 
-    public LeaderBoardModel getLeaderBoardModel() {
-        return getObjectfromString(Preferences.INSTANCE.getLeaderBoardApiModel(), LeaderBoardModel.class);
+    public Boolean getLeaderBoardStatus() {
+        return Preferences.INSTANCE.getLeaderBoardStatus();
     }
 
     public void setLeaderBoardStatus(Boolean status) {
         Preferences.INSTANCE.setLeaderBoardStatus(status);
     }
 
-    public Boolean getLeaderBoardStatus() {
-        return Preferences.INSTANCE.getLeaderBoardStatus();
+    public RootApiModel getRootModel() {
+        return getObjectfromString(Preferences.INSTANCE.getRootModel(), RootApiModel.class);
     }
 
     public void setRootModel(RootApiModel rootModel) {
         Preferences.INSTANCE.setRootModel(getStringfromObject(rootModel));
     }
 
-    public RootApiModel getRootModel() {
-        return getObjectfromString(Preferences.INSTANCE.getRootModel(), RootApiModel.class);
+    public UserModel getUserModel() {
+        return getObjectfromString(Preferences.INSTANCE.getUserModel(), UserModel.class);
     }
 
     public void setUserModel(UserModel userModel) {
         Preferences.INSTANCE.setUserModel(getStringfromObject(userModel));
     }
 
-    public UserModel getUserModel() {
-        return getObjectfromString(Preferences.INSTANCE.getUserModel(), UserModel.class);
+    public NewMissionListModel getNewMissionListModel() {
+        return getObjectfromString(Preferences.INSTANCE.getNewMissionListModel(), NewMissionListModel.class);
     }
 
     public void setNewMissionListModel(NewMissionListModel newMissionListModel) {
         Preferences.INSTANCE.setNewMissionListModel(getStringfromObject(newMissionListModel));
-    }
-
-    public NewMissionListModel getNewMissionListModel() {
-        return getObjectfromString(Preferences.INSTANCE.getNewMissionListModel(), NewMissionListModel.class);
     }
 }

@@ -1,24 +1,13 @@
 package com.gcc.smartcity.loginandregistration
 
-import android.Manifest
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import bolts.Task
+import com.birjuvachhani.locus.Locus
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
@@ -36,7 +25,6 @@ import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.gcc.smartcity.utils.OnSingleBtnDialogListener
-import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_otpverify.*
 
 class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
@@ -44,17 +32,12 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     private var mLoginAndRegistrationController: LoginAndRegistrationController? = null
     private var otpField: FontEditText? = null
     private var isOTPValid: Boolean = false
+    private var userPersona: String? = null
     lateinit var name: String
     private lateinit var userMobileNumber: String
-    private lateinit var userPersona: String
     private lateinit var fromScreen: String
     private var mLatitude: String? = null
     private var mLongitude: String? = null
-    private val PERMISSION_ID = 42
-    private lateinit var lastLocation: Location
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     init {
         mLoginAndRegistrationController = LoginAndRegistrationController(this)
@@ -62,33 +45,23 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getLocation()
+
         setView(R.layout.activity_otpverify)
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                mLatitude = lastLocation.latitude.toString()
-                mLongitude = lastLocation.longitude.toString()
-            }
-        }
-
-        getLastLocation()
 
         otpField = findViewById(R.id.otpfield)
 
         if (intent.extras != null) {
+            if (intent.hasExtra("userPersona")) {
+                userPersona = intent.extras!!.getString("userPersona").toString()
+            }
             userMobileNumber = intent.extras!!.getString("mobilenumber").toString()
-            userPersona = intent.extras!!.getString("userPersona").toString()
             fromScreen = intent.extras!!.getString("fromScreen").toString()
             if (fromScreen == "signUpScreen") {
                 name = intent.extras!!.getString("name").toString()
             }
         }
-
-        buttonEffect(VerifyBTN)
 
         val otpPattern =
             "^[0-9]\\d{3}\$"
@@ -125,12 +98,22 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
 
         VerifyBTN.setOnClickListener {
             if (otpField?.text.toString().isNotEmpty() && isOTPValid) {
-                if (fromScreen == "signUpScreen") {
-                    doRegistration(name, userMobileNumber, userPersona, otpField?.text.toString())
+                hideSoftKeyBoard()
+                if (mLatitude != null && mLongitude != null) {
+                    if (fromScreen == "signUpScreen") {
+                        doRegistration(
+                            name,
+                            userMobileNumber,
+                            userPersona,
+                            otpField?.text.toString()
+                        )
+                    } else {
+                        doLogin(userMobileNumber, userPersona, otpField?.text.toString())
+                    }
+                    showLoader(true)
                 } else {
-                    doLogin(userMobileNumber, userPersona, otpField?.text.toString())
+                    getLocation()
                 }
-                showLoader(true)
             } else {
                 Toast.makeText(this, "Please enter the OTP to proceed", Toast.LENGTH_LONG)
                     .show()
@@ -138,49 +121,45 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         }
     }
 
+    private fun getLocation() {
+        Locus.getCurrentLocation(this) { result ->
+            result.location?.let {
+                mLatitude = it.latitude.toString()
+                mLongitude = it.longitude.toString()
+            }
+        }
+    }
+
     private fun doRegistration(
         name: String,
         mobileNumber: String,
-        userPersona: String,
+        userPersona: String?,
         otp: String
     ) {
-        if (mLatitude != null && mLongitude != null) {
-            mLoginAndRegistrationController?.doSignUpCall(
-                BuildConfig.HOST + "user/signup",
-                name,
-                userPersona,
-                mobileNumber,
-                otp.toInt(),
-                mLatitude!!,
-                mLongitude!!
-            )
-                ?.continueWithTask { task ->
-                    afterRegistrationCall(mobileNumber, task)
-                }
-        } else {
-            getLastLocation()
-            Toast.makeText(this, getString(R.string.unableToGetYourLocation), Toast.LENGTH_LONG)
-                .show()
-        }
-
+        mLoginAndRegistrationController?.doSignUpCall(
+            BuildConfig.HOST + "user/signup",
+            name,
+            userPersona,
+            mobileNumber,
+            otp.toInt(),
+            mLatitude!!,
+            mLongitude!!
+        )
+            ?.continueWithTask { task ->
+                afterRegistrationCall(mobileNumber, task)
+            }
     }
 
-    private fun doLogin(mobileNumber: String, userPersona: String, otp: String) {
-        if (mLatitude != null && mLongitude != null) {
-            mLoginAndRegistrationController?.doLoginCall(
-                BuildConfig.HOST + "user/login",
-                mobileNumber,
-                otp.toInt(),
-                userPersona
-            )
-                ?.continueWithTask { task ->
-                    afterLoginCall(mobileNumber, task)
-                }
-        } else {
-            getLastLocation()
-            Toast.makeText(this, getString(R.string.unableToGetYourLocation), Toast.LENGTH_LONG)
-                .show()
-        }
+    private fun doLogin(mobileNumber: String, userPersona: String?, otp: String) {
+        mLoginAndRegistrationController?.doLoginCall(
+            BuildConfig.HOST + "user/login",
+            mobileNumber,
+            otp.toInt(),
+            userPersona
+        )
+            ?.continueWithTask { task ->
+                afterLoginCall(mobileNumber, task)
+            }
     }
 
     private fun afterRegistrationCall(mobileNumber: String, task: Task<Any>): Task<Any>? {
@@ -263,15 +242,11 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
     private fun callLeaderBoardEndpoint() {
         mLoginAndRegistrationController?.doLeaderBoardCall(BuildConfig.HOST + "user/leaderboard?type=local")
             ?.continueWithTask { task ->
-                postLeaderBoard(task)
+                postLeaderBoardCall(task)
             }
     }
 
-    private fun Intent.clearStack() {
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    }
-
-    private fun postLeaderBoard(task: Task<Any>): Task<Any>? {
+    private fun postLeaderBoardCall(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             SessionStorage.getInstance().leaderBoardStatus = false
             val intent = Intent(this, DashBoardActivity::class.java)
@@ -282,16 +257,12 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
         } else {
             val leaderBoardModel = task.result as LeaderBoardModel
             if (leaderBoardModel.success!!) {
-                try {
-                    SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
-                    SessionStorage.getInstance().leaderBoardStatus = true
-                    val intent = Intent(this, DashBoardActivity::class.java)
-                    intent.clearStack()
-                    startActivity(intent)
-                    finish()
-                } catch (ex: Exception) {
-                    Logger.d(ex.toString())
-                }
+                SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
+                SessionStorage.getInstance().leaderBoardStatus = true
+                val intent = Intent(this, DashBoardActivity::class.java)
+                intent.clearStack()
+                startActivity(intent)
+                finish()
             } else {
                 SessionStorage.getInstance().leaderBoardStatus = false
                 val intent = Intent(this, DashBoardActivity::class.java)
@@ -316,120 +287,6 @@ class OTPVerifyActivity : BaseActivity(), OnSingleBtnDialogListener {
             }
         }
         return null
-    }
-
-    private fun buttonEffect(button: View) {
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(
-                        Color.parseColor("#7aa133"),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
-    }
-
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    val location: Location? = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        Log.d("Old Latitude", location.latitude.toString())
-                        Log.d("Old Longitude", location.longitude.toString())
-                        mLatitude = location.latitude.toString()
-                        mLongitude = location.longitude.toString()
-                    }
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
-                    .show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
-            }
-        } else {
-            requestPermissions()
-        }
-    }
-
-    private fun requestNewLocationData() {
-        mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation
-            Log.d("New Latitude", mLastLocation.latitude.toString())
-            Log.d("New Longitude", mLastLocation.longitude.toString())
-            mLatitude = mLastLocation.latitude.toString()
-            mLongitude = mLastLocation.longitude.toString()
-        }
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_ID
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSION_ID) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLastLocation()
-            }
-        }
     }
 
     override fun onSingleButtonClicked() {

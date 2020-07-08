@@ -7,12 +7,11 @@ import com.android.volley.Request
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.dashboard.model.MissionListErrorModel
 import com.gcc.smartcity.dashboard.model.MissionListModel
-import com.gcc.smartcity.dashboard.model.NewMissionListErrorModel
-import com.gcc.smartcity.dashboard.model.NewMissionListModel
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
 import com.gcc.smartcity.network.VolleyRequest
 import com.gcc.smartcity.utils.Logger
+import com.gcc.smartcity.utils.NetworkError
 
 class DashboardController(
     private val mContext: Context,
@@ -40,29 +39,33 @@ class DashboardController(
                 if (!it.isFaulted) {
                     Logger.d("success", "got list")
                     val missionListModel = it.result as MissionListModel
-                    if (missionListModel.success!! && missionListModel.tasks!!.isNotEmpty()) {
-                        if (missionListModel.tasks?.size!! > 0) {
+                    if (missionListModel.success!!) {
+                        if (missionListModel.tasks!!.isNotEmpty()) {
                             for (i in 0 until (missionListModel.tasks?.size ?: 0)) {
                                 val missionModel = MissionModel(
                                     missionListModel.tasks?.get(i)?._id.toString(),
                                     missionListModel.tasks?.get(i)?.campaignName.toString(),
                                     missionListModel.tasks?.get(i)?.startDate.toString(),
                                     missionListModel.tasks?.get(i)?.endDate.toString(),
-                                    missionListModel.tasks?.get(i)?.rewards!!,
-                                    missionListModel.tasks?.get(i)?.rules.toString()
+                                    missionListModel.tasks?.get(i)?.rewards,
+                                    missionListModel.tasks?.get(i)?.rules
                                 )
                                 list.add(missionModel)
                             }
                             missionAPIListener.onSuccess(list)
                         } else {
-                            missionAPIListener.onFail("There are no tasks in your area", it)
+                            missionAPIListener.onFail("There are no tasks in your area", false)
                         }
-                    } else if (missionListModel.success!! && missionListModel.tasks!!.isEmpty()) {
-                        missionAPIListener.onFail("There are no tasks in your area", it)
+                    } else if (!missionListModel.success!!) {
+                        missionAPIListener.onFail("Server down. Please try again later.", false)
                     }
                 } else {
-                    missionAPIListener.onFail("No Tasks/Activities found in your area", it)
-                    Logger.d("Failed", "Unable to fetch mission list")
+                    val error = it.error as NetworkError
+                    missionAPIListener.onFail(
+                        "No Tasks/Activities found in your area",
+                        error.errorCode == 401
+                    )
+                    Logger.d("Failed", "Mission call failed")
                 }
                 null
             })

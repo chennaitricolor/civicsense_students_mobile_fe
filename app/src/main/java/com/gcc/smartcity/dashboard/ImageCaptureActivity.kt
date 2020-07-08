@@ -4,18 +4,17 @@ import android.Manifest.permission.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.*
-import android.location.Location
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
+import com.birjuvachhani.locus.Locus
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.FileUpload
 import com.gcc.smartcity.R
@@ -31,7 +31,6 @@ import com.gcc.smartcity.submit.SubmitActivityAgentX
 import com.gcc.smartcity.submit.SubmitActivityCorona
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.OnDialogListener
-import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_image_capture.*
 import java.io.File
 import java.io.IOException
@@ -43,6 +42,7 @@ import java.util.*
 
 class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadListener {
     override fun onSuccess() {
+        imageUploadLoader.visibility = View.GONE
         if (BuildConfig.APPNAME == "AGENTX") {
             val intent = Intent(this, SubmitActivityAgentX::class.java)
             intent.putExtra("rewards", rewards)
@@ -56,6 +56,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     }
 
     override fun onFailure(message: String) {
+        imageUploadLoader.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_LONG)
             .show()
         finish()
@@ -73,36 +74,21 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
     private var bitmap: Bitmap? = null
     private var _id: String? = null
     private var _campaignName: String? = null
-    private var rewards: String? = null
+    private var rewards: Int? = null
     private var hashMap: HashMap<String, String>? = null
     private val PERMISSION_ID = 42
     private var mLatitude: String? = null
     private var mLongitude: String? = null
-    private lateinit var lastLocation: Location
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                mLatitude = lastLocation.latitude.toString()
-                mLongitude = lastLocation.longitude.toString()
-            }
-        }
-
-        getLastLocation()
+        getLocation()
 
         if (intent.extras != null) {
             _id = intent.extras!!.getString("_id").toString()
             _campaignName = intent.extras!!.getString("_campaignName").toString()
-            rewards = intent.extras!!.getString("rewards").toString()
+            rewards = intent.extras!!.getInt("rewards")
             if (intent.extras!!.getString("fromScreen").toString() == "dynamicFormActivity") {
                 hashMap = intent.getSerializableExtra("formValues") as? HashMap<String, String>
             }
@@ -120,9 +106,6 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
 
         setButtonHolderVisibility(false)
 
-        buttonEffect(btnReTakePhoto, "#d4993d")
-        buttonEffect(btnSubmitPhoto, "#7aa133")
-
         reTakeButton?.setOnClickListener {
             initiateImageGrab()
         }
@@ -130,13 +113,10 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         submitButton?.setOnClickListener {
             if (checkPermission()) {
                 if (isLocationEnabled()) {
+                    imageUploadLoader.visibility = View.VISIBLE
                     uploadFileToServer()
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.turnOnLocationMessage),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    getLocation()
                 }
             } else {
                 requestPermission()
@@ -144,86 +124,13 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         }
     }
 
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabledPermissionCheck()) {
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    val location: Location? = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        Log.d("Old Latitude", location.latitude.toString())
-                        Log.d("Old Longitude", location.longitude.toString())
-                        mLatitude = location.latitude.toString()
-                        mLongitude = location.longitude.toString()
-                    }
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
-                    .show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
+    private fun getLocation() {
+        Locus.getCurrentLocation(this) { result ->
+            result.location?.let {
+                mLatitude = it.latitude.toString()
+                mLongitude = it.longitude.toString()
             }
-        } else {
-            requestPermissions()
         }
-    }
-
-    private fun requestNewLocationData() {
-        mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            Log.d("New Latitude", locationResult.lastLocation.latitude.toString())
-            Log.d("New Longitude", locationResult.lastLocation.longitude.toString())
-            mLatitude = locationResult.lastLocation.latitude.toString()
-            mLongitude = locationResult.lastLocation.longitude.toString()
-        }
-    }
-
-    private fun isLocationEnabledPermissionCheck(): Boolean {
-        val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                this,
-                ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                ACCESS_COARSE_LOCATION,
-                ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_ID
-        )
     }
 
     private fun uploadFileToServer() {
@@ -235,33 +142,17 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
         Thread(Runnable {
             FileUpload(this, this).uploadScreenshotCall(
                 true,
-                mLatitude,
-                mLongitude,
+                mLatitude!!,
+                mLongitude!!,
                 BuildConfig.HOST + "user/task",
-                bitmap,
+                bitmap!!,
                 "image/jpeg",
-                _id,
-                _campaignName,
+                _id!!,
+                _campaignName!!,
                 hashMap
             )
         }).start()
 
-    }
-
-    private fun buttonEffect(button: View, color: String) {
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP)
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -359,7 +250,7 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
             }
             PERMISSION_ID -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    getLastLocation()
+                    getLocation()
                 }
             }
         }
@@ -480,7 +371,6 @@ class ImageCaptureActivity : AppCompatActivity(), OnDialogListener, ImageUploadL
             finish()
         }
     }
-
 
 }
 

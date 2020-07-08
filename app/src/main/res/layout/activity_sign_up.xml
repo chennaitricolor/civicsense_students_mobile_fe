@@ -73,8 +73,8 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_border_edittext"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                android:padding="10dp"
                 android:maxLength="30"
+                android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/davyGrey"
                 android:textCursorDrawable="@drawable/style_cursor" />
@@ -112,52 +112,18 @@
                 android:textSize="14sp"
                 custom:fontFace="Lato-Bold.ttf" />
 
-            <LinearLayout
-                android:id="@+id/personaContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:orientation="vertical">
-
-                <com.gcc.smartcity.fontui.FontTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:text="Role"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    custom:fontFace="Lato-Bold.ttf" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_border_edittext"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <Spinner
-                        android:id="@+id/persona_dropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:spinnerMode="dropdown" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <com.gcc.smartcity.fontui.FontButton
+            <Button
                 android:id="@+id/continueBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/bg_rounded_submit"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/continueButtonText"
                 android:textAllCaps="false"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </RelativeLayout>

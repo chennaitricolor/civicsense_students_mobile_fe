@@ -65,9 +65,12 @@
             font:fontFace="Lato-Bold.ttf" />
 
 
-        <com.gcc.smartcity.fontui.FontButton
+        <Button
             android:id="@+id/forceAppUpdate_tvUpdate"
             android:layout_width="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -77,8 +80,7 @@
             android:padding="5dp"
             android:text="Update app"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            font:fontFace="Lato-Bold.ttf" />
+            android:textSize="14sp" />
 
 
     </RelativeLayout>

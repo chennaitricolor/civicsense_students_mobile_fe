@@ -45,69 +45,6 @@ public class OkHttpHurlStack extends CustomHurlStack {
         this.mSslSocketFactory = mSslSocketFactory;
     }
 
-    @Override
-    protected HttpURLConnection createConnection(URL url) throws IOException {
-        return (HttpURLConnection) url.openConnection();
-    }
-
-    private HttpURLConnection openConnection(URL url, Request<?> request) throws IOException {
-        HttpURLConnection connection = createConnection(url);
-
-        int timeoutMs = request.getTimeoutMs();
-        connection.setConnectTimeout(timeoutMs);
-        connection.setReadTimeout(timeoutMs);
-        connection.setUseCaches(false);
-        connection.setDoInput(true);
-
-        // use caller-provided custom SslSocketFactory, if any, for HTTPS
-        if ("https".equals(url.getProtocol()) && mSslSocketFactory != null) {
-            ((HttpsURLConnection) connection).setSSLSocketFactory(mSslSocketFactory);
-        }
-
-        return connection;
-    }
-
-    @Override
-    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders) throws IOException, AuthFailureError {
-        //return super.performRequest(request, additionalHeaders);
-        String url = request.getUrl();
-        HashMap<String, String> map = new HashMap<>();
-        map.putAll(request.getHeaders());
-        map.putAll(additionalHeaders);
-        if (mUrlRewriter != null) {
-            String rewritten = mUrlRewriter.rewriteUrl(url);
-            if (rewritten == null) {
-                throw new IOException("URL blocked by rewriter: " + url);
-            }
-            url = rewritten;
-        }
-        URL parsedUrl = new URL(url);
-        HttpURLConnection connection = openConnection(parsedUrl, request);
-        for (String headerName : map.keySet()) {
-            connection.addRequestProperty(headerName, map.get(headerName));
-        }
-        setConnectionParametersForRequest(connection, request);
-        // Initialize HttpResponse with data from the HttpURLConnection.
-        ProtocolVersion protocolVersion = new ProtocolVersion("HTTP", 1, 1);
-        int responseCode = connection.getResponseCode();
-        if (responseCode == -1) {
-            // -1 is returned by getResponseCode() if the response code could not be retrieved.
-            // Signal to the caller that something was wrong with the connection.
-            throw new IOException("Could not retrieve response code from HttpUrlConnection.");
-        }
-        StatusLine responseStatus = new BasicStatusLine(protocolVersion,
-                connection.getResponseCode(), connection.getResponseMessage());
-        BasicHttpResponse response = new BasicHttpResponse(responseStatus);
-        response.setEntity(entityFromConnection(connection));
-        for (Map.Entry<String, List<String>> header : connection.getHeaderFields().entrySet()) {
-            if (header.getKey() != null) {
-                Header h = new BasicHeader(header.getKey(), header.getValue().get(0));
-                response.addHeader(h);
-            }
-        }
-        return response;
-    }
-
     private static HttpEntity entityFromConnection(HttpURLConnection connection) {
         BasicHttpEntity entity = new BasicHttpEntity();
         InputStream inputStream;
@@ -189,5 +126,68 @@ public class OkHttpHurlStack extends CustomHurlStack {
             out.write(body);
             out.close();
         }
+    }
+
+    @Override
+    protected HttpURLConnection createConnection(URL url) throws IOException {
+        return (HttpURLConnection) url.openConnection();
+    }
+
+    private HttpURLConnection openConnection(URL url, Request<?> request) throws IOException {
+        HttpURLConnection connection = createConnection(url);
+
+        int timeoutMs = request.getTimeoutMs();
+        connection.setConnectTimeout(timeoutMs);
+        connection.setReadTimeout(timeoutMs);
+        connection.setUseCaches(false);
+        connection.setDoInput(true);
+
+        // use caller-provided custom SslSocketFactory, if any, for HTTPS
+        if ("https".equals(url.getProtocol()) && mSslSocketFactory != null) {
+            ((HttpsURLConnection) connection).setSSLSocketFactory(mSslSocketFactory);
+        }
+
+        return connection;
+    }
+
+    @Override
+    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders) throws IOException, AuthFailureError {
+        //return super.performRequest(request, additionalHeaders);
+        String url = request.getUrl();
+        HashMap<String, String> map = new HashMap<>();
+        map.putAll(request.getHeaders());
+        map.putAll(additionalHeaders);
+        if (mUrlRewriter != null) {
+            String rewritten = mUrlRewriter.rewriteUrl(url);
+            if (rewritten == null) {
+                throw new IOException("URL blocked by rewriter: " + url);
+            }
+            url = rewritten;
+        }
+        URL parsedUrl = new URL(url);
+        HttpURLConnection connection = openConnection(parsedUrl, request);
+        for (String headerName : map.keySet()) {
+            connection.addRequestProperty(headerName, map.get(headerName));
+        }
+        setConnectionParametersForRequest(connection, request);
+        // Initialize HttpResponse with data from the HttpURLConnection.
+        ProtocolVersion protocolVersion = new ProtocolVersion("HTTP", 1, 1);
+        int responseCode = connection.getResponseCode();
+        if (responseCode == -1) {
+            // -1 is returned by getResponseCode() if the response code could not be retrieved.
+            // Signal to the caller that something was wrong with the connection.
+            throw new IOException("Could not retrieve response code from HttpUrlConnection.");
+        }
+        StatusLine responseStatus = new BasicStatusLine(protocolVersion,
+                connection.getResponseCode(), connection.getResponseMessage());
+        BasicHttpResponse response = new BasicHttpResponse(responseStatus);
+        response.setEntity(entityFromConnection(connection));
+        for (Map.Entry<String, List<String>> header : connection.getHeaderFields().entrySet()) {
+            if (header.getKey() != null) {
+                Header h = new BasicHeader(header.getKey(), header.getValue().get(0));
+                response.addHeader(h);
+            }
+        }
+        return response;
     }
 }

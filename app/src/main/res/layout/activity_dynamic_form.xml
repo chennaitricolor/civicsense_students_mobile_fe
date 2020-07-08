@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,16 +39,18 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.gcc.smartcity.fontui.FontButton
+            <Button
                 android:id="@+id/btn_basicform_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_login"
+                android:clickable="true"
                 android:ems="8"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/cancelButtonText"
                 android:textAllCaps="false"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -58,16 +61,18 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.gcc.smartcity.fontui.FontButton
+            <Button
                 android:id="@+id/btn_basicform_Next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_submit"
+                android:clickable="true"
                 android:ems="8"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/nextButton"
                 android:textAllCaps="false"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -86,4 +91,26 @@
             android:orientation="vertical" />
 
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/formUploadLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_rounded_leaderboard"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            app:cpv_animAutostart="true"
+            app:cpv_color="@color/colorAccent"
+            app:cpv_indeterminate="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
 </RelativeLayout>

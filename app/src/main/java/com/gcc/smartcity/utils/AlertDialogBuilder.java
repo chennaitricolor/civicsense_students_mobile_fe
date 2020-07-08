@@ -2,7 +2,6 @@ package com.gcc.smartcity.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 
 public class AlertDialogBuilder {
@@ -24,7 +23,7 @@ public class AlertDialogBuilder {
 
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(context);
         }
@@ -46,7 +45,7 @@ public class AlertDialogBuilder {
 
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(context);
         }
@@ -71,7 +70,7 @@ public class AlertDialogBuilder {
     public void showErrorDialog(String title, String message, String negativeButtonText, String positiveButtonText, final String whichDialog, Context context, final OnDialogListener mDialogListener) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(context);
         }

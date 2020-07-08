@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imageCaptureActivity"
     android:layout_width="match_parent"
@@ -27,19 +27,21 @@
         android:padding="10dp"
         android:weightSum="1">
 
-        <com.gcc.smartcity.fontui.FontButton
+        <Button
             android:id="@+id/btnReTakePhoto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_weight="0.5"
             android:background="@drawable/bg_rounded_login"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/photoRetakeButton"
             android:textAllCaps="false"
-            android:textSize="16sp"
-            custom:fontFace="Lato-Bold.ttf" />
+            android:textSize="16sp" />
 
-        <com.gcc.smartcity.fontui.FontButton
+        <Button
             android:id="@+id/btnSubmitPhoto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,10 +49,34 @@
             android:layout_marginTop="20dp"
             android:layout_weight="0.5"
             android:background="@drawable/bg_rounded_submit"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/photoSubmitButton"
             android:textAllCaps="false"
-            android:textSize="16sp"
-            custom:fontFace="Lato-Bold.ttf" />
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/imageUploadLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_rounded_leaderboard"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            app:cpv_animAutostart="true"
+            app:cpv_color="@color/colorAccent"
+            app:cpv_indeterminate="true" />
 
     </LinearLayout>
 

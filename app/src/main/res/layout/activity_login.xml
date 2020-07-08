@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:orientation="vertical"
     tools:context=".loginandregistration.LoginActivity">
 
@@ -41,9 +44,12 @@
             android:layout_above="@id/containmentZoneBanner"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_rounded_banner"
-            android:visibility="visible"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
-            android:paddingHorizontal="10dp">
+            android:paddingHorizontal="10dp"
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="30dp"
@@ -68,6 +74,9 @@
             android:layout_above="@id/login_container"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_rounded_banner"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:paddingHorizontal="10dp">
 
@@ -83,7 +92,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Click here to see the Containment Zones"
+                android:text="Tap here to see the Containment Zones"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -161,7 +170,6 @@
                 android:id="@+id/personaContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:orientation="vertical">
 
                 <com.gcc.smartcity.fontui.FontTextView
@@ -169,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:text="Role"
+                    android:text="Choose your role"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     custom:fontFace="Lato-Bold.ttf" />
@@ -192,16 +200,18 @@
 
             </LinearLayout>
 
-            <com.gcc.smartcity.fontui.FontButton
-                android:id="@+id/getOTP"
+            <Button
+                android:id="@+id/proceedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/bg_rounded_login"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/get_otp_button"
                 android:textAllCaps="false"
-                android:textSize="16sp"
-                custom:fontFace="Lato-Bold.ttf" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,6 +234,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/signupButton"
                     android:textColor="@color/signup_green"
                     android:textSize="14sp"

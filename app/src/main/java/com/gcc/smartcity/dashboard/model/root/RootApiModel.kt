@@ -3,7 +3,8 @@ package com.gcc.smartcity.dashboard.model.root
 data class RegionModel(
     var termsAndConditions: String? = null,
     var minimumAndroidVersion: String? = null,
-    var persona: ArrayList<String>? = null
+    var persona: ArrayList<String>? = null,
+    var rules: Boolean? = null
 )
 
 data class Regions(var regionsMap: HashMap<String, RegionModel>? = null)

@@ -3,7 +3,6 @@ package com.gcc.smartcity.loginandregistration.controller
 import android.content.Context
 import bolts.Task
 import com.android.volley.Request
-import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.leaderboard.LeaderBoardErrorModel
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.location.LocationErrorModel
@@ -32,7 +31,8 @@ class LoginAndRegistrationController(private val mContext: Context) {
     fun doLeaderBoardCall(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(LeaderBoardModel::class.java)
         val errorResponseParser = JsonResponseParser(LeaderBoardErrorModel::class.java)
-        val leaderBoardRequest = VolleyRequest.newInstance<LeaderBoardModel>(Request.Method.GET, endpoint)
+        val leaderBoardRequest =
+            VolleyRequest.newInstance<LeaderBoardModel>(Request.Method.GET, endpoint)
         leaderBoardRequest.setResponseParser(parser)
         leaderBoardRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(leaderBoardRequest)
@@ -50,13 +50,42 @@ class LoginAndRegistrationController(private val mContext: Context) {
     fun doUserLocationValidationCall(endpoint: String): Task<Any> {
         val parser = JsonResponseParser(LocationModel::class.java)
         val errorResponseParser = JsonResponseParser(LocationErrorModel::class.java)
-        val userLocationValidationRequest = VolleyRequest.newInstance<LocationModel>(Request.Method.GET, endpoint)
+        val userLocationValidationRequest =
+            VolleyRequest.newInstance<LocationModel>(Request.Method.GET, endpoint)
         userLocationValidationRequest.setResponseParser(parser)
         userLocationValidationRequest.setErrorResponseParser(errorResponseParser)
         return RequestExecutor.getInstance(mContext).makeRequestCall(userLocationValidationRequest)
     }
 
-    fun doLoginCall(endpoint: String, mobileNumber: String, OTP: Int, userPersona: String): Task<Any> {
+    fun doLoginCallWithPassword(
+        endpoint: String,
+        mobileNumber: String,
+        userPersona: String,
+        password: String
+    ): Task<Any> {
+        val parser = JsonResponseParser(LoginModel::class.java)
+        val errorResponseParser = JsonResponseParser(LoginErrorModel::class.java)
+        val loginRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.POST, endpoint)
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("userId", mobileNumber)
+            jsonObject.put("password", password)
+            jsonObject.put("persona", userPersona)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        loginRequest.setPayload(jsonObject.toString())
+        loginRequest.setResponseParser(parser)
+        loginRequest.setErrorResponseParser(errorResponseParser)
+        return RequestExecutor.getInstance(mContext).makeRequestCall(loginRequest)
+    }
+
+    fun doLoginCall(
+        endpoint: String,
+        mobileNumber: String,
+        OTP: Int,
+        userPersona: String?
+    ): Task<Any> {
         val parser = JsonResponseParser(LoginModel::class.java)
         val errorResponseParser = JsonResponseParser(LoginErrorModel::class.java)
         val loginRequest = VolleyRequest.newInstance<LoginModel>(Request.Method.POST, endpoint)
@@ -64,7 +93,9 @@ class LoginAndRegistrationController(private val mContext: Context) {
         try {
             jsonObject.put("userId", mobileNumber)
             jsonObject.put("otp", OTP)
-            jsonObject.put("persona", userPersona)
+            if (userPersona != null) {
+                jsonObject.put("persona", userPersona)
+            }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
@@ -77,7 +108,7 @@ class LoginAndRegistrationController(private val mContext: Context) {
     fun doSignUpCall(
         endpoint: String,
         name: String,
-        userPersona: String,
+        userPersona: String?,
         phoneNumber: String,
         OTP: Int,
         latitude: String,
@@ -94,7 +125,9 @@ class LoginAndRegistrationController(private val mContext: Context) {
             coordinatesArray.put(latitude)
             addressObject.put("coordinates", coordinatesArray)
             jsonObject.put("name", name)
-            jsonObject.put("persona", userPersona)
+            if (userPersona != null) {
+                jsonObject.put("persona", userPersona)
+            }
             jsonObject.put("userId", phoneNumber)
             jsonObject.put("otp", OTP)
             jsonObject.put("currentLocation", addressObject)

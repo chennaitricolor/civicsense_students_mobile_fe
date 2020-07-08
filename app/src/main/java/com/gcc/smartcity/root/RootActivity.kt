@@ -7,12 +7,10 @@ import bolts.Task
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
 import com.gcc.smartcity.dashboard.model.root.*
-import com.gcc.smartcity.forceupdate.ForceAppUpdateActivity
 import com.gcc.smartcity.intro.MainIntroActivity
 import com.gcc.smartcity.loginandregistration.LoginActivity
 import com.gcc.smartcity.maintenance.MaintenanceActivity
 import com.gcc.smartcity.preference.SessionStorage
-import com.gcc.smartcity.utils.VersionCheckUtils
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -70,7 +68,7 @@ class RootActivity : AppCompatActivity() {
     private fun afterRootCall(task: Task<Any>) {
         if (!task.isFaulted) {
             val rootString: String = (task.result).toString()
-            if(!rootString.equals("null",true)) {
+            if (!rootString.equals("null", true)) {
                 val rootApiModel: RootApiModel = getObject(rootString)
 
                 SessionStorage.getInstance().rootModel = rootApiModel
@@ -81,7 +79,7 @@ class RootActivity : AppCompatActivity() {
 //                ) {
 //                    callNextActivity(ForceAppUpdateActivity::class.java)
 //                } else {
-                    checkForIntroSlidesFlag()
+                checkForIntroSlidesFlag()
 //                }
             } else {
                 callNextActivity(MaintenanceActivity::class.java)
@@ -142,6 +140,7 @@ class RootActivity : AppCompatActivity() {
             while (iterator?.hasNext()!!) {
                 val key = iterator.next()
                 val cityObj = it.optJSONObject(key)
+                val rulesBoolean = cityObj?.optBoolean("rules")
                 val termsAndConditionString = cityObj?.optString("termsAndCondition")
                 val minAndroidVersionString = cityObj?.optString("minimumAndroidVersion")
                 val arr: JSONArray? = cityObj?.optJSONArray("userPersona")
@@ -149,7 +148,8 @@ class RootActivity : AppCompatActivity() {
                 for (i in 0 until arr?.length()!!) {
                     personaList.add(arr.optString(i))
                 }
-                val regionModel = RegionModel(termsAndConditionString,minAndroidVersionString, personaList)
+                val regionModel =
+                    RegionModel(termsAndConditionString, minAndroidVersionString, personaList, rulesBoolean)
                 regionsMap[key] = regionModel
             }
         }

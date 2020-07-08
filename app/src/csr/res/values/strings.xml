@@ -71,7 +71,7 @@
     <string name="cancelButtonText">Cancel</string>
     <string name="okButtonText">OK</string>
     <string name="permissionRequestMessage">We need access to all the permissions in order to capture the image and upload it to our servers to serve you better.</string>
-    <string name="permanentPermissionDeniedMessage">It seems you have disabled the required permissions permanently. The app will not work without those permissions. If you would like to grant the permissions, click on \'OK\' and grant all permissions. If you wish not to, the app will shutdown itself.</string>
+    <string name="permanentPermissionDeniedMessage">It seems you have disabled the required permissions permanently. The app will not work without those permissions. If you would like to grant the permissions, tap on \'OK\' and grant all permissions. If you wish not to, the app will shutdown itself.</string>
     <string name="permissionsRequired">Permissions Required</string>
     <string name="turnOffMockLocationTitle">TURN OFF MOCK LOCATION</string>
     <string name="turnOffMockLocationDescription">Please turn OFF mock location to continue using the app</string>

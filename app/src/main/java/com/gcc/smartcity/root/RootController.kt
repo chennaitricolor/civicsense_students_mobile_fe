@@ -3,6 +3,7 @@ package com.gcc.smartcity.root
 import android.content.Context
 import bolts.Task
 import com.android.volley.Request
+import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.dashboard.model.root.RootApiModel
 import com.gcc.smartcity.network.JsonResponseParser
 import com.gcc.smartcity.network.RequestExecutor
@@ -24,7 +25,7 @@ class RootController(private val mContext: Context) {
         val errorResponseParser = JsonResponseParser(RootErrorModel::class.java)
         val rootRequest = VolleyRequest.newInstance<String>(
             Request.Method.GET,
-            "https://api.dev.gccservice.in/api/v2/csr/"
+            BuildConfig.HOST
         )
 //        rootRequest.setResponseParser(parser)
         rootRequest.setErrorResponseParser(errorResponseParser)

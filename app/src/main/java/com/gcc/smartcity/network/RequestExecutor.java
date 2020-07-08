@@ -21,11 +21,26 @@ import bolts.TaskCompletionSource;
 
 public class RequestExecutor {
 
+    private static RequestExecutor sInstance, sInstanceWithRequestQueue;
+    private Context mContext;
+    private RequestQueue mRequestQueue;
+
     private RequestExecutor() {
         // Private constructor to avoid instantiation
     }
 
-    private static RequestExecutor sInstance, sInstanceWithRequestQueue;
+    private RequestExecutor(Context context) {
+        mContext = context;
+        mRequestQueue = Volley.newRequestQueue(mContext);
+//      mRequestQueue = Volley.newRequestQueue(context, new CustomHurlStack(null, ClientSSLSocketFactory.getSocketFactory(mContext)));
+        mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext(), getHurlStack());
+    }
+
+    public RequestExecutor(Context context, RequestQueue requestQueue) {
+        mContext = context;
+        mRequestQueue = requestQueue;
+        // mRequestQueue = Volley.newRequestQueue(mContext);
+    }
 
     public static synchronized RequestExecutor getInstance(Context context) {//  synchronized (sInstance) {
         if (sInstance == null) {
@@ -39,16 +54,6 @@ public class RequestExecutor {
             sInstanceWithRequestQueue = new RequestExecutor(context, requestQueue);
         }
         return sInstanceWithRequestQueue;
-    }
-
-    private Context mContext;
-    private RequestQueue mRequestQueue;
-
-    private RequestExecutor(Context context) {
-        mContext = context;
-        mRequestQueue = Volley.newRequestQueue(mContext);
-//      mRequestQueue = Volley.newRequestQueue(context, new CustomHurlStack(null, ClientSSLSocketFactory.getSocketFactory(mContext)));
-        mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext(), getHurlStack());
     }
 
     private HttpStack getHurlStack() {
@@ -68,13 +73,6 @@ public class RequestExecutor {
         }
         return httpStack;
     }
-
-    public RequestExecutor(Context context, RequestQueue requestQueue) {
-        mContext = context;
-        mRequestQueue = requestQueue;
-        // mRequestQueue = Volley.newRequestQueue(mContext);
-    }
-
 
     public void makeRequestCall(VolleyRequest<?> volleyRequest, OnServiceListener onServiceListener) {
         volleyRequest = addAuthHeaders(volleyRequest);

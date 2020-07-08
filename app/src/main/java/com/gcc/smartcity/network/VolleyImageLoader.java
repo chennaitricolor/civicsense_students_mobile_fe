@@ -10,8 +10,8 @@ import com.android.volley.toolbox.Volley;
 
 public class VolleyImageLoader {
     private static RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
     private static VolleyImageLoader sInstance;
+    private ImageLoader mImageLoader;
 
     public static synchronized VolleyImageLoader getInstance(Context context) {
         mRequestQueue = Volley.newRequestQueue(context);

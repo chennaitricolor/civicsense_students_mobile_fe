@@ -16,7 +16,6 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"GCC"'
             buildConfigField 'boolean', "PERSONA", "true"
-            buildConfigField 'boolean', "HQIMSLOGIN", "true"
         }
 
         csrDev {
@@ -31,7 +30,6 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"GCC"'
             buildConfigField 'boolean', "PERSONA", "true"
-            buildConfigField 'boolean', "HQIMSLOGIN", "true"
         }
 
         chengalpattuCovid {
@@ -46,7 +44,6 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"CGL"'
             buildConfigField 'boolean', "PERSONA", "true"
-            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         maduraiCovid {
@@ -61,7 +58,6 @@ android {
             buildConfigField 'String', "APPNAME", '"CSR"'
             buildConfigField 'String', "CITY", '"MDU"'
             buildConfigField 'boolean', "PERSONA", "true"
-            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         tnHealth {
@@ -74,7 +70,6 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"TNHEALTH"'
-            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         tnHealthDev {
@@ -87,7 +82,6 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "false"
             buildConfigField 'String', "APPNAME", '"TNHEALTH"'
-            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         agentx {
@@ -100,7 +94,6 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
             buildConfigField 'String', "APPNAME", '"AGENTX"'
-            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
 
         agentxDev {
@@ -113,7 +106,6 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
             buildConfigField 'String', "APPNAME", '"AGENTX"'
-            buildConfigField 'boolean', "HQIMSLOGIN", "false"
         }
     }
 }

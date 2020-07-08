@@ -1,9 +1,9 @@
 package com.gcc.smartcity.maintenance
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import bolts.Task
 import com.gcc.smartcity.R
 import com.gcc.smartcity.root.RootActivity

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R

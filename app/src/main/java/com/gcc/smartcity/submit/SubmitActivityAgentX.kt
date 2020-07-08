@@ -1,10 +1,6 @@
 package com.gcc.smartcity.submit
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.gcc.smartcity.R
 import com.gcc.smartcity.fontui.FontTextView
@@ -25,8 +21,6 @@ class SubmitActivityAgentX : AppCompatActivity() {
             rewards = intent.extras!!.getString("rewards").toString()
         }
 
-        buttonEffect(continueBtn)
-
         continueBtn.setOnClickListener {
             finish()
         }
@@ -36,25 +30,6 @@ class SubmitActivityAgentX : AppCompatActivity() {
 
     private fun setGemCount(rewards: String?) {
         gemCounter?.text = rewards
-    }
-
-    private fun buttonEffect(button: View) {
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(
-                        Color.parseColor("#3DAFD4"),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
     }
 
 }

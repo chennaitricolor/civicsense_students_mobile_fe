@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboardActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BaseActivity">
+    tools:context=".dashboard.DashBoardActivity">
 
     <LinearLayout
         android:id="@+id/mapLayout"
@@ -19,10 +20,20 @@
             tools:context=".dashboard.DashBoardActivity" />
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/reloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="14dp"
+        android:src="@drawable/ic_reload" />
+
     <RelativeLayout
         android:id="@+id/rlList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <LinearLayout
@@ -32,6 +43,9 @@
             android:layout_above="@id/dashboardMissionList"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_rounded_banner"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -47,7 +61,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Click here to see the Containment Zones in Greater Chennai Corporation"
+                android:text="Tap here to see the Containment Zones in Greater Chennai Corporation"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -60,19 +74,30 @@
             android:background="@color/agent_light_blue"
             android:divider="@color/agentx_grey_dark"
             android:dividerHeight="1dp"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/loader_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/loaderContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_rounded_leaderboard"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:padding="24dp"
+        android:visibility="visible">
 
-        <include layout="@layout/layout_loading" />
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            app:cpv_animAutostart="true"
+            app:cpv_color="@color/colorAccent"
+            app:cpv_indeterminate="true" />
 
     </LinearLayout>
+
 </FrameLayout>

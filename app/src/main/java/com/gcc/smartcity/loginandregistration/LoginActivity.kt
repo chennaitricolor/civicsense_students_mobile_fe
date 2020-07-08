@@ -1,27 +1,20 @@
 package com.gcc.smartcity.loginandregistration
 
-import android.Manifest
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.location.Location
-import android.location.LocationManager
+import android.graphics.Rect
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
-import androidx.core.app.ActivityCompat
+import android.widget.AdapterView.OnItemSelectedListener
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import bolts.Task
+import com.birjuvachhani.locus.Locus
 import com.gcc.smartcity.BaseActivity
 import com.gcc.smartcity.BuildConfig
 import com.gcc.smartcity.R
@@ -37,9 +30,9 @@ import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.gcc.smartcity.webview.WebViewActivity
-import com.google.android.gms.location.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -52,40 +45,17 @@ class LoginActivity : BaseActivity() {
     private var isMobileNumberValid: Boolean = false
     private var mLatitude: String? = null
     private var mLongitude: String? = null
-    private val PERMISSION_ID = 42
     private var isValidLocation: Boolean = false
-    private var gotLocation: Boolean = false
-    private var map: MutableMap<Any, Any>? = null
     private lateinit var spinnerList: ArrayList<Spinner>
-    private lateinit var lastLocation: Location
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     init {
         mLoginAndRegistrationController = LoginAndRegistrationController(this)
     }
 
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                mLatitude = lastLocation.latitude.toString()
-                mLongitude = lastLocation.longitude.toString()
-            }
-        }
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        getLastLocation()
         getFirebaseRemoteConfigData()
 
         setView(R.layout.activity_login)
@@ -96,24 +66,23 @@ class LoginActivity : BaseActivity() {
         spinnerList = ArrayList()
 
         if (BuildConfig.PERSONA) {
+            proceedButton.visibility = View.GONE
             val persona =
                 SessionStorage.getInstance().rootModel.region?.regionsMap?.get(BuildConfig.CITY)?.persona
             if (!persona.isNullOrEmpty()) {
                 setupDropDown(persona)
                 personaContainer.visibility = View.VISIBLE
+
+                if (persona.contains("HQIMS Volunteer")) {
+                    hqimsBanner.visibility = View.VISIBLE
+                } else {
+                    hqimsBanner.visibility = View.GONE
+                }
             }
         } else {
             personaContainer.visibility = View.GONE
-        }
-
-
-        buttonEffect(getOTP, "#d4993d")
-        buttonEffect(containmentZoneBanner, "#F06935")
-
-        if (!BuildConfig.HQIMSLOGIN) {
-            hqimsBanner.visibility = View.GONE
-        } else {
-            hqimsBanner.visibility = View.VISIBLE
+            proceedButton.text = "Get OTP"
+            proceedButton.visibility = View.VISIBLE
         }
 
         if (!BuildConfig.CONTAINMENTZONE) {
@@ -132,6 +101,33 @@ class LoginActivity : BaseActivity() {
         containmentZoneBanner?.setOnClickListener {
             val intent = WebViewActivity.newIntent(this, BuildConfig.WEBVIEWHOST + "hotzones")
             startActivity(intent)
+        }
+
+        persona_dropdown.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                when ((selectedItemView as AppCompatTextView).text) {
+                    "Tap to select" -> {
+                        proceedButton.visibility = View.GONE
+                    }
+                    "Citizen" -> {
+                        proceedButton.text = "Get OTP"
+                        proceedButton.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        proceedButton.text = "Next"
+                        proceedButton.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+                // your code here
+            }
         }
 
         mobileNumber?.addTextChangedListener(object : TextWatcher {
@@ -164,14 +160,40 @@ class LoginActivity : BaseActivity() {
             }
         })
 
-        getOTP.setOnClickListener {
+        proceedButton.setOnClickListener {
             hideSoftKeyBoard()
-            if (persona_dropdown.selectedItem == "Please select role") {
-                Toast.makeText(this, "Please select your role", Toast.LENGTH_SHORT)
-                    .show()
+            if (BuildConfig.PERSONA) {
+                if (persona_dropdown.selectedItem.toString() == "Tap to select") {
+                    Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    if (mobileNumber?.text.toString()
+                            .isNotEmpty() && isMobileNumberValid && persona_dropdown.selectedItem.toString() == "Citizen"
+                    ) {
+                        sendOTP(
+                            mobileNumber?.text.toString(),
+                            persona_dropdown.selectedItem.toString()
+                        )
+                    } else if (mobileNumber?.text.toString()
+                            .isNotEmpty() && isMobileNumberValid && persona_dropdown.selectedItem.toString() != "Citizen"
+                    ) {
+                        val intent = Intent(this, PasswordActivity::class.java)
+                        intent.putExtra("mobilenumber", mobileNumber?.text.toString())
+                        intent.putExtra("userPersona", persona_dropdown.selectedItem.toString())
+                        startActivity(intent)
+                    } else {
+                        showErrorDialog(
+                            getString(R.string.insufficientDetails),
+                            getString(R.string.incorrectSignUpDetails),
+                            getString(R.string.okButtonText)
+                        )
+                    }
+                }
             } else {
                 if (mobileNumber?.text.toString().isNotEmpty() && isMobileNumberValid) {
-                    sendOTP(mobileNumber?.text.toString(), persona_dropdown.selectedItem.toString())
+                    sendOTP(
+                        mobileNumber?.text.toString(), null
+                    )
                 } else {
                     showErrorDialog(
                         getString(R.string.insufficientDetails),
@@ -188,12 +210,46 @@ class LoginActivity : BaseActivity() {
         }
 
         loginLoader?.visibility = View.VISIBLE
+    }
 
+    override fun onPause() {
+        super.onPause()
+        loginLoader?.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLocation()
+    }
+
+    private fun getLocation() {
+        Locus.getCurrentLocation(this) { result ->
+            result.location?.let {
+                mLatitude = it.latitude.toString()
+                mLongitude = it.longitude.toString()
+                userLocationValidation()
+            }
+        }
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    hideKeyboard(this, v)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     private fun setupDropDown(dropdownData: ArrayList<String>?) {
         val dropDown = findViewById<Spinner>(R.id.persona_dropdown)
-        dropdownData?.add(0, "Please select role")
+        dropdownData?.add(0, "Tap to select")
         val arrayAdapter = dropdownData?.toArray()?.let {
             ArrayAdapter(
                 this, android.R.layout.simple_spinner_item, it
@@ -276,7 +332,7 @@ class LoginActivity : BaseActivity() {
                 && SessionStorage.getInstance().sessionCookies != "")
     }
 
-    private fun sendOTP(mobileNumber: String, userPersona: String) {
+    private fun sendOTP(mobileNumber: String, userPersona: String?) {
         loginLoader?.visibility = View.VISIBLE
         mLoginAndRegistrationController?.doOTPCall(
             BuildConfig.HOST + java.lang.String.format(
@@ -292,7 +348,7 @@ class LoginActivity : BaseActivity() {
     private fun afterOTPSent(
         task: Task<Any>,
         mobileNumber: String,
-        userPersona: String
+        userPersona: String?
     ): Task<Any>? {
         if (task.isFaulted) {
             showErrorDialog(
@@ -307,7 +363,9 @@ class LoginActivity : BaseActivity() {
             if (otpModel.success!!) {
                 val intent = Intent(this, OTPVerifyActivity::class.java)
                 intent.putExtra("mobilenumber", mobileNumber)
-                intent.putExtra("userPersona", userPersona)
+                if (userPersona != null) {
+                    intent.putExtra("userPersona", userPersona)
+                }
                 intent.putExtra("fromScreen", "loginScreen")
                 startActivity(intent)
             } else {
@@ -341,10 +399,6 @@ class LoginActivity : BaseActivity() {
             }
     }
 
-    private fun Intent.clearStack() {
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    }
-
     private fun postLeaderBoard(task: Task<Any>): Task<Any>? {
         if (task.isFaulted) {
             if ((task.error as NetworkError).errorCode == 401) {
@@ -368,16 +422,12 @@ class LoginActivity : BaseActivity() {
         } else {
             val leaderBoardModel = task.result as LeaderBoardModel
             if (leaderBoardModel.success!!) {
-                try {
-                    SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
-                    SessionStorage.getInstance().leaderBoardStatus = true
-                    val intent = Intent(this, DashBoardActivity::class.java)
-                    intent.clearStack()
-                    startActivity(intent)
-                    finish()
-                } catch (ex: Exception) {
-                    Logger.d(ex.toString())
-                }
+                SessionStorage.getInstance().leaderBoardModel = leaderBoardModel
+                SessionStorage.getInstance().leaderBoardStatus = true
+                val intent = Intent(this, DashBoardActivity::class.java)
+                intent.clearStack()
+                startActivity(intent)
+                finish()
             } else {
                 SessionStorage.getInstance().leaderBoardStatus = false
                 val intent = Intent(this, DashBoardActivity::class.java)
@@ -388,135 +438,5 @@ class LoginActivity : BaseActivity() {
         }
 //        loginLoader?.visibility = View.GONE
         return null
-    }
-
-    private fun buttonEffect(button: View, color: String) {
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.background.setColorFilter(
-                        Color.parseColor(color),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
-                    v.invalidate()
-                }
-                MotionEvent.ACTION_UP -> {
-                    v.background.clearColorFilter()
-                    v.invalidate()
-                }
-            }
-            false
-        }
-    }
-
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    val location: Location? = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        Log.d("Old Latitude", location.latitude.toString())
-                        Log.d("Old Longitude", location.longitude.toString())
-                        mLatitude = location.latitude.toString()
-                        mLongitude = location.longitude.toString()
-                        userLocationValidation()
-                    }
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
-                    .show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivityForResult(intent, LOCATION_PERMISSION_REQUEST_CODE)
-            }
-        } else {
-            requestPermissions()
-        }
-    }
-
-    private fun requestNewLocationData() {
-        mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation
-            Log.d("New Latitude", mLastLocation.latitude.toString())
-            Log.d("New Longitude", mLastLocation.longitude.toString())
-            mLatitude = mLastLocation.latitude.toString()
-            mLongitude = mLastLocation.longitude.toString()
-            userLocationValidation()
-        }
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_ID
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSION_ID) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLastLocation()
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (isLocationEnabled()) {
-                requestNewLocationData()
-            } else {
-                Toast.makeText(this, getString(R.string.turnOnLocationMessage), Toast.LENGTH_LONG)
-                    .show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivityForResult(intent, LOCATION_PERMISSION_REQUEST_CODE)
-            }
-        }
     }
 }

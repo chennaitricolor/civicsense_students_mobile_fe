@@ -41,7 +41,7 @@ public class PersistentCookieStore implements CookieStore {
         if (cookie.getName().equals(BuildConfig.COOKIEKEY)) {
             remove(URI.create(cookie.getDomain()), cookie);
             if (cookie.getMaxAge() <= 0)
-                cookie.setMaxAge(3600*24*365);
+                cookie.setMaxAge(3600 * 24 * 365);
 
             SessionStorage.getInstance().setSessionCookies(mGson.toJson(cookie));
         }

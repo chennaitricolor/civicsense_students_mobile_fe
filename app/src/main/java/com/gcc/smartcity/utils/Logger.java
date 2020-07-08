@@ -32,32 +32,26 @@ public class Logger {
      * necessary.
      */
     private static final boolean FILE_LOG = false;
-
-
+    /**
+     * The name of the file to which Logs will be written to.
+     * Can be changed to represent logs from each application
+     */
+    private static final String LOG_FILE_NAME = "Logger.txt";
+    /**
+     * The maximum file size log files are allowed to be written
+     */
+    private static final long MAX_LOG_FILE_SIZE = 100 * 1024 * 1024;    // 100 MB
+    /**
+     * The default log tag to be used if not provided. Set this value if
+     * a default Log tag is required.
+     */
+    private static final String DEFAULT_LOG_TAG = "MrCooper";
     /**
      * Holds the file instance to which we write the logs.
      * This is to avoid creating several file instances each time a log
      * is written
      */
     private static File s_LogFile = null;
-
-
-    /**
-     * The name of the file to which Logs will be written to.
-     * Can be changed to represent logs from each application
-     */
-    private static final String LOG_FILE_NAME = "Logger.txt";
-
-    /**
-     * The maximum file size log files are allowed to be written
-     */
-    private static final long MAX_LOG_FILE_SIZE = 100 * 1024 * 1024;    // 100 MB
-
-    /**
-     * The default log tag to be used if not provided. Set this value if
-     * a default Log tag is required.
-     */
-    private static final String DEFAULT_LOG_TAG = "MrCooper";
 
     /**
      * Utility function that prints the message to Console if {@link Logger#LOG_LEVEL}

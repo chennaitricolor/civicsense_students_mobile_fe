@@ -64,7 +64,7 @@ class RewardsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         rewardDescription.text = rewards.rewardDescription
         balanceStatus.text = rewards.balanceStatus
 
-        if (leaderBoardModel!= null) {
+        if (leaderBoardModel != null) {
             if (leaderBoardModel?.userRewards!! > rewards.gemTarget.toInt()) {
                 balanceRequired.text = "YOU HAVE ENOUGH GEMS TO CLAIM THIS REWARD"
                 balanceStatus.text = "SUFFICIENT BALANCE"
