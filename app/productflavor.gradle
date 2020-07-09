@@ -94,6 +94,8 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
             buildConfigField 'String', "APPNAME", '"AGENTX"'
+            buildConfigField 'String', "CITY", '"AGENTX"'
+            buildConfigField 'boolean', "PERSONA", "true"
         }
 
         agentxDev {
@@ -106,6 +108,8 @@ android {
             buildConfigField 'boolean', "CONTAINMENTZONE", "false"
             buildConfigField 'boolean', "LEADERBOARD", "true"
             buildConfigField 'String', "APPNAME", '"AGENTX"'
+            buildConfigField 'String', "CITY", '"AGENTX"'
+            buildConfigField 'boolean', "PERSONA", "true"
         }
     }
 }
