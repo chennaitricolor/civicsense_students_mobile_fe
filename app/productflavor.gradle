@@ -19,7 +19,7 @@ android {
         }
 
         csrDev {
-            applicationId "com.gcc.smartcity.dev"
+            applicationId "com.gcc.smartcity"
             versionNameSuffix "-CSRDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
@@ -35,6 +35,20 @@ android {
         chengalpattuCovid {
             applicationId "com.chengalpattu.covid"
             versionNameSuffix "-CGL"
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+            buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"CGL"'
+            buildConfigField 'boolean', "PERSONA", "true"
+        }
+
+        chengalpattuCovidDev {
+            applicationId "com.chengalpattu.covid"
+            versionNameSuffix "-CGLDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -49,6 +63,20 @@ android {
         maduraiCovid {
             applicationId "com.madurai.covid"
             versionNameSuffix "-MDU"
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
+            buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
+            buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
+            buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
+            buildConfigField 'boolean', "CONTAINMENTZONE", "false"
+            buildConfigField 'boolean', "LEADERBOARD", "false"
+            buildConfigField 'String', "APPNAME", '"CSR"'
+            buildConfigField 'String', "CITY", '"MDU"'
+            buildConfigField 'boolean', "PERSONA", "true"
+        }
+
+        maduraiCovidDev {
+            applicationId "com.madurai.covid"
+            versionNameSuffix "-MDUDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -63,7 +91,7 @@ android {
         tnHealth {
             applicationId "com.gcc.tnhealth"
             versionNameSuffix "-TNHEALTH"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
@@ -73,7 +101,7 @@ android {
         }
 
         tnHealthDev {
-            applicationId "com.gcc.tnhealth.dev"
+            applicationId "com.gcc.tnhealth"
             versionNameSuffix "-TNHEALTHDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
@@ -87,7 +115,7 @@ android {
         agentx {
             applicationId "com.gcc.agentx"
             versionNameSuffix "-AGENTX"
-            buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
+            buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
             buildConfigField 'String', "COOKIEKEY", '"csr-api-be"'
@@ -99,7 +127,7 @@ android {
         }
 
         agentxDev {
-            applicationId "com.gcc.agentx.dev"
+            applicationId "com.gcc.agentx"
             versionNameSuffix "-AGENTXDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'

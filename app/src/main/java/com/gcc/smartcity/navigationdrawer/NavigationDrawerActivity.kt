@@ -284,14 +284,14 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
         val myIntent = Intent(Intent.ACTION_SEND)
         myIntent.type = "text/plain"
         val shareBody =
-            "I use the GCC - Corona Monitoring app and I love it. It helps in ensuring a safer city. Download it at https://play.google.com/store/apps/details?id=$appId"
-        val shareSub = "Link to install GCC - Corona Monitoring App"
+            "I use this app and I love it. It helps in ensuring a safer city. Download it at https://play.google.com/store/apps/details?id=$appId"
+        val shareSub = "Link to install the App"
         myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub)
         myIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
         startActivity(
             Intent.createChooser(
                 myIntent,
-                "Share \"GCC - Corona Monitoring app\" via"
+                "Share via"
             )
         )
     }
