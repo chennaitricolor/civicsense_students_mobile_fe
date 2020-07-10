@@ -43,9 +43,10 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:paddingHorizontal="16dp"
-                android:text="Team from GCC will reach out to you. \n\nYou can protect yourself and help prevent spreading the virus to others if you"
+                android:text="Our team will reach out to you as early as possible\nSTAY HOME. STAY SAFE."
                 android:textColor="#4F4F4F"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 custom:fontFace="Lato-Bold.ttf" />
 
         </LinearLayout>
@@ -63,10 +64,11 @@
                 android:src="@drawable/cough" />
 
             <com.gcc.smartcity.fontui.FontTextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingHorizontal="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
                 android:text="COVER COUGHS AND SNEEZES"
                 android:textColor="#096889"
                 android:textSize="16sp"
@@ -88,10 +90,11 @@
                 android:src="@drawable/home" />
 
             <com.gcc.smartcity.fontui.FontTextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingHorizontal="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
                 android:text="STAY HOME &amp; SELF-ISOLATE YOURSELF"
                 android:textColor="#096889"
                 android:textSize="16sp"
@@ -103,19 +106,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginBottom="20dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/infoSubmittedContinueButton"
                 android:layout_width="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_rank_blue"
+                android:clickable="true"
                 android:ems="10"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/continue_button"
                 android:textAllCaps="false"
                 android:textSize="16sp" />
