@@ -6,7 +6,7 @@ android {
     productFlavors {
         csr {
             applicationId "com.gcc.smartcity"
-            versionNameSuffix "-CSR"
+            versionNameSuffix "1.5.1-CSR"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -20,7 +20,7 @@ android {
 
         csrDev {
             applicationId "com.gcc.smartcity"
-            versionNameSuffix "-CSRDEV"
+            versionNameSuffix "1.5.1-CSRDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
@@ -34,7 +34,7 @@ android {
 
         chengalpattuCovid {
             applicationId "com.chengalpattu.covid"
-            versionNameSuffix "-CGL"
+            versionNameSuffix "1.0.0-CGL"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -48,7 +48,7 @@ android {
 
         chengalpattuCovidDev {
             applicationId "com.chengalpattu.covid"
-            versionNameSuffix "-CGLDEV"
+            versionNameSuffix "1.0.0-CGLDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -62,7 +62,7 @@ android {
 
         maduraiCovid {
             applicationId "com.madurai.covid"
-            versionNameSuffix "-MDU"
+            versionNameSuffix "1.0.0-MDU"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -76,7 +76,7 @@ android {
 
         maduraiCovidDev {
             applicationId "com.madurai.covid"
-            versionNameSuffix "-MDUDEV"
+            versionNameSuffix "1.0.0-MDUDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -90,7 +90,7 @@ android {
 
         tnHealth {
             applicationId "com.gcc.tnhealth"
-            versionNameSuffix "-TNHEALTH"
+            versionNameSuffix "1.0.0-TNHEALTH"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -102,7 +102,7 @@ android {
 
         tnHealthDev {
             applicationId "com.gcc.tnhealth"
-            versionNameSuffix "-TNHEALTHDEV"
+            versionNameSuffix "1.0.0-TNHEALTHDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
@@ -114,7 +114,7 @@ android {
 
         agentx {
             applicationId "com.gcc.agentx"
-            versionNameSuffix "-AGENTX"
+            versionNameSuffix "1.0.0-AGENTX"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -128,7 +128,7 @@ android {
 
         agentxDev {
             applicationId "com.gcc.agentx"
-            versionNameSuffix "-AGENTXDEV"
+            versionNameSuffix "1.0.0-AGENTXDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
