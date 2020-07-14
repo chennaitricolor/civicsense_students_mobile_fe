@@ -30,9 +30,9 @@ import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.utils.Logger
 import com.gcc.smartcity.utils.NetworkError
 import com.gcc.smartcity.webview.WebViewActivity
+import com.google.firebase.crashlytics.internal.common.CommonUtils.hideKeyboard
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
 import kotlinx.android.synthetic.main.activity_login.*
 
 

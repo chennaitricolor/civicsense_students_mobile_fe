@@ -71,6 +71,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566942709125:android:7989e2ccf2349a59a7c0ec",
+        "android_client_info": {
+          "package_name": "com.madurai.covid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566942709125-5dcme5cv7hfqt6pk11tkl81v8tmqqrss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4HBonXse5Y8Fh-rI-1C6R7iSiLsR-Z0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566942709125-5dcme5cv7hfqt6pk11tkl81v8tmqqrss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
