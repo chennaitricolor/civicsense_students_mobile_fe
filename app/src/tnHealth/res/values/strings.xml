@@ -41,6 +41,7 @@
     <string name="drawer_menu_invite">Invite</string>
     <string name="drawer_menu_faq">FAQ\'s</string>
     <string name="drawer_menu_help">Get Help</string>
+    <string name="drawer_menu_signout">Sign Out</string>
     <string name="drawer_menu_containment_zones">Containment Zones</string>
     <string name="drawer_menu_rateus">Rate Us</string>
     <string name="drawer_menu_leaderboard">Leaderboard</string>

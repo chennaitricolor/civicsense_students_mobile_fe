@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.webkit.CookieManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -22,8 +23,10 @@ import com.gcc.smartcity.leaderboard.LeaderBoardActivity
 import com.gcc.smartcity.leaderboard.LeaderBoardModel
 import com.gcc.smartcity.loginandregistration.controller.LoginAndRegistrationController
 import com.gcc.smartcity.loginandregistration.model.UserUpdateModel
+import com.gcc.smartcity.preference.Preferences
 import com.gcc.smartcity.preference.SessionStorage
 import com.gcc.smartcity.rewards.RewardsActivity
+import com.gcc.smartcity.root.RootActivity
 import com.gcc.smartcity.user.UserModel
 import com.gcc.smartcity.utils.AlertDialogBuilder
 import com.gcc.smartcity.utils.Logger
@@ -236,6 +239,10 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
                 val intent = Intent(this, AboutUs::class.java)
                 startActivity(intent)
             }
+            getString(R.string.drawer_menu_signout) -> {
+                Logger.d("Sign Out")
+                performSignOut()
+            }
         }
     }
 
@@ -373,5 +380,24 @@ abstract class NavigationDrawerActivity : AppCompatActivity(), OnRecyclerSelecte
     ) {
         AlertDialogBuilder.getInstance()
             .showErrorDialog(title, message, buttonText, this, mOnSingleBtnDialogListener)
+    }
+
+    private fun performSignOut() {
+        val loginIntent = Intent()
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        loginIntent.setClass(
+            this,
+            RootActivity::class.java
+        )
+        this.startActivity(loginIntent)
+        clearCookies()
+    }
+
+    @Synchronized
+    fun clearCookies() {
+        CookieManager.getInstance().removeAllCookies(null)
+        SessionStorage.getInstance().sessionCookies = null
+        Preferences.INSTANCE.clearPreference()
+        SessionStorage.getInstance().introSlidesVisibility = false
     }
 }
