@@ -9,6 +9,7 @@ public enum Preferences {
     private static final String COOKIE = "cookie";
     private static final String LEADERBOARD_API_MODEL = "leaderboard_api_model";
     private static final String LEADERBOARD_STATUS = "leaderboard_status";
+    private static final String RATING_STATUS = "rating_status";
     private static final String ROOT_STRING = "root_string";
     private static final String USER_ID = "user_id";
     private static final String USER_NAME = "user_name";
@@ -109,5 +110,13 @@ public enum Preferences {
 
     public void setLeaderBoardStatus(Boolean leaderBoardStatus) {
         mPreferenceHandle.setBoolean(LEADERBOARD_STATUS, leaderBoardStatus);
+    }
+
+    public Boolean getRatingStatus() {
+        return mPreferenceHandle.getBoolean(RATING_STATUS, false);
+    }
+
+    public void setRatingStatus(Boolean ratingStatus) {
+        mPreferenceHandle.setBoolean(RATING_STATUS, ratingStatus);
     }
 }

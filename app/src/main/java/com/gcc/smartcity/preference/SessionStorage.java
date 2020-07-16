@@ -126,6 +126,14 @@ public class SessionStorage {
         Preferences.INSTANCE.setLeaderBoardStatus(status);
     }
 
+    public Boolean getRatingStatus() {
+        return Preferences.INSTANCE.getRatingStatus();
+    }
+
+    public void setRatingStatus(Boolean status) {
+        Preferences.INSTANCE.setRatingStatus(status);
+    }
+
     public RootApiModel getRootModel() {
         return getObjectfromString(Preferences.INSTANCE.getRootModel(), RootApiModel.class);
     }

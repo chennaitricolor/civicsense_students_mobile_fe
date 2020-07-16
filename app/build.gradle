@@ -70,6 +70,7 @@ dependencies {
     implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.github.BirjuVachhani:locus-android:3.0.1'
+    implementation 'com.github.rubygarage:emotion-rating-view:v1.0.1'
 }
 
 apply from: 'productflavor.gradle'

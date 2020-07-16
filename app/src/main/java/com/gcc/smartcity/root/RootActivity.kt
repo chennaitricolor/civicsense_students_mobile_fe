@@ -149,7 +149,12 @@ class RootActivity : AppCompatActivity() {
                     personaList.add(arr.optString(i))
                 }
                 val regionModel =
-                    RegionModel(termsAndConditionString, minAndroidVersionString, personaList, rulesBoolean)
+                    RegionModel(
+                        termsAndConditionString,
+                        minAndroidVersionString,
+                        personaList,
+                        rulesBoolean
+                    )
                 regionsMap[key] = regionModel
             }
         }

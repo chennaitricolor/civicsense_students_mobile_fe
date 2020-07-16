@@ -26,6 +26,9 @@
         android:theme="@style/AppThemeNoTitleBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".rating.RatingActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".webview.WebViewActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -80,7 +83,6 @@
             android:name=".loginandregistration.PasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
         <activity
             android:name=".intro.MainIntroActivity"
             android:theme="@style/Theme.Intro" />
