@@ -6,7 +6,7 @@ android {
     productFlavors {
         csr {
             applicationId "com.gcc.smartcity"
-            versionNameSuffix "1.5.1-CSR"
+            versionNameSuffix "1.6.0-CSR"
             buildConfigField 'String', "HOST", '"https://api.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://covid.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focus.gccservice.in/"'
@@ -20,7 +20,7 @@ android {
 
         csrDev {
             applicationId "com.gcc.smartcity"
-            versionNameSuffix "1.5.1-CSRDEV"
+            versionNameSuffix "1.6.0-CSRDEV"
             buildConfigField 'String', "HOST", '"https://api.dev.gccservice.in/api/v2/csr/"'
             buildConfigField 'String', "WEBVIEWHOST", '"https://coviddev.gccservice.in/"'
             buildConfigField 'String', "HQIMSHOST", '"https://focusdev.gccservice.in/"'
