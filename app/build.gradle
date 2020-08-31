@@ -21,12 +21,17 @@ android {
             keyAlias "Smartcity"
             keyPassword "Smartcity@123"
         }
+        chengalpattu {
+            storeFile file("chengalpattu.jks")
+            storePassword "Chengalpattu@123"
+            keyAlias "Chengalpattu"
+            keyPassword "Chengalpattu@123"
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.smartcity
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
